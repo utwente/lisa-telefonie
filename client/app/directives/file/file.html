@@ -1,0 +1,7 @@
+<div class="file" ng-click="download()">
+	<i ng-if="extension == 'pdf'" class="fa fa-file-pdf-o file-icon" ng-class="extension"></i>
+	<i ng-if="extension == 'xlsx'" class="fa fa-file-excel-o file-icon" ng-class="extension"></i>
+	<i ng-if="extension == 'html'" class="fa fa-file-text-o file-icon" ng-class="extension"></i>
+	<i ng-if="extension !== 'pdf' && extension !== 'xlsx' && extension !== 'html'" class="fa fa-file file-icon"></i>
+	{{filename}}
+</div>

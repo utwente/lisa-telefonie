@@ -1,0 +1,173 @@
+<!-- Mass import from csv if there are no kpn details -->
+<div class="row first-row" ng-show="months.length===0 && monthsLoaded">
+	<div class="col-lg-12">
+		<div class="panel panel-info">
+			<div class="panel-heading">KPN gegevens uit bestand importeren</div>
+			<div class="panel-body">
+				<input class="btn btn-default col-xs-12" type="file" my-file-reader="importRecords($fileContent)" />
+				<progressbar class="progress-striped active" max="massImport.total" value="massImport.finished" type="default"><i>{{massImport.finished}} / {{massImport.total}}</i></progressbar>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+
+<!-- Month selection -->
+<!-- <div class="row" ng-hide="kpn.month"> -->
+<div class="row">
+	<div class="col-lg-4">
+		<!-- <h1 class="page-header">KPN invoeren</h1> -->
+		<h3>Kies een maand</h3>
+		<datepicker ng-model="kpn.month" datepicker-options="monthOptions" min-mode="month" datepicker-mode="'month'"></datepicker>
+
+
+<!-- 		<nvd3-discrete-bar-chart
+	    	data="graph"
+	        showXAxis="true"
+	        showYAxis="true"
+	        xAxisTickFormat="xAxisTickFormatFunction()"
+	        width="300"
+	        height="200"
+	        interactive="true"
+	        tooltips="true">
+	    </nvd3-discrete-bar-chart> -->
+
+	    <!-- <input ng-model="graph[0].values[6][1]" /> -->
+
+	</div>
+
+	<!-- Display month information -->
+	<div class="col-lg-8" ng-show="kpn.month">
+
+<!-- New record form -->
+<form name="addRecordForm" class="kpnForm" ng-submit="addNewRecord()" novalidate>
+	<div class="row">
+		<div class="col-lg-12">
+			<h3>Toevoegen</h3>
+		</div>
+		<div class="col-md-5">
+			<div class="control-group"><!-- number -->
+				<div class="input-group input-group-sm">
+					<span class="input-group-addon">Verkort nummer</span>
+					<input type="text" class="form-control" placeholder="bv: 4321" name="number"
+						ng-model="newRecord.number"
+						ng-minlength=4
+						ng-maxlength=4
+						required
+						ng-model-options="{debounce:1000}" />
+				</div>
+				<ng-messages for="addRecordForm.number.$dirty && addRecordForm.number.$error" class="error-messages">
+					<ng-message when="required">Dit veld is verplicht</ng-message>
+					<ng-message when="minlength">Gebruik vier cijfers</ng-message>
+					<ng-message when="maxlength">Gebruik vier cijfers</ng-message>
+				</ng-messages>
+			</div>
+		</div><!-- /.col-md-5 -->
+
+		<div class="col-md-5">
+			<div class="control-group"><!-- amount -->
+				<div class="input-group input-group-sm">
+					<span class="input-group-addon">€</span>
+					<input type="text" class="form-control" placeholder="bv: 10,10" name="amount"
+						ng-model="newRecord.amount"
+						required
+						ng-model-options="{debounce:1000}" />
+				</div>
+				<ng-messages for="addRecordForm.amount.$dirty && addRecordForm.amount.$error" class="error-messages">
+					<ng-message when="required">Dit veld is verplicht</ng-message>
+				</ng-messages>
+			</div>
+		</div><!-- /.col-md-5 -->
+
+		<div class="col-md-2">
+			<button type="submit" class="btn btn-primary" ng-disabled="addRecord.$invalid">Toevoegen</button>
+			<button type="reset" class="btn btn-link" ng-click="addRecord.$setPristine()">Reset</button>
+		</div><!-- /.col-md-2 -->
+
+	</div><!-- /.row -->
+</form>
+
+        <p>
+            Pristine: {{addRecordForm.$pristine}}
+        </p>
+
+<!-- Month header -->
+<div class="row" >
+	<div class="col-lg-12">
+		<h3 ng-show="!month._id">Geen resultaten gevonden voor {{kpn.month | date:'MMMM yyyy'}}</h3>
+		<h3 ng-show="!month._id && month.summary.numbers !== 0">Nieuwe resultaten voor {{kpn.month | date:'MMMM yyyy'}} (niet opgeslagen!)</h3>
+		<h3 ng-show="month._id">Overzicht {{kpn.month | date:'MMMM yyyy'}}</h3>
+	</div>
+</div>
+
+<!-- Table with records for the selected month -->
+<div class="row" ng-show="month._id">
+	<div class="col-lg-12">
+		<table ng-table="tableParams" class="table" show-filter="true" export-csv="csv" no-export="'Actions">
+			<thead>
+				<th class="sortable" ng-class="{ 'sort-asc': sort.predicate=='number' && !sort.reverse, 'sort-desc': sort.predicate=='number' && sort.reverse }"
+                    ng-click="sort.predicate='number';sort.reverse=!sort.reverse">
+                    <div><i class="fa fa-tty"></i> Verkort nummer</div>
+                </th>
+                <th class="sortable" ng-class="{ 'sort-asc': sort.predicate=='amount' && !sort.reverse, 'sort-desc': sort.predicate=='amount' && sort.reverse }"
+                    ng-click="sort.predicate='amount';sort.reverse=!sort.reverse">
+                    <div><i class="fa fa-money"></i> Bedrag</div>
+                </th>
+                <th class="no-export">
+                	<div><i class="fa fa-cog"></i></div>
+                </th>
+			</thead>
+			<tbody>
+				<tr ng-repeat="record in month.numbers | orderBy:sort.predicate:sort.reverse">
+
+					<td data-title="'Verkort nummer'" class="col-md-2">
+						<span ng-if="!record.$edit">{{record.number}}</span>
+						<div ng-if="record.$edit">
+							<form id="{{record._id}}" name="{{record._id}}" ng-submit="updateRecord(record)">
+								<input class="form-control input-sm" type="text" ng-model="record.edit.number" form="{{record._id}}"
+									required />
+							</form>
+						</div>
+					</td>
+					<td data-title="'Bedrag'" class="col-md-4">
+						<span ng-if="!record.$edit">{{record.amount/100 | currency:'€ ':2}}</span>
+						<div ng-if="record.$edit">
+							<form id="{{record._id}}" name="{{record._id}}" ng-submit="updateRecord(record)">
+
+								<div class="input-group">
+	  								<span class="input-group-addon">€</span>
+	  								<input class="form-control input-sm" type="text" ng-model="record.edit.amount" form="{{record._id}}"
+										required />
+								</div>
+							</form>
+						</div>
+					</td>
+
+					<td data-title="'Actions'" class="col-md-1">
+		                <button ng-if="!record.$edit" class="btn btn-action btn-edit" ng-click="updateForm(record)"><i class="fa fa-pencil"></i></button>
+		                <button ng-if="!record.$edit" class="btn btn-action btn-delete" ng-click="deleteModal(record)"><i class="fa fa-trash"></i></button>
+
+		                <button ng-if="record.$edit" class="btn btn-action btn-save" type="submit" form="{{record._id}}"><i class="fa fa-floppy-o"></i></button>
+		                <button ng-if="record.$edit" class="btn btn-action btn-reset" type="reset" ng-click="updateReset(record)"><i class="fa fa-times"></i></button>
+		            </td>
+
+				</tr>
+			</tbody>
+		</table>
+	</div><!-- /.col-lg-12 -->
+</div><!-- /.row -->	
+
+
+<!-- 
+<p>id: {{month._id}}</p>
+<p>nNumbers: {{month.summary.numbers}}</p>
+<p>Total: {{month.summary.totalCosts}}</p>
+<p>Average: {{month.summary.averageCosts}}</p>
+ -->
+
+	</div>
+
+</div>
+
+

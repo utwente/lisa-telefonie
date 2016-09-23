@@ -1,0 +1,47 @@
+<div class="col-md-12">
+    <div class="row">
+        <div class="col-lg-4">
+            <!-- <h1 class="page-header">KPN invoeren</h1> -->
+            <h3>Kies een maand</h3>
+            <datepicker ng-model="dot.month" datepicker-options="monthOptions" min-mode="month" datepicker-mode="'month'"></datepicker>
+        </div>
+        <!-- Display month information -->
+        <div class="col-lg-8" ng-show="dot.month">
+            <h3>Dot bestand genereren</h3>
+            <div class="panel panel-default">
+                <div class="panel-heading">{{dot.month|date:'MMMM yyyy'}}</div>
+                <div class="panel-body">
+                    <div class="progress">
+                        <div class="progress-bar progress-bar-striped" ng-class="{'progress-bar-danger': progress.errors, 'progress-bar-success':!progress.errors}" role="progressbar" aria-valuenow="{{ progress.done/progress.total * 100 | number:0}}" aria-valuemin="0" aria-valuemax="100" style="width: {{ progress.done/progress.total * 100 | number:0}}%">
+                            <span class="sr-only" ng-hide="progress.errors">{{ progress.done/progress.total * 100 | number:0}}% Complete (success)</span>
+                            <span class="sr-only" ng-show="progress.errors">{{ progress.done/progress.total * 100 | number:0}}% Complete (errors!)</span>
+                        </div>
+                    </div>
+                    <ul class="list-group">
+                        <li class="list-group-item" ng-class="{'list-group-item-success':progress.track.tMobile, 'list-group-item-danger': progress.error.tMobile}">
+                            <i class="fa fa-spinner fa-spin" ng-hide="progress.track.tMobile || progress.errors"></i> 
+                            <i class="fa fa-check" ng-show="progress.track.tMobile"></i> 
+                            <i class="fa fa-exclamation-triangle" ng-show="progress.error.tMobile"></i> 
+                            <i class="fa fa-ban" ng-show="progress.errors && !(progress.error.tMobile || progress.track.tMobile)"></i>
+                            T-Mobile gegevens ophalen
+                        </li>
+                        <li class="list-group-item" ng-class="{'list-group-item-success':progress.track.kpn, 'list-group-item-danger': progress.error.kpn}">
+                            <i class="fa fa-spinner fa-spin" ng-hide="progress.track.kpn || progress.errors"></i> 
+                            <i class="fa fa-check" ng-show="progress.track.kpn"></i> 
+                            <i class="fa fa-exclamation-triangle" ng-show="progress.error.kpn"></i> 
+                            <i class="fa fa-ban" ng-show="progress.errors && !(progress.error.kpn || progress.track.kpn)"></i>
+                            KPN gegevens ophalen
+                        </li>
+                        <li class="list-group-item" ng-class="{'list-group-item-success':progress.track.output, 'list-group-item-danger': progress.error.output}">
+                            <i class="fa fa-spinner fa-spin" ng-hide="progress.track.output || progress.errors"></i> 
+                            <i class="fa fa-check" ng-show="progress.track.output"></i> 
+                            <i class="fa fa-exclamation-triangle" ng-show="progress.error.output"></i> 
+                            <i class="fa fa-ban" ng-show="progress.errors && !(progress.error.output || progress.track.output)"></i>
+                            Dot-bestand genereren
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

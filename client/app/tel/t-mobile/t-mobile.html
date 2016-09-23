@@ -1,0 +1,67 @@
+<div class="row">
+	<div class="col-lg-12">
+		<h1 class="page-header" ng-switch="step">
+			<span ng-switch-when="start">Invoeren T-Mobile</span>
+			<span ng-switch-when="loaded">Overzicht {{month | date:'MMMM yyyy'}}</span>
+		</h1>
+	</div><!-- /.col-lg-12 -->
+</div><!-- /.row -->
+
+<div ng-hide="t_mobile">
+	<h3>Open een T-Mobile bestand</h3>
+	<label class="btn btn-default btn-file">
+	    Browse...<input type="file" style="display: none;" my-file-reader="openTmobile($fileContent)">
+	</label>
+</div>
+
+<div class="row">
+
+	<spinner ng-hide="t_mobile"></spinner>
+
+	<div ng-show="t_mobile">
+
+		<div class="col-md-3">
+			<div class="donut-caption"><h3>Kosten</h3></div>
+			<donut class="donut-tmobile" type="costs" data="t_mobile"></donut>
+			<div class="donut-footer"><h3>Totaal: €{{ t_mobile.summary.totalCosts/100 }}</h3></div>
+		</div>
+	 	<div class="col-md-3">
+			<div class="donut-caption"><h3>Bellen</h3></div>
+			<donut class="donut-tmobile" type="time" data="t_mobile"></donut>
+			<div class="donut-footer"><h3>Totaal: {{ Math.round(t_mobile.summary.totalTime/3600)}} uur</h3></div>
+		</div>
+	 	<div class="col-md-3">
+			<div class="donut-caption"><h3>Data</h3></div>
+			<donut class="donut-tmobile" type="data" data="t_mobile"></donut>
+			<div class="donut-footer"><h3>Totaal: {{ Math.round(t_mobile.summary.totalKB/1000000) }} GB</h3></div>
+		</div>
+	 	<div class="col-md-3">
+			<div class="donut-caption"><h3>Berichten</h3></div>
+			<donut class="donut-tmobile" type="sms" data="t_mobile"></donut>
+			<div class="donut-footer"><h3>Totaal: {{ t_mobile.summary.totalSMS }}</h3></div>
+		</div>
+
+		<!-- for that reason, ng-show starts here. The stuff above doesn't render anything anyway as long as t_mobile is not loaded -->
+    	<div class="donut-legend">
+    		<ul class="list-unstyled">
+    			<li><div class="colorbox red"></div>Mobiel</li>
+    			<li><div class="colorbox blue"></div>Vast</li>
+    			<li>
+    		</ul>
+    	</div>
+
+    	<hr />
+    	<div class="row">
+			<button class="btn btn-default pull-right button-save-month"  ng-mousedown="saveMonth()" ng-disabled="loading">
+				<span data-ng-hide="loading">
+					Opslaan
+				</span>
+				<span data-ng-show="loading">
+					Druk bezig...
+					<i class="fa fa-spinner fa-spin"></i>
+				</span>
+			</button>    
+		</div> 
+	</div>
+
+</div>

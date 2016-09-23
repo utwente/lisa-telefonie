@@ -1,0 +1,169 @@
+<div class="row first-row">
+	<div class="col-lg-10">
+
+		<accordion>
+			<accordion-group is-open="newSpecificationAccordion.open">
+				<accordion-heading>
+					<i class="fa fa-plus"></i> Nieuwe specificatie toevoegen
+					<i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': newSpecificationAccordion.open, 'glyphicon-chevron-right': !newSpecificationAccordion.open}"></i>
+				</accordion-heading>
+
+				<form name="addSpecificationForm" class="addSpecificationForm"
+					ng-submit="addSpecification()"
+					novalidate>
+					
+					<div class="row">
+
+						<div class="col-md-12">
+							
+							<div class="control-group"><!-- number -->
+								<div class="input-group input-group-sm">
+									<span class="input-group-addon">Nummer</span>
+									<input type="text" class="form-control" placeholder="bv: 0534894321" name="number"
+										ng-model="newSpecification.number"
+										unique="specifications"
+										required
+										ng-model-options="{updateOn:'blur'}" />
+								</div>	
+								<ng-messages for="addSpecificationForm.number.$dirty && addSpecificationForm.number.$error" class="error-messages">
+									<ng-message when="required">Dit veld is verplicht</ng-message>
+									<ng-message when="unique">Dit nummer bestaat al</ng-message>
+								</ng-messages>
+							</div>
+
+							<div class="control-group"><!-- name -->
+								<div class="input-group input-group-sm">
+									<span class="input-group-addon">Naam</span>
+									<input type="text" class="form-control" placeholder="bv: J. Jansen" name="name"
+										ng-model="newSpecification.name" 
+										unique="specifications"
+										required
+										ng-model-options="{updateOn:'blur'}" />
+								</div>	
+								<ng-messages for="addSpecificationForm.name.$dirty && addSpecificationForm.name.$error" class="error-messages">
+									<ng-message when="required">Dit veld is verplicht</ng-message>
+									<ng-message when="unique">Deze gebruiker bestaat al</ng-message>
+								</ng-messages>
+							</div>							
+
+							<div class="control-group"><!-- email -->
+								<div class="input-group input-group-sm">
+									<span class="input-group-addon">E-mail</span>
+									<input type="email" class="form-control" placeholder="bv: j.jansen@utwente.nl" email="email" 
+										ng-model="newSpecification.email" 
+										ng-email
+										required
+										ng-model-options="{updateOn:'blur'}" />
+								</div>	
+								<ng-messages for="addSpecificationForm.email.$dirty && addSpecificationForm.email.$error" class="error-messages">
+									<ng-message when="required">Dit veld is verplicht</ng-message>
+									<ng-message when="email">Vul een geldig e-mailadres in</ng-message>
+								</ng-messages>
+							</div>					
+
+							<button type="submit" class="btn btn-primary" ng-disabled="addSpecificationForm.$invalid">Specificatie toevoegen</button>
+							<button type="reset" class="btn btn-link" ng-click="addSpecificationForm.$setPristine()">Reset</button>
+						</div>
+					</div><!-- /.row -->
+				</form>
+			</accordion-group>
+		</accordion>
+	</div><!-- /.col-lg-10 -->
+	<div class="col-lg-2">
+		<a class="btn btn-default col-xs-12" ng-mousedown="csv.generate()" ng-href="{{ csv.link() }}" download="{{today | date:'yyyy-MM-dd'}}_specifications.csv">Exporteren als CSV</a>
+		
+	</div><!-- /.col-lg-2 -->
+</div><!-- /.row -->
+
+
+<!-- Mass import from csv if there are no specifications -->
+<!-- <div class="row"> -->
+<div class="row" ng-show="specifications.length===0 && specificationsLoaded">
+	<div class="col-lg-12">
+		<div class="panel panel-info">
+			<div class="panel-heading">Specificaties uit bestand importeren</div>
+			<div class="panel-body">
+				<input class="btn btn-default col-xs-12" type="file" my-file-reader="importCustomers($fileContent)" />
+				<progressbar class="progress-striped active" max="massImport.total" value="massImport.finished" type="default"><i>{{massImport.finished}} / {{massImport.total}}</i></progressbar>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<div class="row">
+	<div class="col-lg-12">
+		<table ng-table="tableParams" class="table" show-filter="true" export-csv="csv" no-export="'Actions">
+			<thead>
+				<th class="sortable" ng-class="{
+                    'sort-asc': sort.predicate=='number' && sort.reverse,
+                    'sort-desc': sort.predicate=='number' && !sort.reverse
+                  }"
+                    ng-click="sort.predicate='number';sort.reverse=!sort.reverse">
+                    <div><i class="fa fa-tty"></i> Nummer</div>
+                </th>
+                <th class="sortable" ng-class="{
+                    'sort-asc': sort.predicate=='name' && sort.reverse,
+                    'sort-desc': sort.predicate=='name' && !sort.reverse
+                  }"
+                    ng-click="sort.predicate='name';sort.reverse=!sort.reverse">
+                    <div><i class="fa fa-user"></i> Naam</div>
+                </th>
+                <th class="sortable" ng-class="{
+                    'sort-asc': sort.predicate=='email' && sort.reverse,
+                    'sort-desc': sort.predicate=='email' && !sort.reverse
+                  }"
+                    ng-click="sort.predicate = 'email'; sort.reverse=!sort.reverse">
+                    <div><i class="fa fa-envelope"></i> E-mail</div>
+                </th>
+                <th class="no-export">
+                	<div><i class="fa fa-cog"></i></div>
+                </th>
+			</thead>
+			<tbody>
+				<tr ng-repeat="specification in specifications | orderBy:sort.predicate:sort.reverse">
+					
+					<td data-title="'Verkort nummer'" class="col-md-2">
+						<span ng-if="!specification.$edit">{{specification.number}}</span>
+						<form id="{{specification._id}}" name="editSpecificationForm" ng-submit="updateSpecification(specification)" novalidate>
+							<div ng-if="specification.$edit">
+								<input class="form-control input-sm" type="text" ng-model="specification.number"
+									ng-minlength=2
+									required
+									ng-model-options="{debounce:500}" />
+							</div>
+						</form>
+					</td>
+					<td data-title="'Naam'" class="col-md-4">
+						<span ng-if="!specification.$edit">{{specification.name}}</span>
+						<form id="{{specification._id}}" name="editSpecificationForm" ng-submit="updateSpecification(specification)" novalidate>
+							<div ng-if="specification.$edit">
+								<input class="form-control input-sm" type="text" ng-model="specification.name"
+									ng-minlength=2
+									required
+									ng-model-options="{debounce:500}" />
+							</div>
+						</form>
+					</td>
+					<td data-title="'E-mail'" class="col-md-5">
+						<span ng-if="!specification.$edit"><a href="mailto:{{specification.email}}">{{specification.email}}</a></span>
+						<div ng-if="specification.$edit">
+							<input form="{{specification._id}}" ng-form="{{specification._id}}" class="form-control input-sm" type="email" ng-model="specification.email"
+								ng-email
+								required
+								ng-model-options="{debounce: 500}" />
+						</div>
+					</td>
+					
+					<td data-title="'Actions'" class="col-md-1">
+		                <button ng-if="!specification.$edit" class="btn btn-action btn-edit" ng-click="specification.$edit = true"><i class="fa fa-pencil"></i></button>
+		                <button ng-if="!specification.$edit" class="btn btn-action btn-delete" ng-click="deleteSpecificationModal(specification)"><i class="fa fa-trash"></i></button>
+		                <button ng-if="specification.$edit" class="btn btn-action btn-save" type="submit" form="{{specification._id}}" ng-disabled="editSpecificationForm.$invalid"><i class="fa fa-floppy-o"></i></button>
+		                <button ng-if="specification.$edit" class="btn btn-action btn-reset" type="reset" ng-click="reset(specification)"><i class="fa fa-times"></i></button>
+		            </td>
+		            
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</div>

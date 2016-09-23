@@ -1,0 +1,19 @@
+.navbar {
+	li {
+		display: inline-block;
+	}
+	li.active > a {
+		background-color: rgba(0,0,0,.1);
+	} 
+}
+
+#side-menu {
+	li {
+		display: block;
+	}
+}
+
+.user {
+    color: #777;
+    padding: 3px 20px;	
+}

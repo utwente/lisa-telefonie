@@ -1,0 +1,104 @@
+<div ng-include="'components/navbar/navbar.html'"></div>
+
+<div id="page-wrapper">
+
+	<div class="row first-row">
+		<div class="col-lg-12">
+
+			<accordion>
+				<accordion-group is-open="newUserAccordion.open">
+					<accordion-heading>
+						<i class="fa fa-plus"></i> Nieuwe user toevoegen
+						<i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': newUserAccordion.open, 'glyphicon-chevron-right': !newUserAccordion.open}"></i>
+					</accordion-heading>
+
+					<form name="addUserForm" class="addUserForm"
+						ng-submit="addUser()"
+						novalidate>
+						
+						<div class="row">
+
+							<div class="col-md-12">
+
+
+								<div class="control-group"><!-- name -->
+									<div class="input-group input-group-sm">
+										<span class="input-group-addon">Naam</span>
+										<input type="text" class="form-control" placeholder="bv: J. Jansen" name="name"
+											ng-model="newUser.name" 
+											required
+											ng-model-options="{updateOn:'blur'}" />
+									</div>	
+									<ng-messages for="addUserForm.name.$dirty && addUserForm.name.$error" class="error-messages">
+										<ng-message when="required">Dit veld is verplicht</ng-message>
+									</ng-messages>
+								</div>							
+
+								<div class="control-group"><!-- email -->
+									<div class="input-group input-group-sm">
+										<span class="input-group-addon">E-mail</span>
+										<input type="email" class="form-control" placeholder="bv: j.jansen@utwente.nl" email="email" 
+											ng-model="newUser.email" 
+											ng-email
+											required
+											unique="users"
+											ng-model-options="{updateOn:'blur'}" />
+									</div>	
+									<ng-messages for="addUserForm.email.$dirty && addUserForm.email.$error" class="error-messages">
+										<ng-message when="required">Dit veld is verplicht</ng-message>
+										<ng-message when="email">Vul een geldig e-mailadres in</ng-message>
+										<ng-message when="unique">Dit e-mailadres bestaat al</ng-message>
+									</ng-messages>
+								</div>	
+
+								<div class="control-group">
+									<label class="btn btn-default btn-sm duoSim" ng-class="{'btn-success': newUser.admin}" ng-model="newUser.admin" btn-checkbox>
+										<i ng-class="{'fa fa-square-o': !newUser.admin, 'fa fa-check-square-o': newUser.admin}"></i> Admin?
+									</label>
+								</div>
+
+								<div class="control-group"><!-- password -->
+									<div class="input-group input-group-sm">
+										<span class="input-group-addon">Wachtwoord</span>
+										<input type="password" class="form-control" placeholder="bv: mijngrotegeheim" password="password" 
+											ng-model="newUser.password" 
+											required
+											ng-model-options="{updateOn:'blur'}" />
+									</div>	
+									<ng-messages for="addUserForm.password.$dirty && addUserForm.password.$error" class="error-messages">
+										<ng-message when="required">Dit veld is verplicht</ng-message>
+									</ng-messages>
+								</div>					
+
+								<button type="submit" class="btn btn-primary" ng-disabled="addUserForm.$invalid">Gebruiker toevoegen</button>
+								<button type="reset" class="btn btn-link" ng-click="addUserForm.$setPristine()">Reset</button>
+							</div>
+						</div><!-- /.row -->
+					</form>
+				</accordion-group>
+			</accordion>
+		</div><!-- /.col-lg-10 -->
+	</div><!-- /.row -->
+
+
+
+	<table class="table" ng-hide="filtered.length < 1">
+		<tr>
+			<th>Naam</th>
+			<th>Email</th>
+			<th>Rol</th>
+			<th>Acties</th>
+		</tr>
+		<tr ng-repeat="user in users">
+			<td>{{user.name}}</td>
+			<td><a href="mailto:{{customer.email}}">{{user.email}}</a></td>
+			<td>{{user.role}}</td>
+			
+			<td width="70">
+                <button class="btn btn-action btn-edit" ng-click="edit(user)"><i class="fa fa-pencil"></i></button>
+                <button class="btn btn-action btn-delete" ng-click="delete(user)"><i class="fa fa-trash"></i></button>
+            </td>
+
+		</tr>
+	</table>
+</div>

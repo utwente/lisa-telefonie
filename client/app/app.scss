@@ -1,0 +1,155 @@
+$icon-font-path: "/bower_components/bootstrap-sass-official/vendor/assets/fonts/bootstrap/";
+$fa-font-path: "/bower_components/font-awesome/fonts";
+
+@import 'bootstrap-sass-official/vendor/assets/stylesheets/bootstrap';
+@import 'font-awesome/scss/font-awesome';
+
+
+
+/**
+ * App-wide Styles
+ */
+html { overflow-y: scroll; height: 100%; }
+.browsehappy {
+    margin: 0.2em 0;
+    background: #ccc;
+    color: #000;
+    padding: 0.2em 0;
+}
+
+/**
+ * Forms
+ */
+.input-group {
+	width: 100%;
+	margin-bottom: .5em;
+}
+.input-group-addon {
+	width: 120px;
+	text-align: right;
+}
+input.ng-dirty,
+.ng-submitted .ng-invalid {
+	-webkit-transition: all 1s ease; /* For Safari 3.1 to 6.0 */
+    transition: all 1s ease;
+}
+input.ng-dirty.ng-invalid,
+.ng-dirty.ng-submitted .ng-invalid {
+	color: #a94442;
+	background-color: #f2dede;
+	border-color: #ebccd1;
+}
+input.ng-dirty.ng-valid {
+	color: #3c763d;
+	background-color: #dff0d8;
+	// border-color: #d6e9c6;
+}
+.error-messages.ng-active {
+	width: 100%;
+	color: #ffffff;	
+	background-color: #d9534f;
+	padding: 5px 1em;
+	border-radius: 5px;
+	margin-top: 15px;
+	margin-left: 109px;
+	position: relative;
+	&:after {
+		position: absolute;
+		z-index: 2;
+		top: -10px;
+		content: "";
+		left: 20px;
+		border-style: solid;
+		border-color: transparent transparent #d9534f;
+		border-width: 5px;
+	}
+}
+.control-group {
+	margin-bottom: 1em;
+}
+
+.accordion-toggle>span,
+.accordion-toggle>i {
+	cursor: pointer;
+}
+
+.btn-action {
+	margin: -5px 0;
+	padding: 2px 4px;
+	line-height: 18px;
+	font-size: 18px;
+
+	font-weight: normal;
+	cursor: pointer;
+	border-radius: 0;
+	background-color: transparent;
+	box-shadow: none;
+}
+.btn-delete {
+	color: #d9534f;
+	&:hover,&:active,&:focus { color: #c9302c; }
+}
+.btn-edit {
+	color: #5bc0de;
+	&:hover,&:active,&:focus { color: #31b0d5; }
+}
+.btn-save {
+	color: #5cb85c;
+	&:hover,&:active,&:focus { color: #449d44; }	
+}
+.btn-reset {
+	color: #f0ad4e;
+	&:hover,&:active,&:focus { color: #ec971f; }	
+}
+
+.first-row {
+	padding-top: 20px;
+}
+.panel-heading {
+	padding: 8px 15px;
+}
+.panel-title {
+	font-size: 14px;
+}
+input.pending {
+	background-image: url('../assets/images/ajax-loader.gif');
+	background-position: right center;
+	background-repeat: no-repeat;
+}
+
+.unstyled {
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+}
+
+#page-wrapper{
+    min-height: -webkit-calc(100vh - 51px) !important;
+    min-height: -moz-calc(100vh - 51px) !important;
+    min-height: calc(100vh - 51px) !important;
+    overflow: auto;
+    padding-bottom: 20px !important;
+}
+// Component styles are injected through grunt
+// injector
+@import 'account/login/login.scss';
+@import 'admin/admin.scss';
+@import 'directives/donut/donut.scss';
+@import 'directives/file/file.scss';
+@import 'directives/myHeatMap/myHeatMap.scss';
+@import 'directives/spinner/spinner.scss';
+@import 'main/main.scss';
+@import 'tel/analysis/analysis.scss';
+@import 'tel/customer/customer.scss';
+@import 'tel/dashboard/dashboard.scss';
+@import 'tel/data/data.scss';
+@import 'tel/department/department.scss';
+@import 'tel/dot/dot.scss';
+@import 'tel/email/email.scss';
+@import 'tel/kpn/kpn.scss';
+@import 'tel/specification/specification.scss';
+@import 'tel/t-mobile/t-mobile.scss';
+@import 'tel/tel.scss';
+@import 'modal/modal.scss';
+@import 'navbar/navbar.scss';
+// endinjector

@@ -1,0 +1,77 @@
+<div class="col-md-12">
+    <div class="row">
+    	<!-- Start screen / month picker -->
+        <div ng-hide="t_mobile">
+        	<div class="col-md-12">
+            	<h3>Kies een maand</h3>
+            	<p>Van de gekozen maand is het mogelijk om van een nummer uitgebreide telefonie informatie op te vragen.</p>
+            </div>
+            <div class="col-lg-4">
+            	<datepicker ng-model="data.month" datepicker-options="monthOptions" min-mode="month" datepicker-mode="'month'"></datepicker>
+            </div>
+        </div>
+
+        <!-- Request data about a customer -->
+        <div class="col-lg-12" ng-show="t_mobile">
+        	<h1>Analyse {{ t_mobile.month | date:'MMMM yyyy' }}</h1>
+            <div class="row">
+            	<div class="col-md-4">
+        	        <h2>Overzicht</h2>
+
+                    <donut class="donut-analysis" data="t_mobile" type="costs"></donut>
+
+        		</div>
+        		<div class="col-md-4">
+	    			<h2>Informatie per nummer</h2>
+	    			<p>Voer een telefoonnummer in om alle beschikbare informatie weer te geven.</p>
+                    <h3>Nummer</h3>
+                    <input type="text" ng-model="search.number">
+                    <p>
+                        <ul class="unstyled" ng-show="(f = (t_mobile.numbers | filter:search)) && f.length <= 15">
+                            <li ng-repeat="n in t_mobile.numbers | filter:search:strict">
+                            <button class="btn btn-default btn-list" ng-click="loadDetails(n)">{{ n.number }}</button>
+                            </li>
+                        </ul>
+                    </p>
+                    <p ng-show="(f = (t_mobile.numbers | filter:search)) && f.length > 15">
+                        Er zijn meer dan 15 resultaten.
+                    </p>
+                    <p ng-show="(f = (t_mobile.numbers | filter:search)) && f.length == 0">
+                        Er zijn geen resultaten.
+                    </p>
+        		</div>
+
+                <div class="col-md-4" ng-show="details">
+                    <h2>Details van {{ details.number }}</h2>
+                    <h3>Overzicht</h3>
+
+                    <donut class="donut-analysis" data="details" type="personal"></donut>
+
+                    <div ng-show="dataAbroad">
+                        <h3>Internet in het buitenland</h3>
+                        <table class="table-abroad">
+                            <tr ng-repeat="data in dataAbroad">
+                                <td>{{data.country}}</td>
+                                <td>€{{data.costs/100}}</td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <div ng-show="callsAbroad">
+                        <h3>Bellen in het buitenland</h3>
+                        <table class="table-abroad">
+                            <tr ng-repeat="data in callsAbroad">
+                                <td>{{data.country}}</td>
+                                <td><span ng-show="data.costs.out"><i class="fa fa-arrow-up call"></i>&nbsp€{{data.costs.out/100}}</span></td>
+                                <td><span ng-show="data.costs.in"><i class="fa fa-arrow-down call"></i>&nbsp€{{data.costs.in/100}}</span></td>
+                            </tr>
+                        </table>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</div>

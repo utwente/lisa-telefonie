@@ -1,0 +1,10 @@
+<div class="modal-header">
+    <h3 class="modal-title">{{record.month | date:'MMMM yyyy'}} - {{record.shortNumber}} ({{record.amount/100 | currency:'€'}}) verwijderen</h3>
+</div>
+<div class="modal-body">
+    <p>Deze actie kan niet ongedaan gemaakt worden.</p>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-danger" ng-click="delete()"><i class="fa fa-trash-o"></i> Verwijderen</button>
+    <button class="btn btn-primary" ng-click="cancel()"><i class="fa fa-times"></i> Annuleren</button>
+</div>

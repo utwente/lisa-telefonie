@@ -1,0 +1,79 @@
+<html>
+<head>
+	<title>T-mobile specificatie persoonlijk</title>
+    <style type="text/css">
+    table, p, h1{
+        font-family: sans-serif; 
+        font-size: 11pt; 
+    }
+    h1 {
+        font-size: 18pt;
+        padding-top: 0;
+        font-weight: normal;
+    }
+    .last, .first {
+        border-bottom: 1pt solid black; 
+        border-top: 1pt solid black;
+    }
+    </style>
+</head>
+<body>
+	<table style="width: 500px"><tr><td>
+
+	<h1>Specificaties mobiel persoonlijk</h1>
+
+    <table>
+        <tr>
+            <td style="width:100px;"><strong>Gebruiker:</strong></td><td>{{user.name}}</td>
+        </tr>
+        <tr>
+            <td><strong>Nummer:</strong></td><td>{{user.number}}</td>
+        </tr>
+        <tr>
+            <td><strong>Afdeling:</strong></td><td>{{user.department}}</td>
+        </tr>
+        <tr>
+            <td><strong>Email:</strong></td><td>{{user.email}}</td>
+        </tr>
+    </table>
+
+    <br />
+    
+    <table cellspacing="0"  style="width: 100%">
+        <tr>
+            <td class="first"><strong>Specificatie</strong></td>
+            <td class="first" style="width: 140px"><strong>Kosten (excl. BTW)</strong></td>
+        </tr>
+    	{{#each category}}
+    	{{#if costs}}
+    	<tr>
+    		<td>{{type}}</td>
+    		<td>{{formatEuro costs}}</td>
+    	</tr>
+    	{{/if}}
+    	{{/each}}
+	    <tr>
+	    	<td class="last"><strong>Totaal</strong></td>
+	    	<td class="last"><strong>{{formatEuro total}}</strong></td>
+	    </tr>
+
+    </table>
+
+    <p>
+        Heeft u hoge internetkosten buitenland? Voor "dataverkeer buitenland" is het mogelijk om gebruik te maken van Travel & Surf. Wilt u hierover meer weten of wilt u het laten activeren? Kijk op de website van T-Mobile zakelijk of neem contact op met de ICTS servicedesk.
+    </p> 
+
+    <p>
+    	<strong>T-Mobile Travel & Surf</strong>
+	    <ul>
+	    	<li>Voordelig internet voor een dag of een week</li>
+	    	<li>Een vast aantal MB voor een vast bedrag</li>
+	    	<li>Geen verrassingen achteraf</li>
+	    </ul>
+    </p>
+
+
+	</td></tr></table>
+</body>
+
+</html>

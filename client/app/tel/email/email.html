@@ -1,0 +1,180 @@
+<div class="col-md-12">
+    
+
+    <!-- Monthpicker -->
+    <div class="row" ng-hide="month">
+    	<div class="col-md-12">
+        	<h3>Kies een maand</h3>
+        	<p>Van de gekozen maand zal de status worden weergeven; of de specificaties al verzonden zijn en dergelijke.</p>
+        </div>
+        <div class="col-lg-4">
+        	<datepicker ng-model="month" datepicker-options="monthOptions" min-mode="month" datepicker-mode="'month'"></datepicker>
+        </div>
+    </div>
+    <!-- End monthpicker -->
+
+    <!-- This is what you see normally  -->
+    <div ng-show="month" class="row">
+	    <div class="row">
+	      	<div class="col-md-10">
+	      		<h3>Specificaties {{month | date: 'MMMM'}} {{month | date: 'yyyy'}}</h3>
+	      	</div>
+	      	<div class="col-md-2">
+	      		<button class="btn btn-default pull-right  button-change-month" ng-mousedown="changeMonth()">Andere maand</button>
+	      	</div>
+	    </div>
+	    <hr />
+    </div>
+
+    <div ng-show="step" class="row step-content">
+    
+    	<!-- Check data -->
+	    <div ng-show="step=='check'">
+	    	<div class="col-md-4 info">
+	    		<h4>Stap 1: Controleren gegevens</h4>
+	    		<p>Controleer goed of alle bedragen redelijk zijn en overeen komen met eerdere maanden, en ga daarna pas door naar de volgende stap.</p>
+	    	</div>
+	    	<button class="btn btn-default pull-right" ng-mousedown="checkData()" ng-disabled="next">Klopt!</button>
+	    </div>
+    	<!-- End check data -->
+
+    	<!-- Generate mobile -->
+	    <div ng-show="step=='mobile'">
+	    	<div class="col-md-4 info">
+	    		<h4>Stap 2: Mobiele specificaties</h4>
+	    		<p>Mobiele specificaties worden voor elk nummer aangemaakt. Hiervoor worden overzichtelijke excelsheets en overzichts pdf's gemaakt. Deze worden allemaal naar de contactpersoon van de afdeling gestuurd die het vervolgens weer verder met de mensen van de afdeling afhandeld.</p>
+	    	</div>
+	    	<div class="col-md-6">
+
+	    		<!-- Show progress -->
+	    		<h4>Voortgang</h4>
+	    		<div class="progress">
+					<div class="progress-bar progress-bar-striped progress-bar-danger" role="progressbar" style="width: {{ mob_pdf.done/mob_pdf.total * 33 | number:0}}%">
+						<span ng-hide="mob_pdf.done == 0">PDF ({{mob_pdf.done}}/{{mob_pdf.total}})</span>
+					</div>
+					<div class="progress-bar progress-bar-striped progress-bar-success" role="progressbar" style="width: {{ mob_excel.done/mob_excel.total * 33 | number:0}}%">
+						<span ng-hide="mob_excel.done == 0">Excel ({{mob_excel.done}}/{{mob_excel.total}})</span>
+					</div>
+					<div class="progress-bar progress-bar-striped progress-bar-warning" role="progressbar" style="width: {{ mob_html.done/mob_html.total * 34 | number:0}}%">
+						<span ng-hide="mob_html.done == 0">HTML ({{mob_html.done}}/{{mob_html.total}})</span>
+					</div>
+				</div>
+
+                <p class="progress-message">{{ mob.message }}</p>
+			
+                <!-- Log error messages and warnings -->
+                <div ng-show="PDFmessages.length > 0">
+                	<h4>Fouten en waarschuwingen</h4>
+	                <div ng-repeat="message in PDFmessages">
+	                	<div class="alert alert-{{ message.type }} message" role="alert">
+							<i class="fa fa-{{message.type === 'danger'? 'ban': 'warning' }}"></i>  {{ message.message }}
+	                	</div>
+	                </div>
+                </div>
+
+            </div>
+	    	<button class="btn btn-default pull-right" ng-mousedown="createMobileSpec()">Genereren</button>
+	    </div>
+    	<!-- End generate mobile -->
+
+    	<!-- Generate landline -->
+	    <div ng-show="step=='landline'">
+	    	<div class="col-md-4 info">
+	    		<h4>Stap 3: Vaste specificaties</h4>
+	    		<p>Vaste specificaties worden alleen gegenereerd en later verzonden naar de mensen die daar expliciet naar gevraagd hebben. Dit zijn bijvoorbeeld campuswoningen. Wie er vaste specificaties ontvangen is in te stellen bij vaste specificaties in het linker menu.</p>
+	    	</div>
+	    	<div class="col-md-6">
+	    		<h4>Voortgang</h4>
+	    		<div class="progress">
+                    <div class="progress-bar progress-bar-striped" ng-class="{'progress-bar-danger': ll_excel.errors, 'progress-bar-success':!ll_excel.errors}" role="progressbar" aria-valuenow="{{ ll_excel.done/ll_excel.total * 100 | number:0}}" aria-valuemin="0" aria-valuemax="100" style="width: {{ ll_excel.done/ll_excel.total * 100 | number:0}}%"> 
+                    	<span ng-hide="ll_excel.done == 0">Excel ({{ll_excel.done}}/{{ll_excel.total}})</span>
+<!--                         <span class="sr-only" ng-hide="ll_excel.errors">{{ ll_excel.done/ll_excel.total * 100 | number:0}}% Complete (success)</span>
+                        <span class="sr-only" ng-show="ll_excel.errors">{{ ll_excel.done/ll_excel.total * 100 | number:0}}% Complete (errors!)</span> -->
+                    </div>
+                </div>
+                <p class="progress-message">{{ ll_excel.message }}</p>
+            </div>
+	    	<button class="btn btn-default pull-right" ng-mousedown="createLandlineSpec()">Genereren</button>
+	    </div>
+    	<!-- End generate landline -->
+
+    	<!-- Check produced files -->
+	    <div ng-show="step=='check_spec'">
+	    	<div class="col-md-4 info">
+	    		<h4>Stap 4: Controleren bestanden</h4>
+	    		<p>Kijk van een aantal bestanden of er inderdaad gegevens in staan (sommigen kunnen ook leeg zijn als er geen kosten op zijn gemaakt). Als dit lijkt te kloppen kan je door naar de volgende stap.</p>
+	    	</div>
+	    	
+	    	<div class="col-md-7">
+	    		<h4>Gegenereerde bestanden</h4>
+	    		<p>Klik op een bestand om deze te bekijken</p>
+
+	    		<spinner ng-hide="files"></spinner>
+	    		
+	    		<div class="row" ng-show="files">
+	    			<div class="col-md-6">
+	    				<h5>Mobiel</h5>
+			    		<div class="list-group file-list">
+			    			<a href="#" class="list-group-item" ng-repeat="file in files.mobile">
+			    				<file link="{{file.link}}" filename="{{file.filename}}"></file>
+			    			</a>
+			    		</div>
+			    	</div>
+    				<div class="col-md-6">
+	    				<h5>Vast</h5>
+			    		<div class="list-group file-list">
+			    			<a href="#" class="list-group-item" ng-repeat="file in files.landline">
+			    				<file link="{{file.link}}" filename="{{file.filename}}"></file>
+			    			</a>
+			    		</div>
+			    	</div>
+	    		</div>
+	    	</div>
+
+	    	<button class="btn btn-default pull-right" ng-mousedown="checkFiles()" ng-disabled="next">Klopt!</button>
+	    </div>
+    	<!-- End check produced files -->
+
+    	<!-- Send specifications -->
+	    <div ng-show="step=='send'">
+	    	<div class="col-md-4 info">
+	    		<h4>Stap 5: Verstuur specificaties</h4>
+	    		<p>Alles is gegenereerd om verzonden te worden. Er rest niets anders dan de boel verzenden. Let op, doe dit alleen als alles echt klopt, hierna kan je niet meer terug, want dan zijn alle mailtjes al verstuurd.</p>
+	    	</div>
+	    	<div class="col-md-6">
+	    		<h4>Voortgang</h4>
+	    		<div class="progress">
+                    <div class="progress-bar progress-bar-striped" ng-class="{'progress-bar-danger': mail.errors, 'progress-bar-success':!mail.errors}" role="progressbar" aria-valuenow="{{ mail.done/mail.total * 100 | number:0}}" aria-valuemin="0" aria-valuemax="100" style="width: {{ mail.done/mail.total * 100 | number:0}}%">
+                    	<span ng-hide="mail.done == 0">({{mail.done}}/{{mail.total}})</span>
+<!--                         <span class="sr-only" ng-hide="mail.errors">{{ mail.done/mail.total * 100 | number:0}}% Complete (success)</span>
+                        <span class="sr-only" ng-show="mail.errors">{{ mail.done/mail.total * 100 | number:0}}% Complete (errors!)</span> -->
+                    </div>
+                </div>
+                <p class="progress-message">{{mail.message}}</p>
+
+	    	</div>
+	    	<button class="btn btn-default pull-right" ng-mousedown="sendSpec()" ng-disabled="next">Verzenden</button>
+	    </div>
+    	<!-- End send specifications -->
+
+    	<!-- Month is completed -->
+	    <div ng-show="step=='done'">
+	    	<div class="col-md-4 info">
+	    		<h4>Klaar!</h4>
+	    		<p><span class="month-done"><i class="fa fa-check-circle-o"></i></span> Deze maand is volledig afgehandeld.</p>
+	    		<p>Je kan de voortgang weggooien en de hele maand opnieuw doen, let wel op, want alle mailtjes zijn van deze maand al verstuurd. Doe dit dus alleen als er iets goed is misgegaan.</p>
+	    	</div>
+	    	<button class="btn btn-default pull-right" ng-mousedown="reopenMonth()">Heropenen</button>
+	    </div>
+	   <!-- End month is completed -->
+
+
+    </div>
+
+    <div ng-show="month" class="row">
+		<hr />
+		<button class="btn btn-primary pull-left" ng-mousedown="changeStep(false)" ng-hide="step=='check'">< Vorige stap</button>
+		<button class="btn btn-primary pull-right" ng-mousedown="changeStep(true)" ng-hide="step=='done'"  ng-disabled="!next">Volgende stap ></button>
+	</div>
+
+</div>
