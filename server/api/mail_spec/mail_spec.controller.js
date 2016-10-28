@@ -26,7 +26,7 @@ exports.show = function(req, res) {
 	var monthName = month.getMonthName() + ' ' + month.getFullYear();
 	var fullPath = __doc + monthName + '/vast/';
 
-	var to = "floriaan.post@gmail.com";
+	// var to = "floriaan.post@gmail.com";
 
 	var m = new Mail;
 	
