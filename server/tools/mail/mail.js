@@ -9,17 +9,6 @@ var mail = require("nodemailer").mail;
 
 module.exports = function Mail() {
 
-    // var transporter = nodemailer.createTransport(smtpTransport({
-    //     host: process.env['MAIL_HOST'],             // use this for UT mail
-    //     port: process.env['MAIL_PORT']
-
-    //     // service: 'Gmail',
-    //     // auth: {
-    //     //     user: process.env['TEST_EMAIL'],    // Your email id
-    //     //     pass: process.env['TEST_PASS']      // Your password
-    //     // }
-    // }));
-
     var options = {
         host: process.env['MAIL_HOST'],             // use this for UT mail
         port: process.env['MAIL_PORT'],
@@ -53,7 +42,6 @@ module.exports = function Mail() {
 
         var mailOptions = { 
             from: process.env['MAIL_FROM'],
-            // from: process.env['TEST_EMAIL'],
             to: data.to,
             subject: subject,
             html: data.message,    
