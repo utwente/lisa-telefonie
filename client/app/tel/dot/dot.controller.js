@@ -78,16 +78,49 @@ angular.module('ictsAppApp')
             var monthDOT = $filter('date')(mLastDay, 'dd-MM-yyyy', 'CET');
             var csvContent = '';
 
-            console.log('Lenght tMobile: ' + tMobile.numbers.length);
+            // first put into array to check later if there are double numbers.
+            var csvArray = [];
 
             for (var i = tMobile.numbers.length - 1; i >= 0; i--) {
-                csvContent += '+31' + tMobile.numbers[i].number.substr(1) + ';' + monthDOT + ';' + (Math.round(tMobile.numbers[i].summary.totalCosts)) + '\n';
+                csvArray.push({
+                    number: '+31' + tMobile.numbers[i].number.substr(1),
+                    month: monthDOT,
+                    costs: Math.round(tMobile.numbers[i].summary.totalCosts)
+                })
+                // csvContent += '+31' + tMobile.numbers[i].number.substr(1) + ';' + monthDOT + ';' + (Math.round(tMobile.numbers[i].summary.totalCosts)) + '\n';
             }
 
             // KPN
             for (var i = kpn.numbers.length - 1; i >= 0; i--) {
                 var number = (kpn.numbers[i].number.size == 4) ? kpn.numbers[i].number : '+31' + kpn.numbers[i].number.substr(1);
-                csvContent += number + ';' + monthDOT + ';' + (Math.round(kpn.numbers[i].amount)) + '\n';
+                csvArray.push({
+                    number: number,
+                    month: monthDOT,
+                    costs: Math.round(kpn.numbers[i].amount)
+                })
+                // csvContent += number + ';' + monthDOT + ';' + (Math.round(kpn.numbers[i].amount)) + '\n';
+            }
+
+            // check for double numbers...
+            console.log('Total costs: ' + sumArray(csvArray));
+            console.log('Length: ' + csvArray.length);
+
+            for (var i = csvArray.length - 1; i >= 0; i--) {
+                _.remove(csvArray, function(p, j){
+                    // check if number is the same, but different index --> double!
+                    if (csvArray[i].number === p.number && i !== j) {
+                        csvArray[i].costs += p.costs;
+                        return true
+                    }
+                    return false
+                })
+            }
+
+            console.log('Total costs: ' + sumArray(csvArray));
+            console.log('Length: ' + csvArray.length);
+
+            for (var i = 0; i < csvArray.length; i++) {
+                csvContent += csvArray[i].number + ';' + csvArray[i].month + ';' + csvArray[i].costs + '\n';
             }
 
             $scope.progress.done++;
@@ -103,5 +136,13 @@ angular.module('ictsAppApp')
             return true;
         };
 
+
+        function sumArray(a) {
+            var sum = 0;
+            for (var i = a.length - 1; i >= 0; i--) {
+                sum += a[i].costs;
+            }
+            return sum;
+        }
 
     });
