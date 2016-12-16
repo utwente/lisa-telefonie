@@ -2,22 +2,26 @@
 
 var fs = require('fs');
 var nodemailer = require('nodemailer');
-var smtpTransport = require('nodemailer-direct-transport');
 
-var mail = require("nodemailer").mail;
-
+var smtpPool = require('nodemailer-smtp-pool');
 
 module.exports = function Mail() {
 
     var options = {
-        host: process.env['MAIL_HOST'],             // use this for UT mail
+        host: process.env['MAIL_HOST'],
         port: process.env['MAIL_PORT'],
-        debug: true
+        maxConnections: process.env['MAIL_MAX_CONNECTIONS'],
+        maxMessages: process.env['MAIL_MAX_MESSAGES'],
+        rateLimit: process.env['MAIL_RATE_LIMIT'],
+        debug: true,
+        tls: {rejectUnauthorized: false}
     }
-    var transporter = nodemailer.createTransport(options);
+
+    var transporter = nodemailer.createTransport(smtpPool(options));
 
     this.send = function(data, callback) {
 
+        // // random result (for testing)
         // var result = Math.round(Math.random())==1;
         // callback(result, {msg: 'test_message'}); 
         // return;

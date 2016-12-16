@@ -33,7 +33,9 @@ exports.show = function(req, res) {
 	var config = {
 		delay_factor: 2,
 		send: function(msg, done) {m.send(msg, function(err, data) {done(err);});},
-		update: function(status) {exports.show.updateSocket('mail_send',status);}
+		update: function(status) {exports.show.updateSocket('mail_send',status);},
+		error: function(msg) {exports.show.updateSocket('server_error', msg);},
+		max_attempts: 3													// something might go wrong, so try 3 times before failing completely
 	}
 
 	// the queue takes the function that actually sends the mail as argument.

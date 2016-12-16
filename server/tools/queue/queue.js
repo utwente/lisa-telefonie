@@ -13,6 +13,11 @@ module.exports = function Queue(config) {
     if (!config.send) {
         throw new Error('Config variable should contain a config.send() function');
     }
+    
+    // set to default if not present
+    if (!config.max_attemps) {
+        config.max_attemps = 3;
+    }
 
     // if there is no update function in config, create an empty function.
     if (!config.update) {
@@ -58,12 +63,19 @@ module.exports = function Queue(config) {
             var i = queue.indexOf(this);
             this.attempt++;
             queue.splice(i, 1);
+            // stop trying to send when max_attemps is exceeded
+            if (this.attempt > config.max_attempts){
+                config.error('Max attempts exceeded.. (max_attempts = ' + config.max_attempts + ')');
+                return;
+            }
+
             queue.push(this);
             var self = this;
             setTimeout(function(){
                 self.send();
                 self.attempt++;
-            }, ((this.attempt - 1)*config.delay_factor*1000));
+            }, ((this.attempt - 1)*config.delay_factor*1000));                
+
         }
     }
 }

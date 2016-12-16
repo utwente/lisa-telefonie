@@ -2,15 +2,18 @@
 
 angular.module('ictsAppApp')
   .controller('NavbarCtrl', ['$scope', '$location', 'Auth', function ($scope, $location, Auth) {
-    $scope.menu = [{
-      'icon': 'fa-home',
-      'title': 'Home',
-      'link': '/'
-    }, {
-      'icon': 'fa-tty',
-      'title': 'Telefonie',
+    $scope.menu = [
+    {
+      'icon': 'fa-euro',
+      'title': 'Doorberekening',
       'link': '/tel'
-    }];
+    },
+    {
+      'icon': 'fa-tty',
+      'title': 'HVD bestand',
+      'link': '/hvd'
+    }
+    ];
 
     $scope.isCollapsed = true;
     $scope.isLoggedIn = Auth.isLoggedIn;
