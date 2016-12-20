@@ -23,6 +23,7 @@
     "morgan": "~1.0.0",
     "nodemailer": "^1.10.0",
     "nodemailer-direct-transport": "^3.1.0",
+    "nodemailer-smtp-pool": "^2.8.2",
     "nodemailer-smtp-transport": "^2.0.1",
     "passport": "~0.2.0",
     "passport-ldapauth": "^0.2.2",

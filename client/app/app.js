@@ -16,7 +16,7 @@ angular.module('ictsAppApp', [
 	.config(['$stateProvider', '$urlRouterProvider', '$locationProvider', '$httpProvider',
 		function ($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider) {
 			$urlRouterProvider
-				.otherwise('/');
+				.otherwise('/tel');
 
 			$locationProvider.html5Mode(true);
 			$httpProvider.interceptors.push('authInterceptor');

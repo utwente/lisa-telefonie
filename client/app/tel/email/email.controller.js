@@ -220,6 +220,12 @@ angular.module('ictsAppApp')
 	});
 
 
+	// log error if error on server..
+	socket.socket.on('server_error', function(msg) {
+		$scope.mail.message = msg;
+	});
+
+
 	// clear all messageg etc.
 	function resetAll() {
 

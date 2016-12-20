@@ -2,36 +2,29 @@
 
 var fs = require('fs');
 var nodemailer = require('nodemailer');
-var smtpTransport = require('nodemailer-direct-transport');
 
-var mail = require("nodemailer").mail;
-
+var smtpPool = require('nodemailer-smtp-pool');
 
 module.exports = function Mail() {
 
-    // var transporter = nodemailer.createTransport(smtpTransport({
-    //     host: process.env['MAIL_HOST'],             // use this for UT mail
-    //     port: process.env['MAIL_PORT']
-
-    //     // service: 'Gmail',
-    //     // auth: {
-    //     //     user: process.env['TEST_EMAIL'],    // Your email id
-    //     //     pass: process.env['TEST_PASS']      // Your password
-    //     // }
-    // }));
-
     var options = {
-        host: process.env['MAIL_HOST'],             // use this for UT mail
+        host: process.env['MAIL_HOST'],
         port: process.env['MAIL_PORT'],
-        debug: true
+        maxConnections: process.env['MAIL_MAX_CONNECTIONS'],
+        maxMessages: process.env['MAIL_MAX_MESSAGES'],
+        rateLimit: process.env['MAIL_RATE_LIMIT'],
+        debug: true,
+        tls: {rejectUnauthorized: false}
     }
-    var transporter = nodemailer.createTransport(options);
+
+    var transporter = nodemailer.createTransport(smtpPool(options));
 
     this.send = function(data, callback) {
 
-        var result = Math.round(Math.random())==1;
-        callback(result, {msg: 'test_message'}); 
-        return;
+        // // random result (for testing)
+        // var result = Math.round(Math.random())==1;
+        // callback(result, {msg: 'test_message'}); 
+        // return;
 
         var department = data.department,
             number = data.number,
@@ -53,7 +46,6 @@ module.exports = function Mail() {
 
         var mailOptions = { 
             from: process.env['MAIL_FROM'],
-            // from: process.env['TEST_EMAIL'],
             to: data.to,
             subject: subject,
             html: data.message,    
