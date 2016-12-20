@@ -1,9 +1,150 @@
 <div ng-include="'components/navbar/navbar.html'"></div>
 
-<div id="pagewrapper">
-	<div class="row">
-		<div class="col-md-12">
-			<p>Hier moet het HVD gedoe komen!</p>
-		</div>
-	</div>
+<div id="page-wrapper">
+	<div class="row first-row">
+		<div class="col-lg-12">
+
+			<accordion ng-show="isLoggedIn()">
+				<accordion-group is-open="newHvdAccordion.open">
+					<accordion-heading>
+						<i class="fa fa-plus"></i> Nieuwe HVD toevoegen
+						<i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': newHvdAccordion.open, 'glyphicon-chevron-right': !newHvdAccordion.open}"></i>
+					</accordion-heading>
+
+					<form name="addHvdForm" class="addHvdForm"
+						  ng-submit="addHvd()"
+						  novalidate>
+
+						<div class="row">
+							<div class="col-md-6">
+
+								<div class="control-group"><!-- phone -->
+									<div class="input-group input-group-sm">
+										<span class="input-group-addon">Telefoonnummer</span>
+										<input type="text" class="form-control" placeholder="bv: 3153489xxxx"
+											   ng-model="newHvd.phoneNumber"
+											   ng-model-options="{updateOn:'blur'}" />
+									</div>
+									<ng-messages for="addHvdForm.phoneNumber.$dirty && addHvdForm.phoneNumber.$error" class="error-messages">
+									</ng-messages>
+								</div>
+
+								<div class="control-group"><!-- mediapack -->
+									<div class="input-group input-group-sm">
+										<span class="input-group-addon">Mediapack</span>
+										<input type="text" class="form-control" placeholder="bv: SH-MEDIAPACK-01"
+											   ng-model="newHvd.mediapack"
+											   ng-model-options="{updateOn:'blur'}" />
+									</div>
+									<ng-messages for="addHvdForm.mediapack.$dirty && addHvdForm.mediapack.$error" class="error-messages">
+									</ng-messages>
+								</div>
+
+								<div class="control-group"><!-- mediapackPort -->
+									<div class="input-group input-group-sm">
+										<span class="input-group-addon">Mediapack poort</span>
+										<input type="number" class="form-control" placeholder="bv: 1"
+											   ng-model="newHvd.mediapackPort"
+											   ng-model-options="{updateOn:'blur'}" />
+									</div>
+									<ng-messages for="addHvdForm.mediapackPort.$dirty && addHvdForm.mediapackPort.$error" class="error-messages">
+									</ng-messages>
+								</div>
+
+								<div class="control-group"><!-- comment -->
+									<div class="input-group input-group-sm">
+										<span class="input-group-addon">Opmerking</span>
+										<textarea class="form-control" rows="3"
+												  ng-model="newHvd.comment"
+												  ng-model-options="{updateOn:'blur'}" >
+										</textarea>
+									</div>
+									<ng-messages for="addHvdForm.comment.$dirty && addHvdForm.comment.$error" class="error-messages">
+									</ng-messages>
+								</div>
+
+							</div>
+
+							<div class="col-md-6">
+
+								<div class="control-group"><!-- hvd -->
+									<div class="input-group input-group-sm">
+										<span class="input-group-addon">HVD</span>
+										<input type="text" class="form-control" placeholder="bv: 2065"
+											   ng-model="newHvd.hvd"
+											   ng-model-options="{updateOn:'blur'}" />
+									</div>
+									<ng-messages for="addHvdForm.hvd.$dirty && addHvdForm.hvd.$error" class="error-messages">
+									</ng-messages>
+								</div>
+
+								<div class="control-group"><!-- to -->
+									<div class="input-group input-group-sm">
+										<span class="input-group-addon">TO</span>
+										<input type="text" class="form-control" placeholder="bv: TS.VR.D1.A07"
+											   ng-model="newHvd.to"
+											   ng-model-options="{updateOn:'blur'}" />
+									</div>
+									<ng-messages for="addHvdForm.to.$dirty && addHvdForm.to.$error" class="error-messages">
+									</ng-messages>
+								</div>
+
+								<div class="control-group"><!-- po -->
+									<div class="input-group input-group-sm">
+										<span class="input-group-addon">PO</span>
+										<input type="text" class="form-control" placeholder="bv: VR.D2.A24L"
+											   ng-model="newHvd.po"
+											   ng-model-options="{updateOn:'blur'}" />
+									</div>
+									<ng-messages for="addHvdForm.po.$dirty && addHvdForm.po.$error" class="error-messages">
+									</ng-messages>
+								</div>
+
+								<div class="control-group"><!-- location -->
+									<div class="input-group input-group-sm">
+										<span class="input-group-addon">Lokatie</span>
+										<input type="text" class="form-control" placeholder="bv: VR 212"
+											   ng-model="newHvd.location"
+											   ng-model-options="{updateOn:'blur'}" />
+									</div>
+									<ng-messages for="addHvdForm.location.$dirty && addHvdForm.location.$error" class="error-messages">
+									</ng-messages>
+								</div>
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="col-md-12">
+
+								<button type="submit" class="btn btn-primary" ng-disabled="addHvdForm.$invalid">HVD toevoegen</button>
+								<button type="reset" class="btn btn-link" ng-click="addHvdForm.$setPristine()">Reset</button>
+							</div>
+						</div><!-- /.row -->
+					</form>
+				</accordion-group>
+			</accordion>
+		</div><!-- /.col-lg-10 -->
+	</div><!-- /.row -->
+
+	<table class="table" ng-hide="filtered.length < 1">
+		<tr>
+			<th>Telefoonnummer</th>
+			<th>HVD</th>
+			<th>TO</th>
+			<th>PO</th>
+			<th>Lokatie</th>
+			<th ng-show="isLoggedIn()"></th>
+		</tr>
+		<tr ng-repeat="hvd in hvds">
+			<td>{{hvd.phoneNumber}}</td>
+			<td>{{hvd.hvd}}</td>
+			<td>{{hvd.to}}</td>
+			<td>{{hvd.po}}</td>
+			<td>{{hvd.location}}</td>
+			<td width="70" ng-show="isLoggedIn()">
+				<!--<button class="btn btn-action btn-edit" ng-click="addEditCustomer(customer)"><i class="fa fa-pencil"></i></button>-->
+				<button class="btn btn-action btn-delete" ng-click="delete(hvd)"><i class="fa fa-trash"></i></button>
+			</td>
+		</tr>
+	</table>
 </div>
