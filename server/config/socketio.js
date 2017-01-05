@@ -18,6 +18,7 @@ function onConnect(socket) {
   });
 
   // Insert sockets below
+  require('../api/hvd/hvd.socket').register(socket);
   require('../api/month_status/month_status.socket').register(socket);
   require('../api/kpn/kpn.socket').register(socket);
   require('../api/specification/specification.socket').register(socket); 
