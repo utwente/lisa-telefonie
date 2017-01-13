@@ -11,6 +11,7 @@ angular.module('ictsAppApp')
 			if (typeof $scope.data !== 'undefined') {
 				$http.get('/api/t_mobile/' + $scope.data.month)
 					.success(function(data) {
+						console.log($scope.data.month);
 						console.log('Month loaded');
 						$scope.t_mobile = data;
 					})
@@ -20,8 +21,6 @@ angular.module('ictsAppApp')
 			}
 		}, true);
 
-
-		var donut;
 
 		$scope.loadDetails = function(n) {
 
@@ -35,5 +34,32 @@ angular.module('ictsAppApp')
 			$scope.callsAbroad = $filter('calls_abroad')(n);
 
 		}
+
+		$scope.getFile = function() {
+
+			var month = $scope.data.month;
+			var number = $scope.details.number;
+
+			$http({
+			    url: 'api/calls/landline/' + month + '/' + number,
+			    method: 'GET',
+			    responseType: 'arraybuffer',
+			    headers: {
+			        'Content-type': 'application/json',
+			        'Accept': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+			    }
+			})
+			.success(function(data){
+			    var blob = new Blob([data], {
+			        type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+			    });
+			    saveAs(blob, 'Specificatie ' + number + '.xlsx');
+			})
+			.error(function(){
+				console.log('Something went wrong...')
+			});
+
+		}
+
 
 });

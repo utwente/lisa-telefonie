@@ -25,8 +25,12 @@ module.exports.updateSocket = function(){return false;}; // start with an empty 
 
 module.exports = function XLSXLLGenerator() {
 
-    this.generate = function(number, path, data, socketEvent, total) {
+    this.generate = function(number, path, data, socketEvent, total, callback) {
 
+        // if no callback function, replace it with an empty function
+        if (typeof callback == "undefined") {
+            callback = function(){};
+        }
 
         var filename = 'Specificatie ' + number + '.xlsx'
         // remove file if it exists (else it does some funny stuff)
@@ -88,7 +92,10 @@ module.exports = function XLSXLLGenerator() {
 
         worksheet.commit();
         workbook.commit().then(function(){
-            module.exports.updateSocket(socketEvent, {err: false, msg: 'excel generated', number: number , total: total});
+            callback()
+            if (socketEvent !== 'none'){
+                module.exports.updateSocket(socketEvent, {err: false, msg: 'excel generated', number: number , total: total});
+            }
         });
 
 

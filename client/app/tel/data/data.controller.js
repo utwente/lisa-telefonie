@@ -18,7 +18,7 @@ angular.module('ictsAppApp')
 
         $scope.makeDataCSV = function(tMobile) {
 
-            var csvContent = 'data:text/csv;content=utf-8,';
+            var csvContent = '';
 
             for (var number in tMobile.numbers) {
                 if (tMobile.numbers[number].summary.perType.internet !== undefined) {
@@ -28,12 +28,12 @@ angular.module('ictsAppApp')
                 }
             };
 
-            // download CSV file (works only in Chrome?)
-            var encodedUri = encodeURI(csvContent);
-            var link = document.createElement('a');
-            link.setAttribute('href', encodedUri);
-            link.setAttribute('download', 'Data.csv');
-            link.click(); 
+            // download CSV file
+            var filename = 'Data.csv';
+            var blob = new Blob([csvContent], {type: "text/csv;charset=utf-8"});
+
+            // function from FileSaver.js
+            saveAs(blob, filename);
         }
 
   });
