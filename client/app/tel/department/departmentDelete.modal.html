@@ -2,9 +2,20 @@
     <h3 class="modal-title">{{department.name}} ({{department.email}}) verwijderen</h3>
 </div>
 <div class="modal-body">
-    <p>Door een afdeling te verwijderen zal er geen afrekening meer verstuurd (kunnen) worden naar deze afdeling.</p>
+	<p ng-hide="customers">Deze afdeling is leeg dus kan veilig verwijderd worden.</p>
+    <p ng-show="customers">De onderstaande personen zitten nog in de afdeling. Verwijder deze eerst of zet ze in een andere afdeling voordat de afdeling weggegooid kan worden.</p>
+    <table class="table" ng-show="customers">
+		<tr>
+			<th>Naam</th>
+			<th>06-Nummer</th>
+		</tr>
+		<tr ng-repeat="customer in customers">
+			<td>{{customer.name}}</td>
+			<td>{{customer.mobileNumber}}</td>
+		</tr>
+	</table>
 </div>
 <div class="modal-footer">
-    <button class="btn btn-danger" ng-click="delete()"><i class="fa fa-trash-o"></i> Verwijderen</button>
+    <button ng-hide="customers" class="btn btn-danger" ng-click="delete()"><i class="fa fa-trash-o"></i> Verwijderen</button>
     <button class="btn btn-primary" ng-click="cancel()"><i class="fa fa-times"></i> Annuleren</button>
 </div>

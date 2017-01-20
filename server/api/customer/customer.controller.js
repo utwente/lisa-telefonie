@@ -16,9 +16,22 @@ exports.show = function(req, res) {
   Customer.findById(req.params.id).populate('department').exec(function (err, customer) {
     if(err) { return handleError(res, err); }
     if(!customer) { return res.send(404); }
-    return res.json(customer);
+    return res.json(200, customer);
   });
 };
+
+exports.byNumber = function(req, res) {
+  console.log(req.params.number)
+}
+
+exports.byDepartment = function(req, res) {
+  var department = req.params.department;
+  console.log(department);
+  Customer.find({department: department}, 'name mobileNumber', function(err, customers){
+    return res.json(200, customers);
+  })
+}
+
 
 // Creates a new customer in the DB.
 exports.create = function(req, res) {
@@ -34,21 +47,6 @@ exports.create = function(req, res) {
     });
   });
 
-};
-
-
-// Creates a new customer in the DB.
-exports.massCreate = function(req, res) {
-  
-  console.log(req.body);
-  return res.json(201, 'hoi');
-
-  req.body.active = true;   // Set active to true
-
-  Customer.create(req.body, function(err, customer) {
-    if(err) { return handleError(res, err); }
-    return res.json(201, customer);
-  });
 };
 
 // Updates an existing customer in the DB.

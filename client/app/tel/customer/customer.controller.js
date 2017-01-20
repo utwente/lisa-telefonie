@@ -56,7 +56,6 @@ angular.module('ictsAppApp')
 			$scope.customers = customers;
 			$scope.customersLoaded = true;
 			socket.syncUpdates('customer', $scope.customers);
-			console.log(customers);
 			// updateTable();
 		});
 
@@ -73,7 +72,7 @@ angular.module('ictsAppApp')
 				customer = $scope.newCustomer;
 			} else {
 				if (customer.department == undefined)
-					customer.department = 'NO_DEP'
+					customer.department = 'UNKNOWN'
 				var department = _.find($scope.departments, { 'name': customer.department});
 				if (department == undefined)
 					throw new Error('Department ' + customer.department + ' was not found for customer ' + customer.name + '.')

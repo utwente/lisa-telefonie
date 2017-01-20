@@ -1,5 +1,5 @@
 <div class="modal-header">
-    <h3 class="modal-title">{{customer.name}} ({{customer.department}}-{{customer.subdepartment}}) wijzigen</h3>
+    <h3 class="modal-title">{{customer.name}} ({{customer.department.name}}<span ng-show="customer.subdepartment">-{{customer.subdepartment}}</span>) wijzigen</h3>
     <span class="label label-default" tooltip="Mobiel nummer">{{customer.mobileNumber}}</span>
 </div>
 <div class="modal-body">
