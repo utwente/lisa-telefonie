@@ -18,8 +18,10 @@ exports.register = function(socket) {
   });
 }
 
-function onSave(socket, doc, cb) {
-  socket.emit('customer:save', doc);
+function onSave(socket, customer, cb) {
+  customer.populate('department', function(err) {
+    socket.emit('customer:save', customer);
+  });
 }
 
 function onRemove(socket, doc, cb) {

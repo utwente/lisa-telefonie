@@ -14,8 +14,15 @@ angular.module('ictsAppApp')
             var matches = 0;
             for (var j = 0; j < search.length; j++) {
                 for (var i = keys.length - 1; i >= 0; i--) {
-                    if (!user[keys[i]]){continue}
-                    if (user[keys[i]].toLowerCase().search(search[j].toLowerCase()) !== -1) {
+                    if (typeof(keys[i]) == 'object') {
+                        var key = Object.keys(keys[i])[0];
+                        var searchString = user[key][keys[i][key]]; 
+                    } else {
+                        var searchString = user[keys[i]];
+                        if (searchString === undefined)
+                            continue
+                    }
+                    if (searchString.toLowerCase().search(search[j].toLowerCase()) !== -1) {
                         matches++;
                         break;
                     }

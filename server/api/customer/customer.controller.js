@@ -5,15 +5,15 @@ var Customer = require('./customer.model');
 
 // Get list of active customers
 exports.index = function(req, res) {
-  Customer.find({}).where('active').equals(true).exec(function (err, customers) {
-    if(err) { return handleError(res, err); }
+  Customer.find({}).where('active').equals(true).populate('department').exec(function (err, customers) {
+    if(err) { console.log('check'); return handleError(res, err); }
     return res.json(200, customers);
   });
 };
 
 // Get a single customer
 exports.show = function(req, res) {
-  Customer.findById(req.params.id, function (err, customer) {
+  Customer.findById(req.params.id).populate('department').exec(function (err, customer) {
     if(err) { return handleError(res, err); }
     if(!customer) { return res.send(404); }
     return res.json(customer);
@@ -25,10 +25,15 @@ exports.create = function(req, res) {
   
   req.body.active = true;   // Set active to true
 
+  console.log(req.body);
+
   Customer.create(req.body, function(err, customer) {
     if(err) { return handleError(res, err); }
-    return res.json(201, customer);
+    customer.populate('department', function(err) {
+      return res.json(201, customer);
+    });
   });
+
 };
 
 
@@ -89,5 +94,6 @@ exports.trash = function(req, res) {
 };
 
 function handleError(res, err) {
+  console.log(err);
   return res.send(500, err);
 }

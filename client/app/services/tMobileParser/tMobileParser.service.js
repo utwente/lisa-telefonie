@@ -2,10 +2,6 @@
 
 angular.module('ictsAppApp')
   .factory('tMobileParser', function () {
-    // Service logic
-    // ...
-
-    var meaningOfLife = 42;
 
     // Public API here
     return {
@@ -13,6 +9,7 @@ angular.module('ictsAppApp')
         // --------------------------------------
         //   FILE READING AND CSV PARSING STUFF
         // --------------------------------------
+
         fileContent = fileContent.replace(/\",\"/g, ";");
         fileContent = fileContent.replace(/\"/g, "");
         var lines = fileContent.split('\n');
@@ -22,13 +19,11 @@ angular.module('ictsAppApp')
         }
         var parsedDate = lines[0].match(/\d{2}\.\d{2}\.\d{2}/)[0].split('\.');
         var month = new Date('20' + parsedDate[2], parseInt(parsedDate[1]) - 1 - 1);
-        // $scope.step = 'Overzicht ' + month.getMonthName() + ' ' + month.getFullYear();
 
         lines.splice(0,2);
         lines.splice(lines.length - 2, 2);
         var csv = lines.join('\n');
 
-        // $scope.$apply($scope.hideInput = true);
 
         var csvContent = Papa.parse(csv, {delimiter: ";"});
 

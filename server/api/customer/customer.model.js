@@ -7,7 +7,7 @@ var CustomerSchema = new Schema({
   active: Boolean,
   name: String,
   email: String,
-  department: String,
+  department: { type: Schema.Types.ObjectId, ref: 'Department' },
   subdepartment: String,
   internalAddress: String,
   landlineNumber: String,

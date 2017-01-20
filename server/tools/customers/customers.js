@@ -15,13 +15,12 @@ module.exports = function Customers() {
 
     // load the customers from database
     this.load = function(callback) {
-        Customer.find({}).where('active').equals(true).exec(function (err, cust) {
+        Customer.find({}).where('active').equals(true).populate('department').exec(function (err, cust) {
             if (err) { callback(true); }
             customers = cust;
             Department.find({}, { _id: 0 }).where('active').equals(true).select('_id name email').exec(function (err, dep) {
                 if(err) { callback(true); }
                 departments = dep;
-                console.log(departments);
                 callback(false);
             });
         });
@@ -56,20 +55,20 @@ module.exports = function Customers() {
             return {code: 'NO_DEPARTMENT', number: number};
         }
 
-        var dep = _.find(departments, {name: user.department});
-        
+        var dep = _.find(departments, {name: user.department.name});
+
         if (typeof(user.name) === 'undefined') {
             module.exports.updateSocket(socketEvent, {code: 'NO_NAME', number: number})
-            return {code: 'NO_NAME', number: number, department: user.department};
+            return {code: 'NO_NAME', number: number, department: user.department.name};
         }
 
 
         if (typeof(dep) === 'undefined') {
-            module.exports.updateSocket(socketEvent, {code: 'UNKNOWN_DEPARTMENT', number: number, name: user.name, department: user.department})
+            module.exports.updateSocket(socketEvent, {code: 'UNKNOWN_DEPARTMENT', number: number, name: user.name, department: user.department.name})
             return {code: 'UNKNOWN_DEPARTMENT', number: number};
         }
 
-        return {code: "SUCCESS", department: user.department};
+        return {code: "SUCCESS", department: user.department.name};
     
     }
 

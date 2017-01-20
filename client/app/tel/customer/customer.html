@@ -50,11 +50,12 @@
 							<div class="control-group"><!-- department -->
 								<div class="input-group input-group-sm">
 									<span class="input-group-addon">Afdeling</span>
-									<input type="text" class="form-control" placeholder="bv: LISA" name="department" 
+									<select class="form-control" 
 										ng-model="newCustomer.department" 
-										ng-minlength=2
-										required
-										ng-model-options="{updateOn:'blur'}" />
+										required>
+										<option ng-repeat="department in departments" value="{{ department._id }}">{{ department.name }}</option>
+									</select>
+
 								</div>	
 								<ng-messages for="customerForm.department.$dirty && customerForm.department.$error" class="error-messages">
 									<ng-message when="required">Dit veld is verplicht</ng-message>
@@ -310,10 +311,10 @@
 			<th>06-Nummer</th>
 			<th>Acties</th>
 		</tr>
-		<tr ng-repeat="customer in filtered = (customers | multiple:search:['name','department','mobileNumber','email']) | orderBy:'name' | startFrom: currentPage * pageSize  | limitTo:pageSize">
+		<tr ng-repeat="customer in filtered = (customers | multiple:search:['name', {department: 'name'}, 'mobileNumber', 'email']) | orderBy:'name' | startFrom: currentPage * pageSize  | limitTo:pageSize">
 			<td>{{customer.name}}</td>
 			<td><a href="mailto:{{customer.email}}">{{customer.email}}</td>
-			<td>{{customer.department}}</td>
+			<td>{{customer.department.name}}</td>
 			<td>{{customer.subdepartment}}</td>
 			<td>{{customer.internalAddress}}</td>
 			<td>{{customer.mobileNumber}}</td>

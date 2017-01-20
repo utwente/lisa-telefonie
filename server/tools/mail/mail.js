@@ -21,7 +21,7 @@ module.exports = function Mail() {
 
     this.send = function(data, callback) {
 
-        // // random result (for testing)
+        // random result (for testing)
         // var result = Math.round(Math.random())==1;
         // callback(result, {msg: 'test_message'}); 
         // return;

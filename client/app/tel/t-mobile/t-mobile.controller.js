@@ -1,21 +1,18 @@
 'use strict';
 
 angular.module('ictsAppApp')
-  .controller('TelTMobileCtrl', function ($scope, $http, $modal, tMobileParser) {
+  .controller('TelTMobileCtrl', function ($scope, $http, $modal, $timeout, tMobileParser) {
 
     $scope.step = 'start';
 
     $scope.openTmobile = function($fileContent){
 
       // parse the file (parser is in factories/tMobileParser)
-      var t_mobile = tMobileParser.parse($fileContent);
-
+      var t_mobile = tMobileParser.parse($fileContent)
       $scope.month = t_mobile.month;
-      $scope.step="loaded";
-      
-      // t_mobile is the input data for the donuts. 
       $scope.t_mobile = t_mobile;
 
+      $scope.step = 'loaded';
 
     };
 

@@ -14,8 +14,6 @@ angular.module('ictsAppApp')
 
     $scope.deleteCustomer = {};
 
-    console.log($scope);
-
     // activationDatePicker
     $scope.deactivationDatePicker = {
       today: function() {

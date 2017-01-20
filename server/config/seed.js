@@ -20,6 +20,7 @@ var Attachment = require('../api/mobile_spec/mobile_spec.model');
 // 	console.log('Cleaned all customers');
 // });
 
+
 // Clear all specifications
 // Specification.find({}).remove(function() {
 // 	console.log('Cleaned all specifications');	

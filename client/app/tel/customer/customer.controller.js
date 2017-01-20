@@ -21,7 +21,6 @@ angular.module('ictsAppApp')
 		$scope.$watch('search', function() {
 			$scope.currentPage = 0;
 		});
-
 		// end pagination
 
 
@@ -36,7 +35,7 @@ angular.module('ictsAppApp')
 		$scope.newCustomer = {
 			name: 'Brian',
 			email: 't.est@utwente.nl',
-			department: 'ICTS',
+			department: undefined,
 			subdepartment: 'INFRA',
 			internalAddress: 'Citadel H217',
 			landlineNumber: 1234,
@@ -57,18 +56,31 @@ angular.module('ictsAppApp')
 			$scope.customers = customers;
 			$scope.customersLoaded = true;
 			socket.syncUpdates('customer', $scope.customers);
+			console.log(customers);
 			// updateTable();
 		});
+
+		$http.get('/api/departments').success(function (departments) {
+			$scope.departments = departments;
+			socket.syncUpdates('department', $scope.departments);
+		});
+
 
 		$scope.addCustomer = function (customer) {
 			var newCustomer = false;
 			if (customer === undefined) {
 				newCustomer = true;
 				customer = $scope.newCustomer;
+			} else {
+				if (customer.department == undefined)
+					customer.department = 'NO_DEP'
+				var department = _.find($scope.departments, { 'name': customer.department});
+				if (department == undefined)
+					throw new Error('Department ' + customer.department + ' was not found for customer ' + customer.name + '.')
+				customer.department = department._id;
 			}
-			if (customer === undefined) {
-				return;
-			}
+
+
 			$http.post('/api/customers', customer)
 			.success(function (data, status, headers, config) {
 				if(newCustomer) {
@@ -76,12 +88,12 @@ angular.module('ictsAppApp')
 					$scope.newCustomer.department = undefined;
 
 					$scope.customer = {};
-					$scope.customerForm.$setPristine();
+					// $scope.customerForm.$setPristine();
 
 				}
 				$scope.massImport.finished++;
 			}).error(function (data, status, headers, config) {
-				console.log('error saving customer '+data.name);
+				console.log('error saving customer ' + data.name);
 				$scope.massImport.errors++;
 			});
 
@@ -248,9 +260,8 @@ angular.module('ictsAppApp')
 					users[i].comments = [];
 					users[i].comments.push(user[17]);
 				}
-				if (user[11] !== '') {
+				if (user[11] !== '')
 					users[i].activationDate = stringToDate(user[11]);
-				}
 				if (user[10] !== '')		
 					users[i].phoneType = user[10];
 
@@ -262,8 +273,6 @@ angular.module('ictsAppApp')
 			}
 			
 		}
-
-
 
 
 		// $scope.tableParams = new ngTableParams({
