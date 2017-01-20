@@ -6,7 +6,7 @@ var Customer = require('./customer.model');
 // Get list of active customers
 exports.index = function(req, res) {
   Customer.find({}).where('active').equals(true).populate('department').exec(function (err, customers) {
-    if(err) { console.log('check'); return handleError(res, err); }
+    if(err) { return handleError(res, err); }
     return res.json(200, customers);
   });
 };
@@ -21,13 +21,20 @@ exports.show = function(req, res) {
 };
 
 exports.byNumber = function(req, res) {
-  console.log(req.params.number)
+  var number = req.params.number;
+  Customer.findOne({mobileNumber: number}, 'name department', function(err, customer){
+    if (err){handleError(res, err)}
+    customer.populate('department', function(err) {
+      if (err){handleError(res, err)}
+      return res.json(200, customer);
+    });
+  });
 }
 
 exports.byDepartment = function(req, res) {
   var department = req.params.department;
-  console.log(department);
   Customer.find({department: department}, 'name mobileNumber', function(err, customers){
+    if (err){handleError(res, err)}
     return res.json(200, customers);
   })
 }
@@ -38,11 +45,10 @@ exports.create = function(req, res) {
   
   req.body.active = true;   // Set active to true
 
-  console.log(req.body);
-
   Customer.create(req.body, function(err, customer) {
     if(err) { return handleError(res, err); }
     customer.populate('department', function(err) {
+      if (err){handleError(res, err)}
       return res.json(201, customer);
     });
   });
@@ -92,6 +98,5 @@ exports.trash = function(req, res) {
 };
 
 function handleError(res, err) {
-  console.log(err);
   return res.send(500, err);
 }

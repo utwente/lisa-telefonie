@@ -11,8 +11,6 @@ angular.module('ictsAppApp')
 			if (typeof $scope.data !== 'undefined') {
 				$http.get('/api/t_mobile/' + $scope.data.month)
 					.success(function(data) {
-						console.log($scope.data.month);
-						console.log('Month loaded');
 						$scope.t_mobile = data;
 					})
 					.error(function(res) {
@@ -23,6 +21,15 @@ angular.module('ictsAppApp')
 
 
 		$scope.loadDetails = function(n) {
+
+			$http.get('/api/customers/number/' + n.number).
+				success(function(data){
+					$scope.name = data.name;
+					$scope.department = data.department.name;
+				}).
+				error(function(err){
+					console.log(err);
+				})
 
 			// this is input data for the "donut". Donut stuff happens in app/directives/donut
 			$scope.details = n;

@@ -75,7 +75,7 @@ angular.module('ictsAppApp')
 					customer.department = 'UNKNOWN'
 				var department = _.find($scope.departments, { 'name': customer.department});
 				if (department == undefined)
-					throw new Error('Department ' + customer.department + ' was not found for customer ' + customer.name + '.')
+					throw new Error('Department "' + customer.department + '" was not found for customer "' + customer.name + '".')
 				customer.department = department._id;
 			}
 

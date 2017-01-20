@@ -43,10 +43,13 @@
 
                 <div class="col-md-4" ng-show="details">
                     <h2>Details van {{ details.number }}</h2>
-                    <h3>Overzicht</h3>
+                    <h4>{{name}} <span ng-show="department">({{department}})</span></h4>
 
+                    <hr>
+                    <h3>Overzicht</h3>
                     <donut class="donut-analysis" data="details" type="personal"></donut>
 
+                    <hr ng-show="dataAbroad || callsAbroad">
                     <div ng-show="dataAbroad">
                         <h3>Internet in het buitenland</h3>
                         <table class="table-abroad">
