@@ -39,11 +39,11 @@
             <div class="control-group"><!-- department -->
                 <div class="input-group input-group-sm">
                     <span class="input-group-addon">Afdeling</span>
-                    <input type="text" class="form-control" placeholder="bv: ICTS" name="department" 
-                        ng-model="customer.department" 
-                        ng-minlength=2
-                        required
-                        ng-model-options="{updateOn:'blur'}" />
+                    <select class="form-control"
+                        ng-model="customer.department"
+                        required 
+                        ng-options="department.name for department in departments track by department._id">
+                    </select>
                 </div>  
                 <ng-messages for="customerForm.department.$dirty && customerForm.department.$error" class="error-messages">
                     <ng-message when="required">Dit veld is verplicht</ng-message>
