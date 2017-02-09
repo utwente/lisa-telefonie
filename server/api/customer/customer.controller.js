@@ -24,6 +24,7 @@ exports.byNumber = function(req, res) {
   var number = req.params.number;
   Customer.findOne({mobileNumber: number}, 'name department', function(err, customer){
     if (err){handleError(res, err)}
+    if (!customer){return res.json(404)}
     customer.populate('department', function(err) {
       if (err){handleError(res, err)}
       return res.json(200, customer);
@@ -42,11 +43,10 @@ exports.byDepartment = function(req, res) {
 
 // Creates a new customer in the DB.
 exports.create = function(req, res) {
-  
   req.body.active = true;   // Set active to true
-
   Customer.create(req.body, function(err, customer) {
     if(err) { return handleError(res, err); }
+    if (!customer){return res.json(404)}
     customer.populate('department', function(err) {
       if (err){handleError(res, err)}
       return res.json(201, customer);

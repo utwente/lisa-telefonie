@@ -72,7 +72,7 @@ angular.module('ictsAppApp')
 
 	$scope.createMobileSpec = function() {
 		resetAll();
-		$scope.mob_pdf.message = 'Gegevens controleren...';
+		$scope.mob.message = 'Mobiele specificaties worden gegenereerd...';
 		$http.get('/api/mobile_spec/' + $scope.month)
 			.success(function (data) {
 				console.log(data);
@@ -156,17 +156,27 @@ angular.module('ictsAppApp')
 	socket.socket.on('mob_pdf', function(data){
 		$scope.mob_pdf.total = data.total;
 		$scope.mob_pdf.done++;
+		updateMobileMsg(data)
 	});
 
 	socket.socket.on('mob_excel', function(data){
 		$scope.mob_excel.total = data.total;
 		$scope.mob_excel.done++;
+		updateMobileMsg(data)
+
 	});
 
 	socket.socket.on('mob_html', function(data){
 		$scope.mob_html.total = data.total;
 		$scope.mob_html.done++;
+		updateMobileMsg(data)
 	});
+	
+	function updateMobileMsg(data) {
+		if ($scope.mob_html.total + $scope.mob_excel.total + $scope.mob_pdf.total >= $scope.mob_html.done + $scope.mob_excel.done + $scope.mob_pdf.done) {
+			$scope.mob.message = 'Alle mobiele specificaties zijn gegenereerd!';
+		}		
+	}
 
 	socket.socket.on('ll_excel', function(data) {
 		$scope.ll_excel.errors = data.err;
@@ -178,8 +188,6 @@ angular.module('ictsAppApp')
 		}
 		if ($scope.ll_excel.done >= $scope.ll_excel.total) {
 			$scope.ll_excel.message = 'Alle vaste specificaties zijn gegenereerd!';
-		} else {
-			$scope.ll_excel.message = 'Genereren specificaties van: ' + data.number;
 		}
 	});
 
