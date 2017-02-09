@@ -48,7 +48,7 @@ angular.module('ictsAppApp', [
 	};
 })
 
-.run(function ($rootScope, $location, Auth) {
+.run(function ($rootScope, $state, $location, Auth) {
 	// Redirect to login if route requires auth and you're not logged in
 	$rootScope.$on('$stateChangeStart', function (event, next) {
 		Auth.isLoggedInAsync(function (loggedIn) {
@@ -57,6 +57,14 @@ angular.module('ictsAppApp', [
 			}
 		});
 	});
+
+	// Redirect to default page
+	$rootScope.$on('$stateChangeStart', function(evt, to, params) {
+      if (to.redirectTo) {
+        evt.preventDefault();
+        $state.go(to.redirectTo, params, {location: 'replace'})
+      }
+    });
 
 	// a little ugly, but had to add it somewhere...
 	

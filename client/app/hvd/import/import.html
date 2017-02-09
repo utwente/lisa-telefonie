@@ -1,0 +1,13 @@
+
+<!-- Mass import from csv if there are no kpn details -->
+<div class="row first-row" ng-show="isLoggedIn()">
+	<div class="col-lg-12">
+		<div class="panel panel-info">
+			<div class="panel-heading">HVD gegevens uit bestand importeren</div>
+			<div class="panel-body">
+				<input class="btn btn-default col-xs-12" type="file" my-file-reader="importRecords($fileContent)" />
+				<progressbar class="progress-striped active" max="massImport.total" value="massImport.finished" type="default"><i>{{massImport.finished}} / {{massImport.total}}</i></progressbar>
+			</div>
+		</div>
+	</div>
+</div>
