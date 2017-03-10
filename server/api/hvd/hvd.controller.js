@@ -77,6 +77,12 @@ exports.deactivate = function(req, res) {
   });
 };
 
+exports.removeAll = function(req, res) {
+  Hvd.remove({}, function() {
+    return res.send(204);
+  });
+};
+
 function handleError(res, err) {
   return res.send(500, err);
 }

@@ -14,4 +14,6 @@ router.patch('/:id', auth.isAuthenticated(), controller.update);
 router.delete('/:id', auth.isAuthenticated(), controller.destroy);
 router.delete('/:id/deactivate', auth.isAuthenticated(), controller.deactivate);
 
+router.post('/removeall', controller.removeAll);
+
 module.exports = router;

@@ -9,11 +9,21 @@ angular.module('ictsAppApp')
       console.log('test');
 
       $scope.recordsLoaded = false;
+      $scope.progressbars = [
+          {name: 'good', value: 0, type: 'success'},
+          {name: 'bad', value: 0, type: 'danger'}
+      ];
       $scope.massImport = {
           total: 0,
           finished: 0,
           errors: 0
       };
+
+      $scope.removeAll = function(event) {
+          $http.post('api/hvd/removeall', '');
+          event.target.innerHTML = "Done";
+      };
+
       $scope.importRecords = function($fileContent) {
           $fileContent = $fileContent.replace(/\'/g, ''); // Remove double quotes
           $fileContent = $fileContent.replace(/\u20ac /g, ''); // Remove '€'
@@ -27,8 +37,6 @@ angular.module('ictsAppApp')
           // Get months from all values
           var hvds = [];
           angular.forEach(csvContent.data, function(value) {
-              //debugger;
-              // Get hvd from row
 
               var ts = $.grep([value[5], value[6]], Boolean).join(" > ");
 
@@ -42,6 +50,7 @@ angular.module('ictsAppApp')
                   location: value[8],
                   comment: $.grep([ts, value[9]], Boolean).join("\n")
               });
+              $scope.massImport.total = hvds.length;
 
           });
 
@@ -53,6 +62,7 @@ angular.module('ictsAppApp')
                           console.log('HVD opgeslagen!');
                       } else {
                           console.log('Onbekende fout..');
+                          $scope.massImport.errors += 1;
                       }
                       $scope.loading = false;
 
@@ -60,8 +70,8 @@ angular.module('ictsAppApp')
                       console.log('Fout bij het opslaan..');
                       scope.loading = false;
                   });
+              $scope.massImport.finished += 1;
           });
-
       };
     
   });
