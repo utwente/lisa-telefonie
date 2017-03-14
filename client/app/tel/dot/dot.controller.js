@@ -52,9 +52,8 @@ angular.module('ictsAppApp')
                                     $scope.progress.done++;
                                     $scope.progress.track.kpn = true;
 
-                                    if ($scope.makeCSV(tMobile, kpn, month)) {
-                                        $scope.progress.done++;
-                                    }
+                                    makeCSV(tMobile, kpn, month)
+                                    $scope.progress.done++;
 
                                 })
                                 .error(function(res) {
@@ -73,7 +72,7 @@ angular.module('ictsAppApp')
 
 
 
-        $scope.makeCSV = function(tMobile, kpn, month) {
+        function makeCSV(tMobile, kpn, month) {
             var mLastDay = new Date(month.getFullYear(), month.getMonth() + 1, 0);
             var monthDOT = $filter('date')(mLastDay, 'dd-MM-yyyy', 'CET');
             var csvContent = '';
@@ -87,7 +86,6 @@ angular.module('ictsAppApp')
                     month: monthDOT,
                     costs: Math.round(tMobile.numbers[i].summary.totalCosts)
                 })
-                // csvContent += '+31' + tMobile.numbers[i].number.substr(1) + ';' + monthDOT + ';' + (Math.round(tMobile.numbers[i].summary.totalCosts)) + '\n';
             }
 
             // KPN
@@ -98,13 +96,9 @@ angular.module('ictsAppApp')
                     month: monthDOT,
                     costs: Math.round(kpn.numbers[i].amount)
                 })
-                // csvContent += number + ';' + monthDOT + ';' + (Math.round(kpn.numbers[i].amount)) + '\n';
             }
 
             // check for double numbers...
-            console.log('Total costs: ' + sumArray(csvArray));
-            console.log('Length: ' + csvArray.length);
-
             for (var i = csvArray.length - 1; i >= 0; i--) {
                 _.remove(csvArray, function(p, j){
                     // check if number is the same, but different index --> double!
@@ -116,24 +110,24 @@ angular.module('ictsAppApp')
                 })
             }
 
-            console.log('Total costs: ' + sumArray(csvArray));
-            console.log('Length: ' + csvArray.length);
-
+            var line;
             for (var i = 0; i < csvArray.length; i++) {
-                csvContent += csvArray[i].number + ';' + csvArray[i].month + ';' + csvArray[i].costs + '\n';
+                line = csvArray[i].number + ';' + csvArray[i].month + ';' + csvArray[i].costs;
+                // strip all characters that are not numbers or ;+- all other characters cause a problem
+                line = line.replace(/[^0-9|;|\-|\+]/,'');
+                csvContent += line + '\n';
             }
 
             $scope.progress.done++;
 
             var filename = 'DOT_' + monthDOT + '.csv';
-            var blob = new Blob([csvContent], {type: "text/csv;charset=utf-8"});
+            var blob = new Blob([csvContent], {type: 'text/csv'});
 
             // function from FileSaver.js
             saveAs(blob, filename);
 
             $scope.progress.track.output = true;
 
-            return true;
         };
 
 
