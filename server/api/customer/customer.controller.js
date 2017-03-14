@@ -20,10 +20,13 @@ exports.show = function(req, res) {
   });
 };
 
+// Find customer by number
 exports.byNumber = function(req, res) {
   var number = req.params.number;
   Customer.findOne({mobileNumber: number}, 'name department', function(err, customer){
     if (err){handleError(res, err)}
+    if (customer === null || customer === undefined)
+      return res.json(404, "Customer not found");
     customer.populate('department', function(err) {
       if (err){handleError(res, err)}
       return res.json(200, customer);
@@ -31,6 +34,7 @@ exports.byNumber = function(req, res) {
   });
 }
 
+// Find customers by department
 exports.byDepartment = function(req, res) {
   var department = req.params.department;
   Customer.find({department: department}, 'name mobileNumber', function(err, customers){

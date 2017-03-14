@@ -42,11 +42,6 @@ Kpn.find({}).remove(function() {
 // });
 
 
-// // Clear all Tele2 records
-// Tele2.find({}).remove(function() {
-// 	console.log('Cleaned all Tele2 records');
-// });
-
 // Clear all TMobile
 // TMobile.find({}).remove(function() {
 // 	console.log('Cleaned all TMobile records');
