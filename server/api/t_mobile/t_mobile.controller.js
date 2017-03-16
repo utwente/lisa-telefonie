@@ -3,23 +3,6 @@
 var _ = require('lodash');
 var TMobile = require('./t_mobile.model');
 
-// // with max users, a bit slow...
-// exports.index = function(req, res) {
-//   TMobile
-//     .find({month: {$gte: req.query.min_date, $lte: req.query.max_date}}, 'month summary numbers.summary numbers.number')
-//     .exec(function(err, months) {
-//       if(err) { return handleError(res, err); }
-//       var numbers;
-//       for (var i = months.length - 1; i >= 0; i--) {
-//         numbers = months[i].numbers;
-//         numbers.sort(function(a,b){return b.summary.totalCosts - a.summary.totalCosts});
-//         delete months.numbers;
-//         months[i].numbers = numbers.slice(0,req.query.numbers);
-//       };
-//       return res.json(200, months);
-//     });
-// };
-
 // without max users, much faster.
 exports.index = function(req, res) {
   TMobile

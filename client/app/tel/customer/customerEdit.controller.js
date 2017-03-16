@@ -5,9 +5,8 @@ angular.module('ictsAppApp')
  
     $scope.customer = customer;
 
-    console.log($scope.departments);
-  	$scope.delete = function () {
-    	$modalInstance.close($scope.trueDelete);
+  	$scope.save = function () {
+    	$modalInstance.close($scope.customer);
   	};
 
   	$scope.cancel = function() {

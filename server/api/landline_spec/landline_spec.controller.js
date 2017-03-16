@@ -29,7 +29,7 @@ exports.show = function(req, res) {
     Specification.find({}, function (err, specification) {
       if (err) {return res.status(500).send(err); }
 
-      // get all information about the persons that need specifications.
+      // get all information about the persons who need specifications.
       var spec_info = [];
       _.forEach(specification, function(number) {
         var found = _.filter(t_mobile.numbers, {number: number.number});
@@ -50,7 +50,6 @@ exports.show = function(req, res) {
       mkdirSync(__doc + monthName);
       var fullPath = __doc + monthName + '/vast/';
       mkdirSync(fullPath);
-
 
       var xlsx = new XLSXLLGenerator();
       for (var i = 0; i < spec_info.length; i++) {

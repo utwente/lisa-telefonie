@@ -9,6 +9,7 @@ angular.module('ictsAppApp')
 
       // parse the file (parser is in factories/tMobileParser)
       var t_mobile = tMobileParser.parse($fileContent)
+
       $scope.month = t_mobile.month;
       $scope.t_mobile = t_mobile;
 
@@ -26,7 +27,6 @@ angular.module('ictsAppApp')
         } else if (data.error) {
           if (data.msg == 'month_exists') {
             console.log('Maand bestaat al..');
-            console.log(data);
             $scope.overrideMonthModal(data.id);
           } else {
             console.log('Onbekende fout..');

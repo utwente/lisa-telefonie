@@ -52,6 +52,8 @@ exports.show = function(req, res) {
           break;
       }
 
+      console.log(info);
+      
       var xlsx = new XLSXLLGenerator();
       xlsx.generate(info.number, path, info, 'none', 1, function(){
 

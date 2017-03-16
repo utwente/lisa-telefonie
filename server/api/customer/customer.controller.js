@@ -54,7 +54,6 @@ exports.create = function(req, res) {
       return res.json(201, customer);
     });
   });
-
 };
 
 // Updates an existing customer in the DB.
@@ -63,6 +62,8 @@ exports.update = function(req, res) {
   Customer.findById(req.params.id, function (err, customer) {
     if (err) { return handleError(res, err); }
     if(!customer) { return res.send(404); }
+    var newCustomer = req.body;
+    newCustomer.department = newCustomer.department._id;
     var updated = _.merge(customer, req.body);
     updated.save(function (err) {
       if (err) { return handleError(res, err); }
@@ -89,7 +90,7 @@ exports.trash = function(req, res) {
     if (err) { return handleError(res, err); }
     if(!customer) { return res.send(404); }
     var deactivated = _.merge(customer, req.body);
-    
+  
     deactivated.active = false;
     
     deactivated.save(function (err) {

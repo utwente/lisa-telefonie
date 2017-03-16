@@ -52,37 +52,41 @@ module.exports = function XLSXLLGenerator() {
         workbook.creator = "ICTS Utwente";
         workbook.created = new Date();
 
-        var sheet = workbook.addWorksheet("Vaste specificatie");
-        var worksheet = workbook.getWorksheet("Vaste specificatie");
+        var sheet = workbook.addWorksheet("Bellen");
+        var worksheet = workbook.getWorksheet("Bellen");
 
         var columns = [
-            {header: 'Bestemming', key: 'to', width: 20},
-            {header: 'Datum', key: 'date', width: 13},
-            {header: 'Soort gesprek', key: 'type', width: 30},
-            {header: 'Gespreksduur', key: 'time', width: 14},
-            {header: 'Kosten', key: 'costs', width: 10}
+            {header: 'Bestemming',    key: 'to',      width: 20},
+            {header: 'Datum',         key: 'date',    width: 13},
+            {header: 'Tijd',          key: 'start',   width: 10},
+            {header: 'Soort gesprek', key: 'type',    width: 30},
+            {header: 'Land',          key: 'country', width: 25},
+            {header: 'Gespreksduur',  key: 'time',    width: 14},
+            {header: 'Kosten',        key: 'costs',   width: 10},
         ];
 
         worksheet.columns = columns;
 
         // format the costs
-        worksheet.getColumn('E').numFmt = "€ 0.00";
+        worksheet.getColumn('G').numFmt = "€ 0.00";
 
         // style the first row
         for (var col = 1; col < columns.length + 1; col++) {
             worksheet.getCell(this.getCellName(1,col)).border = {bottom: {style: 'thin'}};
-            worksheet.getCell(this.getCellName(1,col)).alignment = { vertical: 'middle', horizontal: 'center' };
             worksheet.getCell(this.getCellName(1,col)).fill = {type: "pattern", pattern: "solid", fgColor: {argb:"FFCCCCCC"}};
         };
 
         // add the actual data
         for (var type in data.calls) {
             for (var i = 0; i < data.calls[type].length; i++) {
-               var rowData = {};
+                console.log(data.calls[type][i]);
+                var rowData = {};
                 rowData = {
                     to: data.calls[type][i].bestemming,
                     date: data.calls[type][i].datum,
+                    start: data.calls[type][i].starttijd,
                     type: type.toNormal(),
+                    country: data.calls[type][i].vanuit,
                     time: data.calls[type][i].duur,
                     costs: data.calls[type][i].kosten/100
                 };
