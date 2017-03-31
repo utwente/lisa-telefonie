@@ -17,6 +17,6 @@ module.exports = {
   },
 
   // fill database with sample user
-  seedDB: true
+  seedDB: false
 
 };
