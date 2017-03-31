@@ -7,6 +7,9 @@
 // Set default node environment to development
 process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 
+// This is needed for node version 0 unfortunately
+Object.assign = require('object-assign')
+
 var express = require('express');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
