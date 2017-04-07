@@ -3,7 +3,7 @@
 angular.module('ictsAppApp')
   .directive('file', function ($http, $parse) {
     return {
-      templateUrl: '/app/directives/file/file.html',
+      templateUrl: 'app/directives/file/file.html',
       restrict: 'E',
       transclude: true,
       scope: {},

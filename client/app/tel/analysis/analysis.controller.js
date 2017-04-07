@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('ictsAppApp')
-   .controller('landlineAnalysis', function($scope, $http, $timeout, $filter, Morris, morrisDataFormatter) {
+   .controller('landlineAnalysis', function($scope, $http, $timeout, $filter, Morris, morrisDataFormatter, convert) {
 
       var tMobile;
 
@@ -20,13 +20,10 @@ angular.module('ictsAppApp')
       }, true);
 
       $scope.loadDetails = function(n) {
-         $http.get('/api/customers/number/' + n.number).
-            success(function(data){
+         $http.get('/api/customers/number/' + n.number)
+            .success(function(data, status){
                $scope.name = data.name;
                $scope.department = data.department.name;
-            }).
-            error(function(err){
-               console.log(err);
             })
 
          // this is input data for the "donut". Donut stuff happens in app/directives/donut
@@ -45,20 +42,23 @@ angular.module('ictsAppApp')
          var month = $scope.data.month;
          var number = $scope.details.number;
 
-         $http({
-             url: 'api/calls/landline/' + month + '/' + number,
-             method: 'GET',
-             responseType: 'arraybuffer',
-             headers: {
-                 'Content-type': 'application/json',
-                 'Accept': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
-             }
+         $http.get('api/calls/landline/' + month + '/' + number, {
+            headers: {
+               'contentType': 'application/vnd.ms-excel'
+            }
          })
-         .success(function(data){
-             var blob = new Blob([data], {
-                 type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
-             });
-             saveAs(blob, 'Specificatie ' + number + '.xlsx');
+         .success(function(data, status, headers){
+            
+            // find filename from headers
+            var cont_disp = headers()['content-disposition'];
+            var fileName = cont_disp.match(/filename="(.+)"/)[1];
+            
+            // convert base64 back
+            var blob = new Blob([convert.base64ToArrayBuffer(data)], {type : 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'});
+
+            // save file
+            saveAs(blob, fileName);
+            
          })
          .error(function(){
             console.log('Something went wrong...')

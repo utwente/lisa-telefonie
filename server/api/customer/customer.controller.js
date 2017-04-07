@@ -25,7 +25,7 @@ exports.byNumber = function(req, res) {
   var number = req.params.number;
   Customer.findOne({mobileNumber: number}, 'name department', function(err, customer){
     if (err){handleError(res, err)}
-    if (!customer){return res.json(404)}
+    if (!customer){return res.send(404)}
     customer.populate('department', function(err) {
       if (err){handleError(res, err)}
       return res.json(200, customer);

@@ -8,8 +8,12 @@
 process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 
 // This is needed for node version 0 unfortunately
-Object.assign = require('object-assign')
+if (!Object.assign){
+	Object.assign = require('object-assign')
+}
+Array.prototype.find = require('array.prototype.find').shim();
 
+// setup server
 var express = require('express');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
