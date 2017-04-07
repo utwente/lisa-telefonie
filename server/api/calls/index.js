@@ -6,6 +6,8 @@ var auth = require('../../auth/auth.service');
 
 var router = express.Router();
 
-router.get('/:type/:month/:number', auth.isAuthenticated(), controller.show);
+// set this back to authenticated!!!
+router.get('/:type/:month/:number', controller.show);
+// router.get('/:type/:month/:number', auth.isAuthenticated(), controller.show);
 
 module.exports = router;

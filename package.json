@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "main": "server/app.js",
   "dependencies": {
+    "array.prototype.find": "^2.0.4",
     "body-parser": "~1.5.0",
     "composable-middleware": "^0.3.0",
     "compression": "~1.0.1",

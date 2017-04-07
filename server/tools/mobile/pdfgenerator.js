@@ -8,6 +8,7 @@
 var PDFDocument = require('pdfkit');
 var fs = require('graceful-fs');
 var _ = require('lodash');
+var path = require('path');
 
 module.exports.updateSocket = function(){}; // start with an empty function
 
@@ -39,7 +40,9 @@ module.exports = function PDFGenerator() {
         var doc = new PDFDocument({margin: margin});
         var stream = doc.pipe(fs.createWriteStream(filename));
 
-        doc.image('data/img/header.png', margin, margin, {width: 120});
+        var appDir = path.dirname(require.main.filename);
+
+        doc.image(appDir + '/../data/img/header.png', margin, margin, {width: 120});
         
         doc.fontSize(20);
         doc.fillColor('#5F5F5F');

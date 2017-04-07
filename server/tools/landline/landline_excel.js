@@ -37,7 +37,7 @@ module.exports = function XLSXLLGenerator() {
         try {
             fs.unlinkSync(path + filename);
         } catch(e) {
-            console.log('file does not yet exist');
+            console.log('file does not yet exist')
         }
 
         // construct a streaming XLSX workbook writer with styles and shared strings
@@ -79,7 +79,6 @@ module.exports = function XLSXLLGenerator() {
         // add the actual data
         for (var type in data.calls) {
             for (var i = 0; i < data.calls[type].length; i++) {
-                console.log(data.calls[type][i]);
                 var rowData = {};
                 rowData = {
                     to: data.calls[type][i].bestemming,
