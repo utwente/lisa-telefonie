@@ -7,10 +7,10 @@ angular.module('ictsAppApp')
         $scope.$watch('data.month', function() {
             if (typeof $scope.data !== 'undefined') {
                 $http.get('/api/t_mobile/' + $scope.data.month)
-                    .success(function(tMobile) {
-                        $scope.makeDataCSV(tMobile);
+                    .then(function(tMobile) {
+                        $scope.makeDataCSV(tMobile.data);
                     })
-                    .error(function(res) {
+                    .catch(function(err) {
                         console.log('T-Mobile not found...');
                     });
             }

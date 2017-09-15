@@ -30,8 +30,8 @@ angular.module('ictsAppApp')
       });
       // end pagination
 
-      $http.get('/api/hvd').success(function (hvds) {
-          $scope.hvds = hvds;
+      $http.get('/api/hvd').then(function (hvds) {
+          $scope.hvds = hvds.data;
           $scope.hvdsLoaded = true;
           socket.syncUpdates('hvd', $scope.hvds);
       });
@@ -56,9 +56,9 @@ angular.module('ictsAppApp')
               po: hvd.po,
               location: hvd.location,
               comment: hvd.comment
-          }).success(function (data, status, headers, config) {
+          }).then(function (res) {
               $scope.newHvd = {};
-          }).error(function (data, status, headers, config) {
+          }).catch(function (err) {
               console.log('error saving ');
           });
 
@@ -79,7 +79,7 @@ angular.module('ictsAppApp')
 
       $scope.delete = function(hvd) {
           $http.delete('/api/hvd/' + hvd._id )
-              .success(function(data) {
+              .then(function(res) {
               });
       };
     

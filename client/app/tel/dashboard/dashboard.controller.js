@@ -12,7 +12,7 @@ angular.module('ictsAppApp')
       min_date: new Date(year, month - 12), 
       max_date: new Date(year, month)
     }})
-    .success(function(months) {
+    .then(function(months) {
 
       var monthData = {};
 
@@ -20,7 +20,7 @@ angular.module('ictsAppApp')
       //      T-mobile part
       // --------------------------
 
-      var data = morrisDataFormatter.getDashboardData(months);
+      var data = morrisDataFormatter.getDashboardData(months.data);
       
       // --------------------------
       //      Display part
@@ -40,7 +40,7 @@ angular.module('ictsAppApp')
         })
         .on('click', function(i, row){
           $scope.moreInfoModal({
-            t_mobile: months.t_mobile[i],
+            t_mobile: months.data.t_mobile[i],
             date: data.date[i]
           });
         });

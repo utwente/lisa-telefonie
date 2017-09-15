@@ -40,31 +40,31 @@ angular.module('ictsAppApp')
                 var month = new Date($scope.dot.month); // remember month for csv file name
 
                     $http.get('/api/t_mobile/' + $scope.dot.month)
-                        .success(function(tMobile) {
+                        .then(function(tMobile) {
                             
 
                             $scope.progress.done++;
                             $scope.progress.track.tMobile = true;
 
                             $http.get('/api/kpn/' + $scope.dot.month)
-                                .success(function(kpn) {
+                                .then(function(kpn) {
 
                                     $scope.progress.done++;
                                     $scope.progress.track.kpn = true;
 
-                                    makeCSV(tMobile, kpn, month)
+                                    makeCSV(tMobile.data, kpn.data, month)
                                     $scope.progress.done++;
 
                                 })
-                                .error(function(res) {
+                                .catch(function(err) {
                                     $scope.progress.errors = true;
                                     $scope.progress.error.kpn = true;
                                     console.log('KPN not found...');
                                 });
                         })
-                        .error(function(res) {
+                        .catch(function(err) {
                             $scope.progress.errors = true;
-                                    $scope.progress.error.tMobile = true;
+                            $scope.progress.error.tMobile = true;
                             console.log('T-Mobile not found...');
                         });
             }

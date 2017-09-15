@@ -21,13 +21,13 @@ angular.module('ictsAppApp')
       $scope.loading = true;
       $http.post('api/t_mobile', {
         t_mobile: $scope.t_mobile
-      }).success(function (data, status, headers, config) {
-        if (data.success) {
+      }).then(function (res) {
+        if (res.data.success) {
           console.log('Maand opgeslagen!');
-        } else if (data.error) {
-          if (data.msg == 'month_exists') {
+        } else if (res.data.error) {
+          if (res.data.msg == 'month_exists') {
             console.log('Maand bestaat al..');
-            $scope.overrideMonthModal(data.id);
+            $scope.overrideMonthModal(res.data.id);
           } else {
             console.log('Onbekende fout..');
           }
@@ -35,7 +35,7 @@ angular.module('ictsAppApp')
           console.log('Onbekende fout..');
         }
         $scope.loading = false;
-      }).error(function (data, status, headers, config) {
+      }).catch(function (err) {
         console.log('Fout bij het opslaan..');
         $scope.loading = false;
       });
@@ -43,7 +43,7 @@ angular.module('ictsAppApp')
 
     $scope.updateMonth = function(id) {
       $http.put('/api/t_mobile/' + id, $scope.t_mobile)
-        .success(function (data, status, headers, config) {
+        .then(function (data) {
             console.log('Maand overschreven');
         });
     }

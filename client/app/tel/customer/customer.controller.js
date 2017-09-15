@@ -52,15 +52,15 @@ angular.module('ictsAppApp')
 
       $scope.date = new Date();
 
-      $http.get('/api/customers').success(function (customers) {
-         $scope.customers = customers;
+      $http.get('/api/customers').then(function (customers) {
+         $scope.customers = customers.data;
          $scope.customersLoaded = true;
          socket.syncUpdates('customer', $scope.customers);
          // updateTable();
       });
 
-      $http.get('/api/departments').success(function (departments) {
-         $scope.departments = departments;
+      $http.get('/api/departments').then(function (departments) {
+         $scope.departments = departments.data;
          socket.syncUpdates('department', $scope.departments);
       });
 
@@ -81,7 +81,7 @@ angular.module('ictsAppApp')
 
 
          $http.post('/api/customers', customer)
-         .success(function (data, status, headers, config) {
+         .then(function () {
             if(newCustomer) {
                $scope.newCustomer.name = undefined;
                $scope.newCustomer.department = undefined;
@@ -90,8 +90,8 @@ angular.module('ictsAppApp')
 
             }
             $scope.massImport.finished++;
-         }).error(function (data, status, headers, config) {
-            console.log('error saving customer ' + data.name);
+         }).catch(function (err) {
+            console.log('error saving customer ' + err);
             $scope.massImport.errors++;
          });
 
@@ -100,14 +100,14 @@ angular.module('ictsAppApp')
       $scope.deleteCustomer = function (customer, trueDelete) {
          if (trueDelete) {
             $http.delete('/api/customers/' + customer._id)
-            .success(function(data){
+            .then(function(data){
                $scope.customers.splice(_.findIndex($scope.customers, customer), 1);
                         // updateTable();
 
             });
          } else {
             $http.delete('/api/customers/' + customer._id + '/deactivate')
-            .success(function(data){
+            .then(function(data){
                $scope.customers.splice(_.findIndex($scope.customers, customer), 1);
                         // updateTable();
 
@@ -117,8 +117,8 @@ angular.module('ictsAppApp')
 
       $scope.updateCustomer = function(customer){
          $http.put('/api/customers/' + customer._id, customer)
-            .success(function(data){
-               console.log(data);
+            .then(function(data){
+               console.log(data.data);
             })
       };
 

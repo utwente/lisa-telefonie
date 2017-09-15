@@ -20,12 +20,12 @@ angular.module('ictsAppApp')
 		// don't do anyting if month is false.
 		if ($scope.month) {
 			$http.get('/api/month_status/' + $scope.month)
-				.success(function (data) {
-					progress = data;
+				.then(function (prog) {
+					progress = prog.data;
 					$scope.step = progress.steps[progress.counter].name; 
 					$scope.next = progress.steps[progress.counter].done;
 				})
-				.error(function () {
+				.catch(function (err) {
 					console.log('error getting progress');
 				});
 		}
@@ -37,12 +37,12 @@ angular.module('ictsAppApp')
 		if (next) { progress.counter++; }     // next step
 		else { progress.counter--; }          // previous step 
 		$http.put('/api/month_status/' + progress._id, progress)
-		.success(function (data) {
-			progress = data;
+		.then(function (prog) {
+			progress = prog.data;
 			$scope.step = progress.steps[progress.counter].name;
 			$scope.next = progress.steps[progress.counter].done;
 		})
-		.error(function () {
+		.catch(function () {
 			if (next) { progress.counter--; } // don't go to next step
 			else { progress.counter++; }      // previous step
 			console.log('error saving progress');
@@ -52,12 +52,12 @@ angular.module('ictsAppApp')
 	// this is what happens when a step is completed and you can move on to the next step.
 	$scope.saveProgress = function() {
 		$http.put('/api/month_status/' + progress._id, progress)
-		.success(function (data) {
-			progress = data;
+		.then(function (prog) {
+			progress = prog.data;
 			$scope.step = progress.steps[progress.counter].name;
 			$scope.next = progress.steps[progress.counter].done;
 		})
-		.error(function () {
+		.catch(function () {
 			console.log('error saving progress');
 		})
 	}
@@ -74,13 +74,12 @@ angular.module('ictsAppApp')
 		resetAll();
 		$scope.mob.message = 'Mobiele specificaties worden gegenereerd...';
 		$http.get('/api/mobile_spec/' + $scope.month)
-			.success(function (data) {
-				console.log(data);
+			.then(function (data) {
 				progress.steps[progress.counter].done = true;
 				$scope.next = progress.steps[progress.counter].done; 
 				$scope.saveProgress();
 			})
-			.error(function () {
+			.catch(function (err) {
 				// this is temporary!!!!!
 				progress.steps[progress.counter].done = true;
 				$scope.next = progress.steps[progress.counter].done; 
@@ -95,12 +94,12 @@ angular.module('ictsAppApp')
 	$scope.createLandlineSpec = function() {
 		$scope.ll_excel.message = 'Vaste specificaties worden gegenereerd...';
 		$http.get('/api/landline_spec/' + $scope.month)
-			.success(function (data) {
+			.then(function (data) {
 				progress.steps[progress.counter].done = true;
 				$scope.next = progress.steps[progress.counter].done; 
 				$scope.saveProgress();
 			})
-			.error(function () {
+			.catch(function (err) {
 				console.log('error creating landline specs...');
 			});
 	}
@@ -114,26 +113,25 @@ angular.module('ictsAppApp')
 	$scope.sendSpec = function() {
 		$scope.mail.message = 'Specificaties worden verzonden...';
 		$http.get('api/mail_spec/' + $scope.month)
-			.success(function (data) {
-				console.log(data);
+			.then(function (data) {
 				// tijdelijk dit niet gedaan. Maar dat moet wel weer natuurlijk!
 				progress.steps[progress.counter].done = true;
 				$scope.next = progress.steps[progress.counter].done;
 				$scope.saveProgress(); 
 			})
-			.error(function () {
+			.catch(function () {
 				console.log('error sending emails...');
 			});
 	}
 
 	$scope.reopenMonth = function() {
 		$http.delete('api/month_status/' + progress._id)
-			.success(function(data){
-				progress = data;
+			.then(function(prog){
+				progress = prog.data;
 				$scope.step = progress.steps[progress.counter].name; 
 				$scope.next = progress.steps[progress.counter].done;
 			})
-			.error(function(err) {
+			.catch(function(err) {
 				console.log(err)
 			});
 	}
@@ -143,10 +141,10 @@ angular.module('ictsAppApp')
 		if ($scope.step === 'check_spec') {
 
 			$http.get('api/documents/' + $scope.month)
-			.success(function (files) {
-				$scope.files = files;
+			.then(function (files) {
+				$scope.files = files.data;
 			})
-			.error(function () {
+			.catch(function () {
 				console.log('error creating landline specs...');
 			});
 

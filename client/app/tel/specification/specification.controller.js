@@ -14,8 +14,8 @@ angular.module('ictsAppApp')
 			open: false
 		};
 
-		$http.get('/api/specifications').success(function (specifications) {
-			$scope.specifications = specifications;
+		$http.get('/api/specifications').then(function (specifications) {
+			$scope.specifications = specifications.data;
 			$scope.specificationsLoaded = true;
 			socket.syncUpdates('specification', $scope.specifications);
 
@@ -43,11 +43,11 @@ angular.module('ictsAppApp')
 				number: specification.number,
 				name: specification.name,
 				email: specification.email
-			}).success(function (data, status, headers, config) {
+			}).then(function (data) {
 				// $scope.tableParams.reload(); // reload table
 				// specification.name = '';
 				// specification.email = '';
-			}).error(function (data, status, headers, config) {
+			}).catch(function (data) {
 				console.log('error saving ');
 			});
 
@@ -55,7 +55,7 @@ angular.module('ictsAppApp')
 
 		$scope.updateSpecification = function (specification) {
 			$http.put('/api/specifications/' + specification._id, specification)
-				.success(function (data, status, headers, config) {
+				.then(function (data) {
 					specification.$edit = false;
 					// $scope.tableParams.reload();
 					console.log('saved :) ');
@@ -65,9 +65,9 @@ angular.module('ictsAppApp')
 		};
 		$scope.reset = function (specification) {
 			$http.get('/api/specifications/' + specification._id)
-				.success(function (data, status, headers, config) {
-					specification.name = data.name;
-					specification.email = data.email;
+				.then(function (spec) {
+					specification.name = spec.data.name;
+					specification.email = spec.data.email;
 					specification.$edit = false;
 				});
 		};
@@ -93,7 +93,7 @@ angular.module('ictsAppApp')
 		};
 		$scope.deleteSpecification = function (specification) {
 			$http.delete('/api/specifications/' + specification._id)
-				.success(function (data, status, header, config) {
+				.then(function (data) {
 					// $scope.tableParams.reload();
 				});
 		};

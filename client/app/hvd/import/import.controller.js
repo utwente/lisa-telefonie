@@ -57,8 +57,8 @@ angular.module('ictsAppApp')
           // Store hvds to database
           angular.forEach(hvds, function(hvd) {
               $http.post('api/hvd', hvd)
-                  .success(function (data, status, headers, config) {
-                      if (data.success) {
+                  .then(function (res) {
+                      if (res.data.success) {
                           console.log('HVD opgeslagen!');
                       } else {
                           console.log('Onbekende fout..');
@@ -66,7 +66,7 @@ angular.module('ictsAppApp')
                       }
                       $scope.loading = false;
 
-                  }).error(function (data, status, headers, config) {
+                  }).catch(function (err) {
                       console.log('Fout bij het opslaan..');
                       scope.loading = false;
                   });

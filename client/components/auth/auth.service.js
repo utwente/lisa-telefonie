@@ -23,14 +23,14 @@ angular.module('ictsAppApp')
         $http.post('/auth/local', {
           email: user.email,
           password: user.password
-        }).
-        success(function(data) {
-          $cookieStore.put('token', data.token);
+        })
+        .then(function(data) {
+          $cookieStore.put('token', data.data.token);
           currentUser = User.get();
           deferred.resolve(data);
           return cb();
-        }).
-        error(function(err) {
+        })
+        .catch(function(err) {
           this.logout();
           deferred.reject(err);
           return cb(err);

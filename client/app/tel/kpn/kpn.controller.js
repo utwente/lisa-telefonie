@@ -38,9 +38,9 @@ angular.module('ictsAppApp')
         /**
          * GET index of all available months
          */
-        $http.get('/api/kpn/').success(function(months) {
+        $http.get('/api/kpn/').then(function(months) {
             // console.log(months);
-            $scope.months = months;
+            $scope.months = months.data;
             $scope.monthsLoaded = true;
 
             // // Format data for graph
@@ -125,11 +125,11 @@ angular.module('ictsAppApp')
                 console.log(month);
                 $http.post('api/kpn', {
                     kpn: month
-                }).success(function (data, status, headers, config) {
-                    if (data.success) {
+                }).then(function (res) {
+                    if (res.data.success) {
                       console.log('Maand opgeslagen!');
-                    } else if (data.error) {
-                      if (data.msg == 'month_exists') {
+                    } else if (res.data.error) {
+                      if (res.data.msg == 'month_exists') {
                         console.log('Maand bestaat al..');
                         $scope.overrideMonthModal(data.id);
                       } else {
@@ -140,7 +140,7 @@ angular.module('ictsAppApp')
                     }
                     $scope.loading = false;
                     
-                }).error(function (data, status, headers, config) {
+                }).error(function (data) {
                     console.log('Fout bij het opslaan..');
                     scope.loading = false;
                 });
@@ -179,14 +179,13 @@ angular.module('ictsAppApp')
                  * Get month info
                  */
                 $http.get('/api/kpn/' + $scope.kpn.month)
-                    .success(function(month) {
-                        console.log(month);
-                        $scope.month = month;
+                    .then(function(month) {
+                        $scope.month = month.data;
                         $scope.original = {
                             numbers: $scope.month.numbers
                         };
                     })
-                    .error(function(res) {
+                    .catch(function(err) {
                         $scope.month = {
                             month: $scope.kpn.month,
                             summary: {
@@ -228,21 +227,21 @@ angular.module('ictsAppApp')
                 // Month is new, create
                 $http.post('/api/kpn',
                     $scope.month
-                ).success(function(data, status, headers, config) {
-                    $scope.month = data;
+                ).then(function(month) {
+                    $scope.month = month.data;
                     $scope.newRecord = {
                     	number: null,
                     	amount: null
                     };
                     $scope.addRecordForm.$setPristine();
-                }).error(function(data, status, headers, config) {
+                }).catch(function(err) {
                     console.log('error saving ');
                 });
             } else {
                 // Month is not new, update
                 $http.put('/api/kpn/' + $scope.month._id, $scope.month)
-                    .success(function(data, status, headers, config) {
-                    	$scope.month = data;
+                    .then(function(month) {
+                    	$scope.month = month.data;
                     	$scope.newRecord = {
 	                    	number: null,
 	                    	amount: null
@@ -270,8 +269,8 @@ angular.module('ictsAppApp')
             
 
             $http.put('/api/kpn/' + $scope.month._id, $scope.month)
-                .success(function(data, status, headers, config) {
-                	$scope.month = data;
+                .then(function(month) {
+                	$scope.month = month.data;
                 });
         };
         $scope.updateReset = function(record) {

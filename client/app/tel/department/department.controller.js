@@ -15,8 +15,8 @@ angular.module('ictsAppApp')
 			open: false
 		};
 
-		$http.get('/api/departments').success(function (departments) {
-			$scope.departments = departments;
+		$http.get('/api/departments').then(function (departments) {
+			$scope.departments = departments.data;
 			$scope.departmentsLoaded = true;
 			socket.syncUpdates('department', $scope.departments);
 
@@ -43,11 +43,11 @@ angular.module('ictsAppApp')
 			$http.post('/api/departments', {
 				name: department.name,
 				email: department.email
-			}).success(function (data, status, headers, config) {
+			}).then(function (data) {
 				// $scope.tableParams.reload(); // reload table
 				// department.name = '';
 				// department.email = '';
-			}).error(function (data, status, headers, config) {
+			}).catch(function (data) {
 				console.log('error saving ');
 			});
 
@@ -55,7 +55,7 @@ angular.module('ictsAppApp')
 
 		$scope.updateDepartment = function (department) {
 			$http.put('/api/departments/' + department._id, department)
-				.success(function (data, status, headers, config) {
+				.then(function (data) {
 					department.$edit = false;
 					// $scope.tableParams.reload();
 					console.log('saved :) ');
@@ -65,7 +65,7 @@ angular.module('ictsAppApp')
 		};
 		$scope.reset = function (department) {
 			$http.get('/api/departments/' + department._id)
-				.success(function (data, status, headers, config) {
+				.then(function (data) {
 					department.name = data.name;
 					department.email = data.email;
 					department.$edit = false;
@@ -93,7 +93,7 @@ angular.module('ictsAppApp')
 		};
 		$scope.deleteDepartment = function (department) {
 			$http.delete('/api/departments/' + department._id)
-				.success(function (data, status, header, config) {
+				.then(function (data) {
 					// $scope.tableParams.reload();
 				});
 		};

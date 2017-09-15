@@ -30,8 +30,8 @@ angular.module('ictsAppApp')
 			}
 
 			$http.get(attrs.link, config)
-			.success( function(data) {
-				var blob = new Blob([data], {type: mimeType});
+			.then( function(file) {
+				var blob = new Blob([file.data], {type: mimeType});
 				saveAs(blob, fullFilename );
 			});
       	};

@@ -10,10 +10,10 @@ angular.module('ictsAppApp')
       $scope.$watch('data.month', function() {
          if (typeof $scope.data !== 'undefined') {
             $http.get('/api/t_mobile/' + $scope.data.month)
-               .success(function(data) {
-                  $scope.t_mobile = data;
+               .then(function(t_mobile) {
+                  $scope.t_mobile = t_mobile.data;
                })
-               .error(function(res) {
+               .catch(function(err) {
                   console.log('T-Mobile not found...');
                });
          }
@@ -21,9 +21,9 @@ angular.module('ictsAppApp')
 
       $scope.loadDetails = function(n) {
          $http.get('/api/customers/number/' + n.number)
-            .success(function(data, status){
-               $scope.name = data.name;
-               $scope.department = data.department.name;
+            .then(function(user){
+               $scope.name = user.data.name;
+               $scope.department = user.data.department.name;
             })
 
          // this is input data for the "donut". Donut stuff happens in app/directives/donut
@@ -47,20 +47,20 @@ angular.module('ictsAppApp')
                'contentType': 'application/vnd.ms-excel'
             }
          })
-         .success(function(data, status, headers){
+         .then(function(file){
             
             // find filename from headers
-            var cont_disp = headers()['content-disposition'];
+            var cont_disp = file.headers()['content-disposition'];
             var fileName = cont_disp.match(/filename="(.+)"/)[1];
             
             // convert base64 back
-            var blob = new Blob([convert.base64ToArrayBuffer(data)], {type : 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'});
+            var blob = new Blob([convert.base64ToArrayBuffer(file.data)], {type : 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'});
 
             // save file
             saveAs(blob, fileName);
             
          })
-         .error(function(){
+         .catch(function(err){
             console.log('Something went wrong...')
          });
 
