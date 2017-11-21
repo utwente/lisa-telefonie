@@ -1,0 +1,26 @@
+<div class="modal-header">
+    <h3 class="modal-title">Conversie tool</h3>
+</div>
+<div class="modal-body">
+  <h4>Stap {{step}}</h4>
+  <div ng-switch="step">
+    <div ng-switch-when="1">
+      <p>Upload vaste gesprekken file.</p>
+      <label class="btn btn-default btn-file">
+        Browse...<input type="file" style="display: none;" my-file-reader="converse($fileContent)">
+      </label>
+    </div>
+    <div ng-switch-when="2">
+      <p>Upload file van de website van T-Mobile</p>
+      <label class="btn btn-default btn-file">
+        Browse...<input type="file" style="display: none;" my-file-reader="merge($fileContent)">
+      </label>
+    </div>
+    <div ng-switch-when="3">
+      <p>Download de output.</p>
+    </div>
+  </div>
+</div>
+<div class="modal-footer">
+  <button class="btn btn-primary" ng-click="cancel()"><i class="fa fa-times"></i> Annuleren</button>
+</div>

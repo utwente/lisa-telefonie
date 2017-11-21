@@ -32,15 +32,14 @@ var Attachment = require('../api/mobile_spec/mobile_spec.model');
 // });
 
 // Clear all kpn records
-Kpn.find({}).remove(function() {
-	console.log('Cleaned all KPN records');
-});
+// Kpn.find({}).remove(function() {
+// 	console.log('Cleaned all KPN records');
+// });
 
 // Clear all Attachment records
 // Attachment.find({}).remove(function() {
 // 	console.log('Cleaned all Attachment records');
 // });
-
 
 // Clear all TMobile
 // TMobile.find({}).remove(function() {
@@ -74,20 +73,20 @@ Kpn.find({}).remove(function() {
 //   });
 // });
 
-User.find({}).remove(function() {
-  User.create({
-    provider: 'local',
-    name: 'Test User',
-    email: 'test@test.com',
-    password: 'test'
-  }, {
-    provider: 'local',
-    role: 'admin',
-    name: 'Admin',
-    email: 'admin@admin.com',
-    password: 'admin'
-  }, function() {
-      console.log('finished populating users');
-    }
-  );
-});
+// User.find({}).remove(function() {
+//   User.create({
+//     provider: 'local',
+//     name: 'Test User',
+//     email: 'test@test.com',
+//     password: 'test'
+//   }, {
+//     provider: 'local',
+//     role: 'admin',
+//     name: 'Admin',
+//     email: 'admin@admin.com',
+//     password: 'admin'
+//   }, function() {
+//       console.log('finished populating users');
+//     }
+//   );
+// });

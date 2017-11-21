@@ -1,4 +1,4 @@
-'use strict';
+ 'use strict';
 
 angular.module('ictsAppApp', [
 	'ngCookies',
@@ -13,15 +13,17 @@ angular.module('ictsAppApp', [
 	'nvd3ChartDirectives',
 	'angular.filter'
 ])
-	.config(['$stateProvider', '$urlRouterProvider', '$locationProvider', '$httpProvider',
-		function ($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider) {
-			$urlRouterProvider
-				.otherwise('/tel');
+.config(['$stateProvider', '$urlRouterProvider', '$locationProvider', '$httpProvider', '$qProvider',
+	function ($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider, $qProvider) {
+		$qProvider.errorOnUnhandledRejections(false);
 
-			$locationProvider.html5Mode(true);
-			$httpProvider.interceptors.push('authInterceptor');
-		}
-	])
+		$urlRouterProvider
+			.otherwise('/tel');
+
+		$locationProvider.html5Mode(true);
+		$httpProvider.interceptors.push('authInterceptor');
+	}
+])
 
 .factory('authInterceptor', function ($rootScope, $q, $cookieStore, $location) {
 	return {

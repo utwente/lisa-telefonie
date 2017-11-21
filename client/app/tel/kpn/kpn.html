@@ -20,21 +20,6 @@
 		<!-- <h1 class="page-header">KPN invoeren</h1> -->
 		<h3>Kies een maand</h3>
 		<datepicker ng-model="kpn.month" datepicker-options="monthOptions" min-mode="month" datepicker-mode="'month'"></datepicker>
-
-
-<!-- 		<nvd3-discrete-bar-chart
-	    	data="graph"
-	        showXAxis="true"
-	        showYAxis="true"
-	        xAxisTickFormat="xAxisTickFormatFunction()"
-	        width="300"
-	        height="200"
-	        interactive="true"
-	        tooltips="true">
-	    </nvd3-discrete-bar-chart> -->
-
-	    <!-- <input ng-model="graph[0].values[6][1]" /> -->
-
 	</div>
 
 	<!-- Display month information -->
@@ -49,18 +34,18 @@
 		<div class="col-md-5">
 			<div class="control-group"><!-- number -->
 				<div class="input-group input-group-sm">
-					<span class="input-group-addon">Verkort nummer</span>
-					<input type="text" class="form-control" placeholder="bv: 4321" name="number"
+					<span class="input-group-addon">06-nummer</span>
+					<input type="text" class="form-control" placeholder="bv: 0634272857" name="number"
 						ng-model="newRecord.number"
-						ng-minlength=4
-						ng-maxlength=4
+						ng-minlength=10
+						ng-maxlength=10
 						required
 						ng-model-options="{debounce:1000}" />
 				</div>
 				<ng-messages for="addRecordForm.number.$dirty && addRecordForm.number.$error" class="error-messages">
 					<ng-message when="required">Dit veld is verplicht</ng-message>
-					<ng-message when="minlength">Gebruik vier cijfers</ng-message>
-					<ng-message when="maxlength">Gebruik vier cijfers</ng-message>
+					<ng-message when="minlength">Gebruik tien cijfers</ng-message>
+					<ng-message when="maxlength">Gebruik tien cijfers</ng-message>
 				</ng-messages>
 			</div>
 		</div><!-- /.col-md-5 -->
@@ -88,15 +73,10 @@
 	</div><!-- /.row -->
 </form>
 
-        <p>
-            Pristine: {{addRecordForm.$pristine}}
-        </p>
-
 <!-- Month header -->
 <div class="row" >
 	<div class="col-lg-12">
 		<h3 ng-show="!month._id">Geen resultaten gevonden voor {{kpn.month | date:'MMMM yyyy'}}</h3>
-		<h3 ng-show="!month._id && month.summary.numbers !== 0">Nieuwe resultaten voor {{kpn.month | date:'MMMM yyyy'}} (niet opgeslagen!)</h3>
 		<h3 ng-show="month._id">Overzicht {{kpn.month | date:'MMMM yyyy'}}</h3>
 	</div>
 </div>
@@ -158,13 +138,6 @@
 	</div><!-- /.col-lg-12 -->
 </div><!-- /.row -->	
 
-
-<!-- 
-<p>id: {{month._id}}</p>
-<p>nNumbers: {{month.summary.numbers}}</p>
-<p>Total: {{month.summary.totalCosts}}</p>
-<p>Average: {{month.summary.averageCosts}}</p>
- -->
 
 	</div>
 

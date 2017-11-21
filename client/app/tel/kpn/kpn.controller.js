@@ -4,11 +4,6 @@ angular.module('ictsAppApp')
     .controller('TelKpnCtrl', function($scope, $http, $modal, $filter, socket, $location, ngTableParams) {
         $scope.months = [];
 
-        // $scope.graph = [{
-        //     key: 'KPN',
-        //     values: []
-        // }];
-
         // Monthpicker settings/functions
         $scope.monthPicker = {
             today: function() {
@@ -24,17 +19,6 @@ angular.module('ictsAppApp')
             }
         };
 
-        // Watch for changes in month
-        // $scope.$watch('kpn.month', function(newValue, oldValue){
-        //     if(newValue===undefined) {
-        //         $location.path('/tel/kpn');
-        //     }
-        //     if(newValue!==oldValue) {
-        //         var m = $filter('date')(newValue, 'yyyy-MM');
-        //         $location.path('/tel/kpn/'+m);
-        //     }
-        // }, true);
-
         /**
          * GET index of all available months
          */
@@ -43,11 +27,6 @@ angular.module('ictsAppApp')
             $scope.months = months.data;
             $scope.monthsLoaded = true;
 
-            // // Format data for graph
-            // angular.forEach(months, function(val, key) {
-            //     $scope.graph[0].values.push([val.month, val.summary.totalCosts/1000]);
-            // });
-            // console.log($scope.graph);
         });
         socket.syncUpdates('kpn', $scope.months);
 
@@ -75,12 +54,9 @@ angular.module('ictsAppApp')
                 delimiter: ';'
             });
 
-            console.log(csvContent);
-
             // Get months from all values
             var months = [];
             angular.forEach(csvContent.data, function(value) {
-                debugger;
                 // Get month from row
                 var dateTime = value[1].split(' ');
                 var ymd = dateTime[0].split('-');
@@ -121,14 +97,9 @@ angular.module('ictsAppApp')
 
             // Store months to database
             angular.forEach(months, function(month) {
-                console.log('saving month');
-                console.log(month);
-                $http.post('api/kpn', {
-                    kpn: month
-                }).then(function (res) {
-                    if (res.data.success) {
-                      console.log('Maand opgeslagen!');
-                    } else if (res.data.error) {
+                $http.post('api/kpn', month)
+                .then(function (res) {
+                    if (res.data.error) {
                       if (res.data.msg == 'month_exists') {
                         console.log('Maand bestaat al..');
                         $scope.overrideMonthModal(data.id);
@@ -136,23 +107,17 @@ angular.module('ictsAppApp')
                         console.log('Onbekende fout..');
                       }
                     } else {
-                      console.log('Onbekende fout..');
+                      console.log('Maand opgeslagen!');
                     }
                     $scope.loading = false;
                     
-                }).error(function (data) {
+                }).catch(function (err) {
                     console.log('Fout bij het opslaan..');
                     scope.loading = false;
                 });
             });
             
         };
-
-        // $scope.xAxisTickFormatFunction = function(){
-        //     return function(d){
-        //         return d3.time.format('%b')(new Date(d));
-        //     };
-        // };
 
 
         /**
@@ -214,14 +179,7 @@ angular.module('ictsAppApp')
                 amount: Math.round( $scope.newRecord.amount.replace(',', '.') * 100 )
             });
 
-            var numbers = $scope.month.summary.numbers +1;
-            var totalCosts = parseInt($scope.month.summary.totalCosts) + parseInt($scope.newRecord.amount);
-           	var averageCosts = Math.round( totalCosts / numbers );
-			$scope.month.summary = {
-            	numbers: numbers,
-            	totalCosts: totalCosts,
-            	averageCosts: averageCosts
-            };
+            console.log($scope.month.numbers);
 
             if ($scope.month._id === undefined) {
                 // Month is new, create
@@ -241,6 +199,7 @@ angular.module('ictsAppApp')
                 // Month is not new, update
                 $http.put('/api/kpn/' + $scope.month._id, $scope.month)
                     .then(function(month) {
+                        console.log(month);
                     	$scope.month = month.data;
                     	$scope.newRecord = {
 	                    	number: null,
@@ -278,5 +237,11 @@ angular.module('ictsAppApp')
             record.$edit = false;
         };
 
+        /**
+         * REMOVE
+         */
+        $scope.deleteModal = function(record) {
+            console.log(record);
+        }
 
     });

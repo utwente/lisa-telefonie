@@ -7,11 +7,19 @@
 	</div><!-- /.col-lg-12 -->
 </div><!-- /.row -->
 
+
 <div ng-hide="t_mobile">
-	<h3>Open een T-Mobile bestand</h3>
-	<label class="btn btn-default btn-file">
-	    Browse...<input type="file" style="display: none;" my-file-reader="openTmobile($fileContent)">
-	</label>
+	<div class="col-lg-6 col-sm-12">
+		<h3>Open een T-Mobile bestand</h3>
+		<label class="btn btn-default btn-file">
+		    Browse...<input type="file" style="display: none;" my-file-reader="openTmobile($fileContent)">
+		</label>
+	</div>
+	<div class="col-lg-6 col-sm-12">
+		<h3>Conversie tool</h3>
+		<p>T-mobile levert op het moment van het maken van dit systeem de vaste specificaties aan per mail in een ander formaat. Ze hebben beloofd dat samen te voegen in één bestand, maar tot die tijd kan deze tool gebruikt worden om de bestanden samen te voegen.</p>
+		<button class="btn btn-default" ng-click="openConversionTool()">Open tool</button>
+	</div>
 </div>
 
 <div class="row">
@@ -21,17 +29,17 @@
 		<div class="col-md-3">
 			<div class="donut-caption"><h3>Kosten</h3></div>
 			<donut class="donut-tmobile" type="costs" data="t_mobile"></donut>
-			<div class="donut-footer"><h3>Totaal: €{{ t_mobile.summary.totalCosts/100 }}</h3></div>
+			<div class="donut-footer"><h3>Totaal: {{ t_mobile.summary.totalCosts/100 | currency : '€'}}</h3></div>
 		</div>
 	 	<div class="col-md-3">
 			<div class="donut-caption"><h3>Bellen</h3></div>
 			<donut class="donut-tmobile" type="time" data="t_mobile"></donut>
-			<div class="donut-footer"><h3>Totaal: {{ Math.round(t_mobile.summary.totalTime/3600)}} uur</h3></div>
+			<div class="donut-footer"><h3>Totaal: {{t_mobile.summary.totalTime/3600 | number : 0}} uur</h3></div>
 		</div>
 	 	<div class="col-md-3">
 			<div class="donut-caption"><h3>Data</h3></div>
 			<donut class="donut-tmobile" type="data" data="t_mobile"></donut>
-			<div class="donut-footer"><h3>Totaal: {{ Math.round(t_mobile.summary.totalKB/1000000) }} GB</h3></div>
+			<div class="donut-footer"><h3>Totaal: {{ t_mobile.summary.totalKB/1000000 | number : 0 }} GB</h3></div>
 		</div>
 	 	<div class="col-md-3">
 			<div class="donut-caption"><h3>Berichten</h3></div>
@@ -58,8 +66,8 @@
 					Druk bezig...
 					<i class="fa fa-spinner fa-spin"></i>
 				</span>
-			</button>    
-		</div> 
+			</button>
+		</div>
 	</div>
 
 </div>

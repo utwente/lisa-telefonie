@@ -6,15 +6,12 @@ angular.module('ictsAppApp')
     $scope.step = 'start';
 
     $scope.openTmobile = function($fileContent){
-
       // parse the file (parser is in factories/tMobileParser)
       var t_mobile = tMobileParser.parse($fileContent)
-
+      
       $scope.month = t_mobile.month;
       $scope.t_mobile = t_mobile;
-
       $scope.step = 'loaded';
-
     };
 
     $scope.saveMonth = function() {
@@ -49,7 +46,7 @@ angular.module('ictsAppApp')
     }
 
     $scope.overrideMonthModal = function (id) {
-      var modalInstance = $modal.open({
+      $modal.open({
         templateUrl: 'app/tel/t-mobile/t-mobileOverride.modal.html',
         controller: 'TMobileOverrideModalCtrl',
         scope: $scope,
@@ -58,13 +55,21 @@ angular.module('ictsAppApp')
             return id;
           }
         }
-      });
-
-      modalInstance.result.then(function (id) {
+      })
+      .result.then(function(id) {
         $scope.updateMonth(id);
-      }, function () {
-        // Dismissed
       });
     };
+
+    $scope.openConversionTool = function() {
+      console.log('Open modal!');
+      $modal.open({
+        templateUrl: 'app/tel/t-mobile/conversion.modal.html',
+        controller: 'conversionCtrl'
+      })
+      .result.then(function() {
+        console.log('done');
+      });
+    }
 
   })
