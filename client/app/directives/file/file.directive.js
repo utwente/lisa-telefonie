@@ -1,7 +1,18 @@
+/* global saveAs */
+
 'use strict';
 
 angular.module('ictsAppApp')
-  .directive('file', function ($http, $parse) {
+  .directive('file', function ($http) {
+
+    function findMimeType(extension) {
+      switch (extension) {
+        case 'pdf':     return 'application/pdf';
+        case 'html':    return 'text/html';
+        case 'xlsx':    return 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
+      }
+    }
+
     return {
       templateUrl: 'app/directives/file/file.html',
       restrict: 'E',
@@ -17,33 +28,23 @@ angular.module('ictsAppApp')
       		var filename = scope.filename;
       		var extension = scope.extension;
 
-			var fullFilename = filename + '.' + extension;
-			var mimeType = findMimeType(extension);
-			var month = scope.month;
+    			var fullFilename = filename + '.' + extension;
+    			var mimeType = findMimeType(extension);
 
-			var config = {
-				headers: {
-					'Content-type': 'application/json',
-					'Accept': mimeType
-				},
-				responseType: 'arraybuffer',
-			}
+    			var config = {
+    				headers: {
+    					'Content-type': 'application/json',
+    					'Accept': mimeType
+    				},
+    				responseType: 'arraybuffer',
+    			};
 
-			$http.get(attrs.link, config)
-			.then( function(file) {
-				var blob = new Blob([file.data], {type: mimeType});
-				saveAs(blob, fullFilename );
-			});
-      	};
-
-      	function findMimeType(extension) {
-			switch (extension) {
-				case 'pdf':     return 'application/pdf';
-				case 'html':    return 'text/html';
-				case 'xlsx':    return 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
-			}
-		}
-
+    			$http.get(attrs.link, config)
+    			.then( function(file) {
+    				var blob = new Blob([file.data], {type: mimeType});
+    				saveAs(blob, fullFilename );
+    			});
+        };
       }
     };
   });

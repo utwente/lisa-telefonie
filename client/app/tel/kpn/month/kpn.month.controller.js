@@ -1,3 +1,5 @@
+/*jshint -W055 */
+
 'use strict';
 
 angular.module('ictsAppApp')
@@ -50,9 +52,9 @@ angular.module('ictsAppApp')
                 number: record.number,
                 month: record.month,
                 amount: record.amount.replace(',', '.') * 100
-            }).success(function(data, status, headers, config) {
+            }).success(function() {
                 console.log('record saved');
-            }).error(function(data, status, headers, config) {
+            }).error(function() {
                 console.log('error saving ');
             });
         };
@@ -78,12 +80,12 @@ angular.module('ictsAppApp')
             $scope.editing = $scope.month.numbers.indexOf(record);
             $scope.editOriginal = angular.copy(record);
             record.$edit = true;
-        };        
+        };
         $scope.save = function(record) {
             record.amount = Math.round(record.edit.amount.replace(',', '.') * 100);
             record.number = record.edit.number;
             $http.put('/api/kpn/' + record._id, record)
-                .success(function(data, status, headers, config) {
+                .success(function() {
                     $scope.updateReset(record);
                     record.updated = true;
                 });
@@ -116,7 +118,7 @@ angular.module('ictsAppApp')
         };
         $scope.deleteRecord = function(specification) {
             $http.delete('/api/kpn/month/' + specification._id)
-                .success(function(data, status, header, config) {
+                .success(function() {
                     // $scope.tableParams.reload();
                 });
         };

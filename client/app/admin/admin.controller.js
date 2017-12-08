@@ -9,7 +9,7 @@ angular.module('ictsAppApp')
     $scope.users = User.query();
 
     $scope.addUser = function() {
-      if (!$scope.newUser){ return }
+      if (!$scope.newUser){ return; }
       if ($scope.newUser.admin) {
         $scope.newUser.role = 'admin';
       } else {
@@ -19,7 +19,7 @@ angular.module('ictsAppApp')
         $scope.users.push($scope.newUser);
         $scope.newUser = {};
       });
-    }
+    };
 
     $scope.delete = function(user) {
       User.remove({ id: user._id }, function(){

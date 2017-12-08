@@ -23,7 +23,7 @@ exports.show = function(req, res) {
    TMobile.find({month: req.params.month}, function (err, t_mobile) {
       if (t_mobile.length === 0) {return res.send(404); }
       if(err) { return handleError(res, err); }
-      
+
       // there should be only one t_mobile per month
       t_mobile = t_mobile[0];
 
@@ -33,10 +33,11 @@ exports.show = function(req, res) {
 
          // get all information about the persons that need specifications.
          var found = _.filter(t_mobile.numbers, {number: req.params.number});
+         var info;
          if (found.length !== 0) {
-            var info = found[0];
+            info = found[0];
          } else {
-            var info = {
+            info = {
                number: req.params.number,
                empty: true
             };
@@ -44,15 +45,16 @@ exports.show = function(req, res) {
          // all information for the number is now in info.
 
          // if not yet done, create folder for the month and make a subfolder with "vast"
+         var filePath;
          switch (req.params.type) {
-            case 'landline': 
-               var filePath = findLandlinePath(req.params.month);
+            case 'landline':
+               filePath = findLandlinePath(req.params.month);
                break;
             case 'mobile':
-               var filePath = findMobilePath(req.params.month);
+               filePath = findMobilePath(req.params.month);
                break;
          }
-         
+
          var xlsx = new XLSXLLGenerator();
          xlsx.generate(info.number, filePath, info, 'none', 1, function(){
 
@@ -65,7 +67,7 @@ exports.show = function(req, res) {
             fs.readFile(fullPath, function(err, file) {
             try {
                fs.unlinkSync(filePath + 'test1.xlsx');
-            }  catch(e){}            
+            }  catch(e){}
               fs.writeFile(filePath + 'test1.xlsx', file);
             })
 
@@ -73,13 +75,13 @@ exports.show = function(req, res) {
             fs.readFile(filePath + 'test.xlsx', function(err, file) {
             try {
                fs.unlinkSync(filePath + 'test2.xlsx');
-            }  catch(e){}            
+            }  catch(e){}
               fs.writeFile(filePath + 'test2.xlsx', file);
             })
 
             // acually send the base64 data
             fs.readFile(fullPath, 'base64', function(err, file64) {
-                  if(err) { return handleError(res, err); } 
+                  if(err) { return handleError(res, err); }
                   res.send(file64);
             })
 
@@ -99,7 +101,7 @@ function mkdirSync(path) {
    try {
       fs.mkdirSync(path);
    } catch(e) {
-      if ( e.code != 'EEXIST' ) throw e;
+      if ( e.code !== 'EEXIST' ) throw e;
    }
 }
 

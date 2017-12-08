@@ -11,5 +11,11 @@
   "undef": true,
   "smarttabs": true,
   "asi": true,
-  "debug": true
+  "debug": true,
+  "globals": {
+    "__tools": true,
+    "__templates": true,
+    "__root": true,
+    "__doc": true
+  }
 }

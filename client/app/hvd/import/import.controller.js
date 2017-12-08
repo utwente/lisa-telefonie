@@ -1,3 +1,4 @@
+/* global Papa */
 'use strict';
 
 angular.module('ictsAppApp')
@@ -21,7 +22,7 @@ angular.module('ictsAppApp')
 
       $scope.removeAll = function(event) {
           $http.post('api/hvd/removeall', '');
-          event.target.innerHTML = "Done";
+          event.target.innerHTML = 'Done';
       };
 
       $scope.importRecords = function($fileContent) {
@@ -32,13 +33,11 @@ angular.module('ictsAppApp')
               delimiter: ';'
           });
 
-          console.log(csvContent);
-
           // Get months from all values
           var hvds = [];
           angular.forEach(csvContent.data, function(value) {
 
-              var ts = $.grep([value[5], value[6]], Boolean).join(" > ");
+              var ts = $.grep([value[5], value[6]], Boolean).join(' > ');
 
               hvds.push({
                   phoneNumber: value[0],
@@ -48,7 +47,7 @@ angular.module('ictsAppApp')
                   to: value[4],
                   po: value[7],
                   location: value[8],
-                  comment: $.grep([ts, value[9]], Boolean).join("\n")
+                  comment: $.grep([ts, value[9]], Boolean).join('\n')
               });
               $scope.massImport.total = hvds.length;
 
@@ -66,12 +65,12 @@ angular.module('ictsAppApp')
                       }
                       $scope.loading = false;
 
-                  }).catch(function (err) {
+                  }).catch(function () {
                       console.log('Fout bij het opslaan..');
-                      scope.loading = false;
+                      $scope.loading = false;
                   });
               $scope.massImport.finished += 1;
           });
       };
-    
+
   });

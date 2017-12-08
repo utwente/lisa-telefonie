@@ -64,12 +64,12 @@ angular.module('ictsAppApp', [
 	$rootScope.$on('$stateChangeStart', function(evt, to, params) {
       if (to.redirectTo) {
         evt.preventDefault();
-        $state.go(to.redirectTo, params, {location: 'replace'})
+        $state.go(to.redirectTo, params, {location: 'replace'});
       }
     });
 
 	// a little ugly, but had to add it somewhere...
-	
+
 	// unit to make camelcase!
 	String.prototype.toCamel = function() {
 	    return this.toLowerCase().replace(/(\ [a-z])/g, function($1){return $1.toUpperCase().replace(' ','');});
@@ -77,7 +77,7 @@ angular.module('ictsAppApp', [
 
 	// unit to make normal (from camelcase)!
 	String.prototype.toNormal = function() {
-	    return this.replace(/([A-Z])/g, ' $1').toLowerCase().replace(/^[a-z]/, function(m){ return m.toUpperCase() });
+	    return this.replace(/([A-Z])/g, ' $1').toLowerCase().replace(/^[a-z]/, function(m){ return m.toUpperCase(); });
 	};
 
 });

@@ -15,7 +15,7 @@ angular.module('ictsAppApp')
         }
 
         if(hvd.phoneNumber.length === 4) {
-            hvd.phoneNumber = "3153489" + hvd.phoneNumber;
+            hvd.phoneNumber = '3153489' + hvd.phoneNumber;
         }
         $http.put('/api/hvd/'+ hvd._id, {
             phoneNumber: hvd.phoneNumber,
@@ -26,11 +26,11 @@ angular.module('ictsAppApp')
             po: hvd.po,
             location: hvd.location,
             comment: hvd.comment
-        }).success(function (data, status, headers, config) {
+        }).success(function () {
             $modalInstance.dismiss('cancel');
-        }).error(function (data, status, headers, config) {
+        }).error(function () {
             console.log('error saving ');
         });
-    }
+    };
 
   });

@@ -28,7 +28,7 @@ module.exports = function PDFGenerator() {
         var captions = [];
         var keys = [];
 
-        for (key in categories) {
+        for (var key in categories) {
             captions.push(categories[key]);
             keys.push(key);
         }
@@ -43,11 +43,11 @@ module.exports = function PDFGenerator() {
         var appDir = path.dirname(require.main.filename);
 
         doc.image(appDir + '/../data/img/header.png', margin, margin, {width: 120});
-        
+
         doc.fontSize(20);
         doc.fillColor('#5F5F5F');
         doc.text(title, margin + 100 + 20, margin + 13, {align: 'right'});
-        
+
         doc.fontSize(13);
 
         doc.text(captions[0], margin, 120);
@@ -58,7 +58,7 @@ module.exports = function PDFGenerator() {
             doc.moveUp();
         }
         doc.text(captions[captions.length - 1], {align: 'right'});
-        
+
         doc.moveTo(margin - 5, 138);
         doc.lineTo(width - margin + 5, 138);
         doc.stroke('#5F5F5F');
@@ -66,7 +66,7 @@ module.exports = function PDFGenerator() {
         doc.fillColor('black');
         doc.text(' ', margin, 140);
 
-        totalCosts = 0;
+        var totalCosts = 0;
         for (var i = 0; i < values.length; i++) {
             if (values[i].costs !== 0) {
                 doc.x = margin;
@@ -86,7 +86,7 @@ module.exports = function PDFGenerator() {
 
         doc.moveTo(width - margin + 5 - 70, doc.y - 7);
         doc.lineTo(width - margin + 5, doc.y - 7);
-        doc.stroke('#5F5F5F');  
+        doc.stroke('#5F5F5F');
 
         doc.text(('€ ' + (totalCosts/100).toFixed(2)).replace('.',','), {continued: false, align: 'right'});
 

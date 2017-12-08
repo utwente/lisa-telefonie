@@ -29,16 +29,16 @@ angular.module('ictsAppApp')
     time: x => x.split(' ')[1].slice(0, 5),                                     // in: 01/10/2017 00:06:00  out: 00:06
     duration: x => `${parseInt(x/60)}:${x % 60 < 10? '0': ''}${x % 60} min.`,   // in: 124                  out: 2:04 min.
     costs: x => $filter('number')(x, 2).replace('.',','),                       // in: .2                   out: 0,20
-  }
+  };
 
   const formatApp = (line) => {
     let x = line.split(',');
     return `"","","${f.phone(x[A_NR])}","${x[TYPE]}","${f.date(x[DATE_TIME])}","${f.time(x[DATE_TIME])}","TELVM","${f.phone(x[B_NR])}","","${f.duration(x[DURATION])}","","${f.costs(x[COSTS])}",""`;
-  }
+  };
 
   return {
     toApp: (data) => {
-      if (data.indexOf(CHECKROWLL) === -1) throw new Error('Wrong input file..');
+      if (data.indexOf(CHECKROWLL) === -1) { throw new Error('Wrong input file..'); }
       return data
         .replace(/\r/g, '')       // replace \r characters if present
         .split('\n')              // split by newline character
@@ -48,7 +48,7 @@ angular.module('ictsAppApp')
     },
 
     merge: (dataMob, dataLL) => {
-      if (dataMob.indexOf(CHECKROWMOB) === -1) throw new Error('Wrong input file..');
+      if (dataMob.indexOf(CHECKROWMOB) === -1) { throw new Error('Wrong input file..'); }
       const data =  dataMob
         .replace(/\r/g, '')
         .split('\n')
@@ -58,8 +58,6 @@ angular.module('ictsAppApp')
       data.splice(2, 0, ...dataLL);
       return data.join('\n');
     }
-  }
+  };
 
-
-
-})
+});

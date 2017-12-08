@@ -1,3 +1,5 @@
+/*jshint -W055 */
+/*global Papa */
 'use strict';
 
 angular.module('ictsAppApp')
@@ -43,11 +45,11 @@ angular.module('ictsAppApp')
 			$http.post('/api/departments', {
 				name: department.name,
 				email: department.email
-			}).then(function (data) {
+			}).then(function () {
 				// $scope.tableParams.reload(); // reload table
 				// department.name = '';
 				// department.email = '';
-			}).catch(function (data) {
+			}).catch(function () {
 				console.log('error saving ');
 			});
 
@@ -55,7 +57,7 @@ angular.module('ictsAppApp')
 
 		$scope.updateDepartment = function (department) {
 			$http.put('/api/departments/' + department._id, department)
-				.then(function (data) {
+				.then(function () {
 					department.$edit = false;
 					// $scope.tableParams.reload();
 					console.log('saved :) ');
@@ -93,7 +95,7 @@ angular.module('ictsAppApp')
 		};
 		$scope.deleteDepartment = function (department) {
 			$http.delete('/api/departments/' + department._id)
-				.then(function (data) {
+				.then(function () {
 					// $scope.tableParams.reload();
 				});
 		};
@@ -101,13 +103,6 @@ angular.module('ictsAppApp')
 		$scope.$on('$destroy', function () {
 			socket.unsyncUpdates('department');
 		});
-
-
-
-
-
-
-
 
 
 		$scope.massImport = {
@@ -121,7 +116,7 @@ angular.module('ictsAppApp')
 			lines.splice(lines.length - 1, 1);
 			var csv = lines.join('\n');
 			var csvContent = Papa.parse(csv, {
-				delimiter: ";"
+				delimiter: ';'
 			});
 
 			var departments = [];
@@ -134,13 +129,13 @@ angular.module('ictsAppApp')
 					name: department[1],
 					email: department[2]
 				};
-			};
+			}
 
 			for (var x = 0; x < departments.length; x++) {
 				$scope.addDepartment(departments[x]);
 			}
 
-		}
+		};
 
 
 

@@ -78,7 +78,7 @@ module.exports = function (grunt) {
           '<%= yeoman.client %>/{app,components}/**/*.spec.js',
           '<%= yeoman.client %>/{app,components}/**/*.mock.js'
         ],
-        tasks: ['newer:jshint:all', 'karma']
+        tasks: ['newer:jshint:all']
       },
       injectSass: {
         files: [
@@ -235,7 +235,8 @@ module.exports = function (grunt) {
             '<%= yeoman.dist %>/public/{,*/}*.js',
             '<%= yeoman.dist %>/public/{,*/}*.css',
             '<%= yeoman.dist %>/public/assets/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}',
-            '<%= yeoman.dist %>/public/assets/fonts/*'
+            '<%= yeoman.dist %>/public/assets/fonts/*',
+            '!<%= yeoman.dist %>/public/bower_components/normalize.css',
           ]
         }
       }
@@ -254,7 +255,10 @@ module.exports = function (grunt) {
     // Performs rewrites based on rev and the useminPrepare configuration
     usemin: {
       html: ['<%= yeoman.dist %>/public/{,*/}*.html'],
-      css: ['<%= yeoman.dist %>/public/{,*/}*.css'],
+      css: [
+        '<%= yeoman.dist %>/public/{,*/}*.css',
+        '!<%= yeoman.dist %>/public/bower_components/normalize.css',
+      ],
       js: ['<%= yeoman.dist %>/public/{,*/}*.js'],
       options: {
         assetsDirs: [
@@ -425,14 +429,6 @@ module.exports = function (grunt) {
       ]
     },
 
-    // Test settings
-    karma: {
-      unit: {
-        configFile: 'karma.conf.js',
-        singleRun: true
-      }
-    },
-
     mochaTest: {
       options: {
         reporter: 'spec'
@@ -542,6 +538,19 @@ module.exports = function (grunt) {
         }
       }
     },
+
+    // Use Babel to transpile ES6
+    babel: {
+  		options: {
+  			sourceMap: true,
+  			presets: ['env']
+  		},
+  		dist: {
+  			files: {
+  				'.tmp/concat/app/app.js': '.tmp/concat/app/app.js'
+  			}
+  		}
+  	}
   });
 
   // Used for delaying livereload until after server has restarted
@@ -616,7 +625,6 @@ module.exports = function (grunt) {
         'concurrent:test',
         'injector',
         'autoprefixer',
-        'karma'
       ]);
     }
 
@@ -655,6 +663,7 @@ module.exports = function (grunt) {
     'copy:dist',
     'cdnify',
     'cssmin',
+    'babel',
     'uglify',
     'rev',
     'usemin'

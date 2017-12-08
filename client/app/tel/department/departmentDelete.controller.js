@@ -6,10 +6,9 @@ angular.module('ictsAppApp')
 
 		$http.get('/api/customers/department/' + department._id).
 			success(function(customers){
-				if (customers.length < 1)
-					customers = undefined;
+				if (customers.length < 1) { customers = undefined; }
 				$scope.customers = customers;
-			})
+			});
 
 		$scope.delete = function () {
 			$modalInstance.close();

@@ -1,15 +1,16 @@
+'use strict';
+
 angular.module('ictsAppApp')
 	.filter('calls_abroad', function () {
 		return function (data) {
 
+			var callsAbroad = [];
+
 			if (data.calls && (data.calls.bellenInHetBuitenland || data.calls.gebeldWordenInHetBuitenland)){
-				
-				var callsAbroad = [];
 
 				if (data.calls.bellenInHetBuitenland) {
-					for (var i = 0; i < data.calls.bellenInHetBuitenland.length; i++) {
-
-						var index = _.findIndex(callsAbroad, {country: data.calls.bellenInHetBuitenland[i].vanuit});
+					for (let i = 0; i < data.calls.bellenInHetBuitenland.length; i++) {
+						let index = _.findIndex(callsAbroad, {country: data.calls.bellenInHetBuitenland[i].vanuit});
 						if (index !== -1){
 							callsAbroad[index].costs.out = callsAbroad[index].costs.out + parseFloat(data.calls.bellenInHetBuitenland[i].kosten);
 						} else {
@@ -19,15 +20,15 @@ angular.module('ictsAppApp')
 									in: 0
 								},
 								country: data.calls.bellenInHetBuitenland[i].vanuit
-							})
+							});
 						}
 					}
 				}
-				
-				if (data.calls.gebeldWordenInHetBuitenland){
-					for (var i = 0; i < data.calls.gebeldWordenInHetBuitenland.length; i++) {
 
-						var index = _.findIndex(callsAbroad, {country: data.calls.gebeldWordenInHetBuitenland[i].vanuit});
+				if (data.calls.gebeldWordenInHetBuitenland){
+					for (let i = 0; i < data.calls.gebeldWordenInHetBuitenland.length; i++) {
+
+						let index = _.findIndex(callsAbroad, {country: data.calls.gebeldWordenInHetBuitenland[i].vanuit});
 						if (index !== -1){
 							callsAbroad[index].costs.in = callsAbroad[index].costs.in + parseFloat(data.calls.gebeldWordenInHetBuitenland[i].kosten);
 						} else {
@@ -37,7 +38,7 @@ angular.module('ictsAppApp')
 									out: 0
 								},
 								country: data.calls.gebeldWordenInHetBuitenland[i].vanuit
-							})
+							});
 						}
 					}
 				}

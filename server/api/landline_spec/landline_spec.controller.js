@@ -22,7 +22,7 @@ exports.show = function(req, res) {
   TMobile.find({month: req.params.month}, function (err, t_mobile) {
     if (t_mobile.length === 0) {return res.send(404); }
     if(err) { return res.status(500).send(err); }
-    
+
     // there should be only one t_mobile per month
     t_mobile = t_mobile[0];
 
@@ -54,7 +54,7 @@ exports.show = function(req, res) {
       var xlsx = new XLSXLLGenerator();
       for (var i = 0; i < spec_info.length; i++) {
         xlsx.generate(spec_info[i].number, fullPath, spec_info[i], 'll_excel', spec_info.length);
-      };
+      }
 
       return res.json(200, 'done!');
 
@@ -69,7 +69,6 @@ function mkdirSync(path) {
   try {
     fs.mkdirSync(path);
   } catch(e) {
-    if ( e.code != 'EEXIST' ) throw e;
+    if ( e.code !== 'EEXIST' ) throw e;
   }
 }
-

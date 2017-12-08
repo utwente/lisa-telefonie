@@ -1,3 +1,5 @@
+/*jshint camelcase: false */
+
 'use strict';
 
 angular.module('ictsAppApp')
@@ -7,8 +9,8 @@ angular.module('ictsAppApp')
 
     $scope.openTmobile = function($fileContent){
       // parse the file (parser is in factories/tMobileParser)
-      var t_mobile = tMobileParser.parse($fileContent)
-      
+      var t_mobile = tMobileParser.parse($fileContent);
+
       $scope.month = t_mobile.month;
       $scope.t_mobile = t_mobile;
       $scope.step = 'loaded';
@@ -22,7 +24,7 @@ angular.module('ictsAppApp')
         if (res.data.success) {
           console.log('Maand opgeslagen!');
         } else if (res.data.error) {
-          if (res.data.msg == 'month_exists') {
+          if (res.data.msg === 'month_exists') {
             console.log('Maand bestaat al..');
             $scope.overrideMonthModal(res.data.id);
           } else {
@@ -32,7 +34,7 @@ angular.module('ictsAppApp')
           console.log('Onbekende fout..');
         }
         $scope.loading = false;
-      }).catch(function (err) {
+      }).catch(function () {
         console.log('Fout bij het opslaan..');
         $scope.loading = false;
       });
@@ -40,10 +42,10 @@ angular.module('ictsAppApp')
 
     $scope.updateMonth = function(id) {
       $http.put('/api/t_mobile/' + id, $scope.t_mobile)
-        .then(function (data) {
+        .then(function () {
             console.log('Maand overschreven');
         });
-    }
+    };
 
     $scope.overrideMonthModal = function (id) {
       $modal.open({
@@ -70,6 +72,6 @@ angular.module('ictsAppApp')
       .result.then(function() {
         console.log('done');
       });
-    }
+    };
 
-  })
+  });

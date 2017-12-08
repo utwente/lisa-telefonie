@@ -14,3 +14,7 @@ exports.index = function(req, res) {
       return res.json(200, result);
     });
 };
+
+function handleError(res, err) {
+  return res.status(500).send(err);
+}

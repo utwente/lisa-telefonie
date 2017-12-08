@@ -23,7 +23,7 @@ var Attachment = require('../api/mobile_spec/mobile_spec.model');
 
 // Clear all specifications
 // Specification.find({}).remove(function() {
-// 	console.log('Cleaned all specifications');	
+// 	console.log('Cleaned all specifications');
 // });
 
 // Clear all departments

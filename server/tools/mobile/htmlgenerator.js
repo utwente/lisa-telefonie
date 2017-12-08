@@ -17,7 +17,7 @@ module.exports = function HTMLGenerator(callback) {
     this.generate = function(filename, user, category, total, totalToDo) {
 
         // sort by costs
-        data = _.sortBy(category, function(o){
+        var data = _.sortBy(category, function(o){
           return o.costs;
         });
 

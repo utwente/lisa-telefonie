@@ -6,10 +6,10 @@ angular.module('ictsAppApp')
 	    require: '?ngModel',
 	    link: function(scope, elm, attrs, ctrl) {
 
-	    	ctrl.$validators.integer = function(modelValue, viewValue) {
+	    	ctrl.$validators.integer = function() {
 		    	var fun = $parse(attrs.check);
 		    	return fun(scope);
-	    	}
+	    	};
 
 	    }
 	  };

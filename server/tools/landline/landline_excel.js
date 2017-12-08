@@ -28,7 +28,7 @@ module.exports = function XLSXLLGenerator() {
     this.generate = function(number, path, data, socketEvent, total, callback) {
 
         // if no callback function, replace it with an empty function
-        if (typeof callback == "undefined") {
+        if (typeof callback === "undefined") {
             callback = function(){};
         }
 
@@ -74,7 +74,7 @@ module.exports = function XLSXLLGenerator() {
         for (var col = 1; col < columns.length + 1; col++) {
             worksheet.getCell(this.getCellName(1,col)).border = {bottom: {style: 'thin'}};
             worksheet.getCell(this.getCellName(1,col)).fill = {type: "pattern", pattern: "solid", fgColor: {argb:"FFCCCCCC"}};
-        };
+        }
 
         // add the actual data
         for (var type in data.calls) {
@@ -90,7 +90,7 @@ module.exports = function XLSXLLGenerator() {
                     costs: data.calls[type][i].kosten/100
                 };
                 worksheet.addRow(rowData).commit();
-            };
+            }
         }
 
         worksheet.commit();

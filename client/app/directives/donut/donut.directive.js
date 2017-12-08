@@ -2,75 +2,43 @@
 
 angular.module('ictsAppApp')
 	.directive('donut', function ($timeout, morrisDataFormatter, Morris) {
+		let donut;
 
 		return {
-			template: '<div id="{{id}}" class="{{cl}}""></div>',
+			template: '<div id="{{id}}" class="{{class}}""></div>',
 			restrict: 'EA',
 			scope: {data: '=data', number: '=number'},
 			link: function (scope, element, attrs) {
 
-				var id = 'donut-' + attrs.type; 
-
-				scope.cl = attrs.class;
-
+				const id = 'donut-' + attrs.type;
+				scope.class = attrs.class;
 				scope.id = id;
-
-				// remember the donut object to update the data
-				var donut;
-
-				scope.$watch('data', function() {
-					if (scope.data){ 
-
-						// wait for next $digest cycle, to make sure the DOM element is present!
-						$timeout(function(){ 
-							if (!donut) {
-								donut = plot(); 
-							} else {
-								donut.setData(update());
-							}
-						}); 
-					}
-				})
 
 				function plot() {
 
 					// morrisDataFormatter formats the t_mobile data in morris donut format (factories/morrisDataFormatter)
-					var donut;
-
+					let data;
 					switch(attrs.type) {
-
 						case 'costs':
-							var plotData = morrisDataFormatter.getOverviewData(scope.data);
-							donut = Morris.Donut({element: id, colors: plotData.costs.colors, data: plotData.costs.data, formatter: plotData.costs.formatter});
+							data = morrisDataFormatter.getOverviewData(scope.data).costs;
 							break;
-
 						case 'data':
-							var plotData = morrisDataFormatter.getOverviewData(scope.data);
-							donut = Morris.Donut({element: id, colors: plotData.data.colors, data: plotData.data.data, formatter: plotData.data.formatter});
+							data = morrisDataFormatter.getOverviewData(scope.data).data;
 							break;
-
 						case 'time':
-							var plotData = morrisDataFormatter.getOverviewData(scope.data);
-							donut = Morris.Donut({element: id, colors: plotData.time.colors, data: plotData.time.data, formatter: plotData.time.formatter});
+							data = morrisDataFormatter.getOverviewData(scope.data).time;
 							break;
-
 						case 'sms':
-							var plotData = morrisDataFormatter.getOverviewData(scope.data);
-							donut = Morris.Donut({element: id, colors: plotData.sms.colors, data: plotData.sms.data, formatter: plotData.sms.formatter});
+							data = morrisDataFormatter.getOverviewData(scope.data).sms;
 							break;
-
 						case 'personal':
-							var plotData = morrisDataFormatter.getPersonalData(scope.data);
-							donut = Morris.Donut({element: id, data: plotData.data, formatter: plotData.formatter});
+							data = morrisDataFormatter.getPersonalData(scope.data);
 							break;
-
 						default:
 							throw new Error('Type: "' + attrs.type + '" not recognized (should be either: costs, data, time, sms, or personal)');
-							break;
-
 					}
 
-					return donut;
+					return Morris.Donut({element: id, colors: data.colors, data: data.data, formatter: data.formatter});
 
 				}
 
@@ -78,27 +46,30 @@ angular.module('ictsAppApp')
 
 					// morrisDataFormatter formats the t_mobile data in morris donut format (factories/morrisDataFormatter)
 					switch(attrs.type) {
-
-						case 'costs':
-							return morrisDataFormatter.getOverviewData(scope.data).data;
-
-						case 'data':
-							return morrisDataFormatter.getOverviewData(scope.data).data;
-
-						case 'time':
-							return morrisDataFormatter.getOverviewData(scope.data).data;
-
-						case 'sms':
-							return morrisDataFormatter.getOverviewData(scope.data).data;
-
-						case 'personal':
-							return morrisDataFormatter.getPersonalData(scope.data).data;
-
+						case 'costs': return morrisDataFormatter.getOverviewData(scope.data).costs.data;
+						case 'data': return morrisDataFormatter.getOverviewData(scope.data).data.data;
+						case 'time': return morrisDataFormatter.getOverviewData(scope.data).time.data;
+						case 'sms': return morrisDataFormatter.getOverviewData(scope.data).sms.data;
+						case 'personal': return morrisDataFormatter.getPersonalData(scope.data).data;
 						default:
 							throw new Error('Type: "' + attrs.type + '" not recognized (should be either: costs, data, time, sms, or personal)');
-
 					}
 				}
+
+				scope.$watch('data', function() {
+					if (scope.data){
+						// wait for next $digest cycle, to make sure the DOM element is present!
+						$timeout(() => {
+							$timeout(() => {
+								if (!donut) {
+									donut = plot();
+								} else {
+									donut.setData(update());
+								}
+							});
+						})
+					}
+				});
 
 			},
 		};

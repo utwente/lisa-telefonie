@@ -1,3 +1,6 @@
+/*jshint -W055 */
+/*global Papa */
+
 'use strict';
 
 angular.module('ictsAppApp')
@@ -91,8 +94,8 @@ angular.module('ictsAppApp')
                 months[monthId].numbers.push({
                     number: number,
                     amount: amount
-                });               
-                                
+                });
+
             });
 
             // Store months to database
@@ -100,9 +103,9 @@ angular.module('ictsAppApp')
                 $http.post('api/kpn', month)
                 .then(function (res) {
                     if (res.data.error) {
-                      if (res.data.msg == 'month_exists') {
+                      if (res.data.msg === 'month_exists') {
                         console.log('Maand bestaat al..');
-                        $scope.overrideMonthModal(data.id);
+                        $scope.overrideMonthModal(res.data.id);
                       } else {
                         console.log('Onbekende fout..');
                       }
@@ -110,13 +113,13 @@ angular.module('ictsAppApp')
                       console.log('Maand opgeslagen!');
                     }
                     $scope.loading = false;
-                    
-                }).catch(function (err) {
+
+                }).catch(function () {
                     console.log('Fout bij het opslaan..');
-                    scope.loading = false;
+                    $scope.loading = false;
                 });
             });
-            
+
         };
 
 
@@ -150,7 +153,7 @@ angular.module('ictsAppApp')
                             numbers: $scope.month.numbers
                         };
                     })
-                    .catch(function(err) {
+                    .catch(function() {
                         $scope.month = {
                             month: $scope.kpn.month,
                             summary: {
@@ -173,7 +176,7 @@ angular.module('ictsAppApp')
         /**
          * ADD
          */
-        $scope.addNewRecord = function($record) {            
+        $scope.addNewRecord = function() {
             $scope.month.numbers.push({
                 number: $scope.newRecord.number,
                 amount: Math.round( $scope.newRecord.amount.replace(',', '.') * 100 )
@@ -192,7 +195,7 @@ angular.module('ictsAppApp')
                     	amount: null
                     };
                     $scope.addRecordForm.$setPristine();
-                }).catch(function(err) {
+                }).catch(function() {
                     console.log('error saving ');
                 });
             } else {
@@ -224,8 +227,8 @@ angular.module('ictsAppApp')
         $scope.updateRecord = function(record) {
         	record.amount = Math.round(record.edit.amount.replace(',', '.') * 100);
             record.number = record.edit.number;
-            
-            
+
+
 
             $http.put('/api/kpn/' + $scope.month._id, $scope.month)
                 .then(function(month) {
@@ -242,6 +245,6 @@ angular.module('ictsAppApp')
          */
         $scope.deleteModal = function(record) {
             console.log(record);
-        }
+        };
 
     });

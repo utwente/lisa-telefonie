@@ -15,12 +15,10 @@ exports.show = function(req, res) {
 
 	this.updateSocket = function(){};
 
-	var buf = fs.readFileSync(__templates + 'landline_spec.hbs','utf8')
-	var llTemplate = Handlebars.compile(buf);
-	var buf = fs.readFileSync(__templates + 'department_spec.hbs','utf8')
-	var depTemplate = Handlebars.compile(buf);
-
-	var month = req.params.month;
+	var llbuf = fs.readFileSync(__templates + 'landline_spec.hbs','utf8')
+	var llTemplate = Handlebars.compile(llbuf);
+	var mobbuf = fs.readFileSync(__templates + 'department_spec.hbs','utf8')
+	var depTemplate = Handlebars.compile(mobbuf);
 
 	var month = new Date(req.params.month);
 	var monthName = month.getMonthName() + ' ' + month.getFullYear();
@@ -28,8 +26,8 @@ exports.show = function(req, res) {
 
 	// var to = "floriaan.post@gmail.com";
 
-	var m = new Mail;
-	
+	var m = new Mail();
+
 	var config = {
 		delay_factor: 2,
 		send: function(msg, done) {m.send(msg, function(err, data) {done(err);});},
@@ -61,23 +59,23 @@ exports.show = function(req, res) {
 
 			q.add(data);
 
-		};
+		}
 	});
 
 	// Mobile part below
 	Attachments.findOne({month: month}, function(err, result) {
 
 		if (err) {return res.status(500).send(err); }
-		if (result === null) { console.log('attachments not found...'); return res.status(404).send({code: 'ERRORS'}); }	
-			
+		if (result === null) { console.log('attachments not found...'); return res.status(404).send({code: 'ERRORS'}); }
+
 			var attachments = result;
 
 			// overview email
-			for (var department in attachments.departments) {
-			
-				var to = attachments.departments[department].email; // -> only do this when you are really sure ;)
+			for (let department in attachments.departments) {
 
-				var data = {
+				let to = attachments.departments[department].email; // -> only do this when you are really sure ;)
+
+				let data = {
 					to: to,
 					subject: 'Specificaties mobiele telefoonkosten ' + monthName,
 					department: department,
@@ -85,8 +83,8 @@ exports.show = function(req, res) {
 					count: false,
 					path: attachments.departments[department].pdf_category.path,
 					filenames: [
-						attachments.departments[department].pdf_category.filename, 
-						attachments.departments[department].pdf_numbers.filename, 
+						attachments.departments[department].pdf_category.filename,
+						attachments.departments[department].pdf_numbers.filename,
 						attachments.departments[department].excel.filename
 					],
 					message: depTemplate({}),
@@ -96,16 +94,16 @@ exports.show = function(req, res) {
 
 				q.add(data);
 
-			};
+			}
 
 			// personal specifications email
-			for (var department in attachments.departments) {
-				
-				var to = attachments.departments[department].email; // -> only do this when you are really sure ;)
+			for (let department in attachments.departments) {
 
-				for (var i = 0; i < attachments.departments[department].html.length; i++) {
-					
-					var data = {
+				let to = attachments.departments[department].email; // -> only do this when you are really sure ;)
+
+				for (let i = 0; i < attachments.departments[department].html.length; i++) {
+
+					let data = {
 						to: to,
 						subject: 'Specificaties mobiel persoonlijk ' + monthName + ' ' +  attachments.departments[department].html[i].number,
 						department: department,
@@ -119,14 +117,14 @@ exports.show = function(req, res) {
 					}
 					q.add(data);
 				}
-			};
+			}
 
 
 	});
 
 
 	return res.status(200).json('Verzonden!');
-	
+
 };
 
 

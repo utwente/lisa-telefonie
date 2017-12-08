@@ -1,5 +1,7 @@
+'use strict';
+
 angular.module('ictsAppApp')
-.controller('HvdCtrl', function ($scope, $filter, $http, socket, Auth, $modal) {
+.controller('HvdCtrl', function ($scope) {
 
 	$scope.submenu = [
 	    {
@@ -13,4 +15,4 @@ angular.module('ictsAppApp')
 	      	'icon': 'fa-upload'
 	  	}
 	];
-})
+});

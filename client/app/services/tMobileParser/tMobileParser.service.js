@@ -1,3 +1,5 @@
+/*jshint camelcase: false */
+/*global Papa */
 'use strict';
 
 angular.module('ictsAppApp')
@@ -10,10 +12,10 @@ angular.module('ictsAppApp')
         //   FILE READING AND CSV PARSING STUFF
         // --------------------------------------
 
-        fileContent = fileContent.replace(/\",\"/g, ";");
-        fileContent = fileContent.replace(/\"/g, "");
+        fileContent = fileContent.replace(/\",\"/g, ';');
+        fileContent = fileContent.replace(/\"/g, '');
         var lines = fileContent.split('\n');
-        if (lines[1].indexOf('Groep;Naam;MSISDN;Specificatie;Datum;Starttijd;Type;Bestemming;Land/Netwerk;Duur/Volume;Uit bundel*;Kosten;') == -1) {
+        if (lines[1].indexOf('Groep;Naam;MSISDN;Specificatie;Datum;Starttijd;Type;Bestemming;Land/Netwerk;Duur/Volume;Uit bundel*;Kosten;') === -1) {
           console.log('no valid t-mobile file..');
           return;
         }
@@ -25,7 +27,7 @@ angular.module('ictsAppApp')
         var csv = lines.join('\n');
 
 
-        var csvContent = Papa.parse(csv, {delimiter: ";"});
+        var csvContent = Papa.parse(csv, {delimiter: ';'});
 
         // --------------------------------------
         //   CALCULATE COSTS PER PHONE NUMBER
@@ -57,8 +59,8 @@ angular.module('ictsAppApp')
           key = call[3].toCamel();    // type of call
           type = call[6];             // type of communication (landline/mobile/sms/data)
 
-          if (call[8] === "") {
-            call[8] = "Nederland";    // if country where the call is from is not defined, it is from the Netherlands.
+          if (call[8] === '') {
+            call[8] = 'Nederland';    // if country where the call is from is not defined, it is from the Netherlands.
           }
 
           // if phone number does not exist, create it
@@ -71,13 +73,13 @@ angular.module('ictsAppApp')
               },
               calls: {},
               data: {},
-            }
+            };
           }
 
           // if type of "call" does not exist, create it.
           if (t_mobile.numberObject[number].summary.perType[key] === undefined) {
             t_mobile.numberObject[number].summary.perType[key] = {
-              costs: 0, 
+              costs: 0,
               soort: 'mobiel' // default soort is mobiel. Dit wordt veranderd zodra het vast blijkt te zijn.
             };
           }
@@ -94,8 +96,7 @@ angular.module('ictsAppApp')
 
           costs = parseFloat(call[11].replace(',','.')) * 100;
 
-          if (isNaN(costs))
-            costs = 0;
+          if (isNaN(costs)) { costs = 0; }
 
           t_mobile.numberObject[number].summary.perType[key].costs = t_mobile.numberObject[number].summary.perType[key].costs + costs;
           t_mobile.numberObject[number].summary.totalCosts = t_mobile.numberObject[number].summary.totalCosts + costs;
@@ -107,7 +108,7 @@ angular.module('ictsAppApp')
           // --------------------------------------
           //   CALCULATE LANDLINE COSTS
           // --------------------------------------
-          if (type == 'TELVM'){
+          if (type === 'TELVM') {
 
             // add time to sumary
             if (t_mobile.numberObject[number].summary.perType[key].time === undefined) {
@@ -140,14 +141,14 @@ angular.module('ictsAppApp')
               bestemming: call[7],
               kosten: costs,
               vanuit: call[8],
-            })
+            });
 
           }
 
           // --------------------------------------
           //   CALCULATE COSTS IN THE NETHERLANDS
           // --------------------------------------
-          if (type == 'TEL'){
+          if (type === 'TEL') {
             // add time to sumary
             if (t_mobile.numberObject[number].summary.perType[key].time === undefined) {
               t_mobile.numberObject[number].summary.perType[key].time = 0;
@@ -176,14 +177,14 @@ angular.module('ictsAppApp')
               bestemming: call[7],
               kosten: costs,
               vanuit: call[8],
-            })
+            });
 
           }
 
           // --------------------------------------
           //       CALCULATE INTERNET STUFF
           // --------------------------------------
-          if (type == 'DATA') {
+          if (type === 'DATA') {
             // add data to sumary
             if (t_mobile.numberObject[number].summary.perType[key].data === undefined) {
               t_mobile.numberObject[number].summary.perType[key].data = 0;
@@ -205,14 +206,14 @@ angular.module('ictsAppApp')
               kosten: costs,
               vanuit: call[8],
               grootte: call[9],
-            })
+            });
 
           }
 
           // --------------------------------------
           //        CALCULATE MESSAGE STUFF
           // --------------------------------------
-          if ((type == 'SMS') || (type == 'MMS')) {
+          if ((type === 'SMS') || (type === 'MMS')) {
             // add amount to sumary
             if (t_mobile.numberObject[number].summary.perType[key].amount === undefined) {
               t_mobile.numberObject[number].summary.perType[key].amount = 0;
@@ -226,13 +227,13 @@ angular.module('ictsAppApp')
             t_mobile.summary.totalSMS = t_mobile.summary.totalSMS + 1;
           }
 
-        };
+        }
 
 
         t_mobile.numbers = [];
-        for (var key in t_mobile.numberObject) {
+        for (let number in t_mobile.numberObject) {
           t_mobile.numbers.push({
-            number: key, 
+            number: number,
             calls: t_mobile.numberObject[key].calls,
             data: t_mobile.numberObject[key].data,
             summary: t_mobile.numberObject[key].summary

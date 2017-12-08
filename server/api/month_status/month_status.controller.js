@@ -16,7 +16,7 @@ exports.show = function(req, res) {
   MonthStatus.find({month: req.params.month}, function (err, month_status) {
     if(err) { return handleError(res, err); }
     month_status = month_status[0];
-    if( typeof(month_status) == 'undefined') { 
+    if( typeof(month_status) === 'undefined') { 
       // month does nog exist yet in database, so create it!
       month_status = getNewProgress(req.params.month)
       MonthStatus.create(month_status, function(err, month_status) {
@@ -79,7 +79,7 @@ function getNewProgress(month) {
   var progress = {};
   progress.month = month;
   progress.counter = 0;
-  progress.steps =  [     
+  progress.steps =  [
     {
       name: 'check',
       done: false

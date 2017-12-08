@@ -1,3 +1,5 @@
+/*global saveAs*/
+
 'use strict';
 
 angular.module('ictsAppApp')
@@ -10,7 +12,7 @@ angular.module('ictsAppApp')
                     .then(function(tMobile) {
                         $scope.makeDataCSV(tMobile.data);
                     })
-                    .catch(function(err) {
+                    .catch(function() {
                         console.log('T-Mobile not found...');
                     });
             }
@@ -26,14 +28,14 @@ angular.module('ictsAppApp')
                     csvContent = csvContent + tMobile.numbers[number].summary.perType.internet.data + ';' ;
                     csvContent = csvContent + tMobile.numbers[number].summary.perType.internet.costs + '\n';
                 }
-            };
+            }
 
             // download CSV file
             var filename = 'Data.csv';
-            var blob = new Blob([csvContent], {type: "text/csv;charset=utf-8"});
+            var blob = new Blob([csvContent], {type: 'text/csv;charset=utf-8'});
 
             // function from FileSaver.js
             saveAs(blob, filename);
-        }
+        };
 
   });

@@ -11,7 +11,7 @@ angular.module('ictsAppApp')
 
       // add method to change the data
       $window.Morris.Donut.prototype.setData = function(data, redraw) {
-        if (redraw == null) {
+        if (redraw === null) {
             redraw = true;
         }
         this.data = data;
@@ -29,7 +29,7 @@ angular.module('ictsAppApp')
         if (redraw) {
             return this.redraw();
         }
-      }
+      };
 
     }
 

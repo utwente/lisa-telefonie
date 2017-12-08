@@ -1,3 +1,6 @@
+/*jshint -W055 */
+/*global Papa */
+
 'use strict';
 
 angular.module('ictsAppApp')
@@ -43,11 +46,11 @@ angular.module('ictsAppApp')
 				number: specification.number,
 				name: specification.name,
 				email: specification.email
-			}).then(function (data) {
+			}).then(function () {
 				// $scope.tableParams.reload(); // reload table
 				// specification.name = '';
 				// specification.email = '';
-			}).catch(function (data) {
+			}).catch(function () {
 				console.log('error saving ');
 			});
 
@@ -55,7 +58,7 @@ angular.module('ictsAppApp')
 
 		$scope.updateSpecification = function (specification) {
 			$http.put('/api/specifications/' + specification._id, specification)
-				.then(function (data) {
+				.then(function () {
 					specification.$edit = false;
 					// $scope.tableParams.reload();
 					console.log('saved :) ');
@@ -93,7 +96,7 @@ angular.module('ictsAppApp')
 		};
 		$scope.deleteSpecification = function (specification) {
 			$http.delete('/api/specifications/' + specification._id)
-				.then(function (data) {
+				.then(function () {
 					// $scope.tableParams.reload();
 				});
 		};

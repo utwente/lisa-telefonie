@@ -1,27 +1,27 @@
+/*jshint camelcase: false */
+
 'use strict';
 
 angular.module('ictsAppApp')
   .controller('TelDashboardCtrl', function ($scope, $http, $timeout, $modal, Morris, morrisDataFormatter) {
-    
+
     var today = new Date();
     var month = today.getMonth();
     var year = today.getFullYear();
 
     $http.get('/api/stats',{ params: {
-      numbers : 10, 
-      min_date: new Date(year, month - 12), 
+      numbers : 10,
+      min_date: new Date(year, month - 12),
       max_date: new Date(year, month)
     }})
     .then(function(months) {
-
-      var monthData = {};
 
       // --------------------------
       //      T-mobile part
       // --------------------------
 
       var data = morrisDataFormatter.getDashboardData(months.data);
-      
+
       // --------------------------
       //      Display part
       // --------------------------
@@ -34,11 +34,11 @@ angular.module('ictsAppApp')
           xkey: data.xkey,
           ykeys: data.ykeys,
           labels: data.labels,
-          hoverCallback: function (index, options, content, row) {
+          hoverCallback: function (index, options, content) {
             return content + '<div class="more-info">Klik voor meer informatie.</div>';
           }
         })
-        .on('click', function(i, row){
+        .on('click', function(i){
           $scope.moreInfoModal({
             t_mobile: months.data.t_mobile[i],
             date: data.date[i]
@@ -61,7 +61,7 @@ angular.module('ictsAppApp')
     });
 
     modalInstance.result.then(function () {
-      // 
+      //
     }, function () {
       // Dismissed
     });

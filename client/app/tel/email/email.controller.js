@@ -1,12 +1,42 @@
+/*jshint camelcase: false*/
+
 'use strict';
 
 angular.module('ictsAppApp')
   .controller('EmailCtrl', function ($scope, $http, socket) {
 
+
+    // clear all messageg etc.
+    function resetAll() {
+      $scope.files = false;
+      $scope.PDFmessages = [];
+      $scope.mail = {
+        done: 0,
+        message: 'Nog geen specificaties verzonden.'
+      };
+      $scope.ll_excel = {
+        done: 0,
+        message: 'Nog geen vaste specificaties gegenereerd.'
+      };
+      $scope.mob = {
+        message: 'Nog geen mobiele specificaties gegenereerd.'
+      };
+      $scope.mob_pdf = {
+        done: 0,
+      };
+      $scope.mob_excel = {
+        done: 0,
+      };
+      $scope.mob_html = {
+        done: 0,
+      };
+    }
+
+
 	var progress;
 	resetAll();
 
-	var now = new Date()
+	var now = new Date();
 	$scope.month = new Date(now.getFullYear(), now.getMonth() - 1, 1);
 
 	$scope.changeMonth = function() {
@@ -14,7 +44,7 @@ angular.module('ictsAppApp')
 		$scope.step = false;
 		resetAll();
 	};
-	
+
 	// check if month is changed.
 	$scope.$watch('month', function() {
 		// don't do anyting if month is false.
@@ -22,10 +52,10 @@ angular.module('ictsAppApp')
 			$http.get('/api/month_status/' + $scope.month)
 				.then(function (prog) {
 					progress = prog.data;
-					$scope.step = progress.steps[progress.counter].name; 
+					$scope.step = progress.steps[progress.counter].name;
 					$scope.next = progress.steps[progress.counter].done;
 				})
-				.catch(function (err) {
+				.catch(function () {
 					console.log('error getting progress');
 				});
 		}
@@ -35,7 +65,7 @@ angular.module('ictsAppApp')
 	$scope.changeStep = function(next) {
 		resetAll();
 		if (next) { progress.counter++; }     // next step
-		else { progress.counter--; }          // previous step 
+		else { progress.counter--; }          // previous step
 		$http.put('/api/month_status/' + progress._id, progress)
 		.then(function (prog) {
 			progress = prog.data;
@@ -47,7 +77,7 @@ angular.module('ictsAppApp')
 			else { progress.counter++; }      // previous step
 			console.log('error saving progress');
 		});
-	}
+	};
 
 	// this is what happens when a step is completed and you can move on to the next step.
 	$scope.saveProgress = function() {
@@ -59,8 +89,8 @@ angular.module('ictsAppApp')
 		})
 		.catch(function () {
 			console.log('error saving progress');
-		})
-	}
+		});
+	};
 
 
 	// below functions with actions per step.
@@ -68,73 +98,73 @@ angular.module('ictsAppApp')
 		progress.steps[progress.counter].done = true;
 		$scope.next = progress.steps[progress.counter].done;
 		$scope.saveProgress();
-	}
+	};
 
 	$scope.createMobileSpec = function() {
 		resetAll();
 		$scope.mob.message = 'Mobiele specificaties worden gegenereerd...';
 		$http.get('/api/mobile_spec/' + $scope.month)
-			.then(function (data) {
+			.then(function () {
 				progress.steps[progress.counter].done = true;
-				$scope.next = progress.steps[progress.counter].done; 
+				$scope.next = progress.steps[progress.counter].done;
 				$scope.saveProgress();
 			})
-			.catch(function (err) {
+			.catch(function () {
 				// this is temporary!!!!!
 				progress.steps[progress.counter].done = true;
-				$scope.next = progress.steps[progress.counter].done; 
+				$scope.next = progress.steps[progress.counter].done;
 				$scope.saveProgress();
 				// end
 				console.log('error creating mobile specs...');
 				$scope.mob_pdf.message = 'Er zijn fouten. Los deze op en probeer het daarna opnieuw.';
-				
+
 			});
-	}
+	};
 
 	$scope.createLandlineSpec = function() {
 		$scope.ll_excel.message = 'Vaste specificaties worden gegenereerd...';
 		$http.get('/api/landline_spec/' + $scope.month)
-			.then(function (data) {
+			.then(function () {
 				progress.steps[progress.counter].done = true;
-				$scope.next = progress.steps[progress.counter].done; 
+				$scope.next = progress.steps[progress.counter].done;
 				$scope.saveProgress();
 			})
-			.catch(function (err) {
+			.catch(function () {
 				console.log('error creating landline specs...');
 			});
-	}
+	};
 
 	$scope.checkFiles = function() {
 		progress.steps[progress.counter].done = true;
-		$scope.next = progress.steps[progress.counter].done;  
-		$scope.saveProgress();       
-	}
+		$scope.next = progress.steps[progress.counter].done;
+		$scope.saveProgress();
+	};
 
 	$scope.sendSpec = function() {
 		$scope.mail.message = 'Specificaties worden verzonden...';
 		$http.get('api/mail_spec/' + $scope.month)
-			.then(function (data) {
+			.then(function () {
 				// tijdelijk dit niet gedaan. Maar dat moet wel weer natuurlijk!
 				progress.steps[progress.counter].done = true;
 				$scope.next = progress.steps[progress.counter].done;
-				$scope.saveProgress(); 
+				$scope.saveProgress();
 			})
 			.catch(function () {
 				console.log('error sending emails...');
 			});
-	}
+	};
 
 	$scope.reopenMonth = function() {
 		$http.delete('api/month_status/' + progress._id)
 			.then(function(prog){
 				progress = prog.data;
-				$scope.step = progress.steps[progress.counter].name; 
+				$scope.step = progress.steps[progress.counter].name;
 				$scope.next = progress.steps[progress.counter].done;
 			})
 			.catch(function(err) {
-				console.log(err)
+				console.log(err);
 			});
-	}
+	};
 
 
 	$scope.$watch('step', function() {
@@ -149,32 +179,31 @@ angular.module('ictsAppApp')
 			});
 
 		}
-	})
+	});
+
+  function updateMobileMsg() {
+		if ($scope.mob_html.total + $scope.mob_excel.total + $scope.mob_pdf.total >= $scope.mob_html.done + $scope.mob_excel.done + $scope.mob_pdf.done) {
+			$scope.mob.message = 'Alle mobiele specificaties zijn gegenereerd!';
+		}
+	}
 
 	socket.socket.on('mob_pdf', function(data){
 		$scope.mob_pdf.total = data.total;
 		$scope.mob_pdf.done++;
-		updateMobileMsg(data)
+		updateMobileMsg(data);
 	});
 
 	socket.socket.on('mob_excel', function(data){
 		$scope.mob_excel.total = data.total;
 		$scope.mob_excel.done++;
-		updateMobileMsg(data)
-
+		updateMobileMsg(data);
 	});
 
 	socket.socket.on('mob_html', function(data){
 		$scope.mob_html.total = data.total;
 		$scope.mob_html.done++;
-		updateMobileMsg(data)
+		updateMobileMsg(data);
 	});
-	
-	function updateMobileMsg(data) {
-		if ($scope.mob_html.total + $scope.mob_excel.total + $scope.mob_pdf.total >= $scope.mob_html.done + $scope.mob_excel.done + $scope.mob_pdf.done) {
-			$scope.mob.message = 'Alle mobiele specificaties zijn gegenereerd!';
-		}		
-	}
 
 	socket.socket.on('ll_excel', function(data) {
 		$scope.ll_excel.errors = data.err;
@@ -231,41 +260,4 @@ angular.module('ictsAppApp')
 		$scope.mail.message = msg;
 	});
 
-
-	// clear all messageg etc.
-	function resetAll() {
-
-		$scope.files = false;
-
-		$scope.PDFmessages = [];
-
-		$scope.mail = {
-			done: 0, 
-			message: 'Nog geen specificaties verzonden.'
-		};
-
-		$scope.ll_excel = {
-			done: 0,
-			message: 'Nog geen vaste specificaties gegenereerd.'
-		};
-
-		$scope.mob = {
-			message: 'Nog geen mobiele specificaties gegenereerd.'
-		}
-
-		$scope.mob_pdf = {
-			done: 0, 
-		};
-
-		$scope.mob_excel = {
-			done: 0, 
-		};
-
-		$scope.mob_html = {
-			done: 0, 
-		};
-	}
-  
 });
-
-

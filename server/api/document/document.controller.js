@@ -49,12 +49,13 @@ exports.index = function(req, res) {
 // Get a single document
 exports.show = function(req, res) {
 
+  var path;
   switch (req.params.type) {
-    case 'landline': 
-      var path = findLandlinePath(req.params.month);
+    case 'landline':
+      path = findLandlinePath(req.params.month);
       break;
     case 'mobile':
-      var path = findMobilePath(req.params.month);
+      path = findMobilePath(req.params.month);
       break;
   }
 
