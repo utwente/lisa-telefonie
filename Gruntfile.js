@@ -223,7 +223,7 @@ module.exports = function (grunt) {
       target: {
         src: '<%= yeoman.client %>/index.html',
         ignorePath: '<%= yeoman.client %>/',
-        exclude: [/bootstrap-sass-official/, /bootstrap.js/, '/json3/', '/es5-shim/', /bootstrap.css/, /font-awesome.css/ ]
+        exclude: [/bootstrap-sass-official/, /bootstrap.js/, '/json3/', '/es5-shim/', /bootstrap.css/, /font-awesome.css/]
       }
     },
 
@@ -232,11 +232,13 @@ module.exports = function (grunt) {
       dist: {
         files: {
           src: [
+            '!<%= yeoman.dist %>/public/bower_components/angular-chart.js',
+            '!<%= yeoman.dist %>/public/bower_components/chart.js',
+            '!<%= yeoman.dist %>/public/bower_components/normalize.css',
             '<%= yeoman.dist %>/public/{,*/}*.js',
             '<%= yeoman.dist %>/public/{,*/}*.css',
             '<%= yeoman.dist %>/public/assets/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}',
             '<%= yeoman.dist %>/public/assets/fonts/*',
-            '!<%= yeoman.dist %>/public/bower_components/normalize.css',
           ]
         }
       }
@@ -259,7 +261,11 @@ module.exports = function (grunt) {
         '<%= yeoman.dist %>/public/{,*/}*.css',
         '!<%= yeoman.dist %>/public/bower_components/normalize.css',
       ],
-      js: ['<%= yeoman.dist %>/public/{,*/}*.js'],
+      js: [
+        '<%= yeoman.dist %>/public/{,*/}*.js',
+        '!<%= yeoman.dist %>/public/bower_components/angular-chart.js',
+        '!<%= yeoman.dist %>/public/bower_components/chart.js',
+      ],
       options: {
         assetsDirs: [
           '<%= yeoman.dist %>/public',

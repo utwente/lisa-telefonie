@@ -3,68 +3,63 @@
 'use strict';
 
 angular.module('ictsAppApp')
-  .controller('TelDashboardCtrl', function ($scope, $http, $timeout, $modal, Morris, morrisDataFormatter) {
+.controller('TelDashboardCtrl', function ($scope, $http, $modal, $filter, graphDataFormatter) {
 
-    var today = new Date();
-    var month = today.getMonth();
-    var year = today.getFullYear();
+  const today = new Date();
+  const month = today.getMonth();
+  const year = today.getFullYear();
 
-    $http.get('/api/stats',{ params: {
-      numbers : 10,
-      min_date: new Date(year, month - 12),
-      max_date: new Date(year, month)
-    }})
-    .then(function(months) {
-
-      // --------------------------
-      //      T-mobile part
-      // --------------------------
-
-      var data = morrisDataFormatter.getDashboardData(months.data);
-
-      // --------------------------
-      //      Display part
-      // --------------------------
-      $scope.showResults = true;
-      $timeout(function(){
-
-        Morris.Line({
-          element: 'overview-graph',
-          data: data.overview,
-          xkey: data.xkey,
-          ykeys: data.ykeys,
-          labels: data.labels,
-          hoverCallback: function (index, options, content) {
-            return content + '<div class="more-info">Klik voor meer informatie.</div>';
-          }
-        })
-        .on('click', function(i){
-          $scope.moreInfoModal({
-            t_mobile: months.data.t_mobile[i],
-            date: data.date[i]
-          });
-        });
-
-      });
-  });
-
-  $scope.moreInfoModal = function (month) {
-    var modalInstance = $modal.open({
+  const moreInfoModal = (month) => {
+    $modal.open({
       templateUrl: 'app/tel/dashboard/dashboardMoreInfo.modal.html',
       controller: 'DashboardMoreInfoModalCtrl',
       scope: $scope,
       resolve: {
-        month: function () {
-          return month;
-        }
+        month: () => month
       }
+    })
+    .result.then((res) => console.log(res), (err) => console.log(err));
+  };
+
+  $http.get('/api/stats',{ params: {
+    numbers : 10,
+    min_date: new Date(year, month - 12),
+    max_date: new Date(year, month)
+  }})
+  .then(function(months) {
+    $scope.showResults = true;
+    $scope.overview  = graphDataFormatter.getDashboardData(months.data);
+    $scope.click = (e) => moreInfoModal({
+      t_mobile: months.data.t_mobile[e[0]._index],
+      date: $scope.overview.labels[e[0]._index]
     });
 
-    modalInstance.result.then(function () {
-      //
-    }, function () {
-      // Dismissed
-    });
-  };
+    $scope.options = {
+      maintainAspectRatio: false,
+      scales: {yAxes: [
+        {
+          ticks: {
+            min: 0,
+            callback: x => $filter('currency')(x/100, '€'),
+          }
+        }
+      ],
+      xAxes: [
+        {
+          ticks: {
+            min: 0,
+            callback: d => $filter('date')(d, 'MM-yyyy'),
+          }
+        }
+      ]},
+      tooltips: {
+        enabled: true,
+        mode: 'single',
+        callbacks: {
+          label: x => $filter('currency')(x.yLabel/100, '€'),
+        }
+      }
+    };
+  });
 
 });

@@ -16,10 +16,15 @@
         	<h1>Analyse {{ t_mobile.month | date:'MMMM yyyy' }}</h1>
             <div class="row">
             	<div class="col-md-4">
-        	        <h2>Overzicht</h2>
-
-                    <donut class="donut-analysis" data="t_mobile" type="costs"></donut>
-
+        	      <h2>Overzicht</h2>
+                <canvas
+            		  height="200"
+            			class="chart chart-doughnut"
+            			chart-data="costs.data"
+            			chart-labels="costs.labels"
+            			chart-colors="costs.colors"
+            			chart-options="costs.options">
+                </canvas>
         		</div>
         		<div class="col-md-4">
 	    			<h2>Informatie per nummer</h2>
@@ -41,14 +46,20 @@
                     </p>
         		</div>
 
-                <div class="col-md-4" ng-show="details">
+                <div class="col-md-4" ng-show="personal">
                     <h2>Details van {{ details.number }}</h2>
                     <h4 ng-show="name">{{name}} <span ng-show="department">({{department}})</span></h4>
 
                     <hr>
                     <h3>Overzicht</h3>
-                    <donut class="donut-analysis" data="details" type="personal"></donut>
-
+                    <canvas
+                      height="200"
+                      class="chart chart-doughnut"
+                      chart-data="personal.data"
+                      chart-labels="personal.labels"
+                      chart-colors="personal.colors"
+                      chart-options="personal.options">
+                    </canvas>
                     <hr ng-show="dataAbroad || callsAbroad">
                     <div ng-show="dataAbroad">
                         <h3>Internet in het buitenland</h3>

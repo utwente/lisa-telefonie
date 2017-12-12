@@ -3,12 +3,19 @@
 'use strict';
 
 angular.module('ictsAppApp')
-  .controller('DashboardMoreInfoModalCtrl', function ($scope, $modalInstance, $timeout, Morris, month) {
+  .controller('DashboardMoreInfoModalCtrl', function ($scope, $modalInstance, graphDataFormatter, month) {
 
   	$scope.date = month.date;
-
-  	// input data for the donut
-  	$scope.t_mobile = month.t_mobile;
+    $scope.costs = graphDataFormatter.getOverviewData(month.t_mobile).costs;
+    $scope.options = {
+      tooltips: {
+        enabled: true,
+        mode: 'single',
+        callbacks: {
+          label: x => console.log(x),
+        }
+      }
+    }
 
   	$scope.close = function() {
   		$modalInstance.dismiss('cancel');

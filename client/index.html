@@ -18,8 +18,6 @@
       <!-- bower:css -->
       <link rel="stylesheet" href="bower_components/ng-table/ng-table.css" />
       <link rel="stylesheet" href="bower_components/normalize.css/normalize.css" />
-      <link rel="stylesheet" href="bower_components/nvd3/src/nv.d3.css" />
-      <link rel="stylesheet" href="bower_components/morris.js/morris.css" />
       <!-- endbower -->
     <!-- endbuild -->
     <!-- build:css({.tmp,client}) app/app.css -->
@@ -55,17 +53,12 @@
       <script src="bower_components/ng-table/ng-table.js"></script>
       <script src="bower_components/ng-table-export/ng-table-export.js"></script>
       <script src="bower_components/angular-bootstrap-show-errors/src/showErrors.js"></script>
-      <script src="bower_components/angular-messages/angular-messages.js"></script>
       <script src="bower_components/papaparse/papaparse.js"></script>
-      <script src="bower_components/d3/d3.js"></script>
-      <script src="bower_components/nvd3/nv.d3.js"></script>
-      <script src="bower_components/angularjs-nvd3-directives/dist/angularjs-nvd3-directives.js"></script>
       <script src="bower_components/angular-filter/dist/angular-filter.js"></script>
       <script src="bower_components/file-saver/FileSaver.js"></script>
-      <script src="bower_components/eve-raphael/eve.js"></script>
-      <script src="bower_components/raphael/raphael.min.js"></script>
-      <script src="bower_components/mocha/mocha.js"></script>
-      <script src="bower_components/morris.js/morris.js"></script>
+      <script src="bower_components/chart.js/dist/Chart.js"></script>
+      <script src="bower_components/angular-chart.js/dist/angular-chart.js"></script>
+      <script src="bower_components/angular-messages/angular-messages.js"></script>
       <!-- endbower -->
       <script src="socket.io-client/socket.io.js"></script>
       <!-- <script src="socket.io-client/dist/socket.io.js"></script> -->
@@ -87,7 +80,6 @@
           <script src="app/admin/admin.js"></script>
           <script src="app/directives/capitalize/capitalize.directive.js"></script>
           <script src="app/directives/check/check.directive.js"></script>
-          <script src="app/directives/donut/donut.directive.js"></script>
           <script src="app/directives/file/file.directive.js"></script>
           <script src="app/directives/myFileReader/myFileReader.directive.js"></script>
           <script src="app/directives/myImeiValidator/myImeiValidator.directive.js"></script>
@@ -103,9 +95,8 @@
           <script src="app/hvd/import/import.controller.js"></script>
           <script src="app/hvd/overview/hvdEdit.controller.js"></script>
           <script src="app/hvd/overview/overview.controller.js"></script>
-          <script src="app/services/Morris/Morris.service.js"></script>
           <script src="app/services/convert/convert.service.js"></script>
-          <script src="app/services/morrisDataFormatter/morrisDataFormatter.service.js"></script>
+          <script src="app/services/graphDataFormatter/graphDataFormatter.service.js"></script>
           <script src="app/services/tMobileConversion/tMobileConversion.service.js"></script>
           <script src="app/services/tMobileParser/tMobileParser.service.js"></script>
           <script src="app/tel/analysis/analysis.controller.js"></script>

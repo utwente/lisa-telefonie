@@ -4,13 +4,23 @@
 	</div><!-- /.col-lg-12 -->
 </div><!-- /.row -->
 
+
 <spinner ng-hide="showResults"></spinner>
 
 <div ng-show="showResults" class="ng-hide">
 
 	<div>
 		<h3 class="overview-caption">Kosten overzicht</h3>
-		<div id="overview-graph"></div>
-	</div>
 
+		<div class="overview-chart">
+			<canvas
+				class="chart chart-bar"
+				chart-data="overview.data"
+				chart-labels="overview.labels"
+				chart-series="series"
+				chart-options="options"
+				chart-click="click">
+			</canvas>
+		</div>
+	</div>
 </div>

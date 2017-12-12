@@ -4,19 +4,40 @@
 'use strict';
 
 angular.module('ictsAppApp')
-.controller('landlineAnalysis', function($scope, $http, $timeout, $filter, Morris, morrisDataFormatter, convert) {
-
+.controller('landlineAnalysis', function($scope, $http, $timeout, $filter, graphDataFormatter, convert) {
   $scope.start = true;
+
+  const formatter = (labelfun) =>
+    (event, data) => {
+      const ix = event.index;
+      const text = data.labels[ix];
+      const val = data.datasets[0].data[ix];
+      return `${text}: ${labelfun(val)}`;
+    }
+
+  const optionsGenerator = (labelfun) => (
+    {
+      tooltips: {
+        mode: 'label',
+        callbacks: {
+          label: formatter(labelfun),
+        }
+      }
+    }
+  );
+
+  function showDonut(res) {
+    $scope.t_mobile = res.data;
+    const data = graphDataFormatter.getOverviewData($scope.t_mobile);
+    $scope.costs = data.costs;
+    $scope.costs.options = optionsGenerator(data.costs.formatter);
+  }
 
   $scope.$watch('data.month', function() {
     if (typeof $scope.data !== 'undefined') {
       $http.get('/api/t_mobile/' + $scope.data.month)
-      .then(function(t_mobile) {
-        $scope.t_mobile = t_mobile.data;
-      })
-      .catch(function() {
-        console.log('T-Mobile not found...');
-      });
+      .then(showDonut)
+      .catch(console.log)
     }
   }, true);
 
@@ -28,10 +49,13 @@ angular.module('ictsAppApp')
     });
 
     // this is input data for the "donut". Donut stuff happens in app/directives/donut
-    $scope.details = n;
+    const data = graphDataFormatter.getPersonalData(n);
+    $scope.personal = data;
+    $scope.personal.options = optionsGenerator(data.formatter)
 
     // this filter parses the data and adds the costs abroad (filter is in app/filters/data-abroad), moved it there to clean this part up
     $scope.dataAbroad = $filter('data_abroad')(n);
+    console.log($scope.dataAbroad);
 
     // this filter parses the data and adds the calls abroad (filter is in app/filters/calls-abroad), moved it there to clean this part up
     $scope.callsAbroad = $filter('calls_abroad')(n);

@@ -28,22 +28,50 @@
 
 		<div class="col-md-3">
 			<div class="donut-caption"><h3>Kosten</h3></div>
-			<donut class="donut-tmobile" type="costs" data="t_mobile"></donut>
+			<canvas
+				height="300"
+				class="chart chart-doughnut"
+				chart-data="costs.data"
+				chart-labels="costs.labels"
+				chart-colors="costs.colors"
+				chart-options="costs.options">
+			</canvas>
 			<div class="donut-footer"><h3>Totaal: {{ t_mobile.summary.totalCosts/100 | currency : '€'}}</h3></div>
 		</div>
 	 	<div class="col-md-3">
 			<div class="donut-caption"><h3>Bellen</h3></div>
-			<donut class="donut-tmobile" type="time" data="t_mobile"></donut>
+			<canvas
+				height="300"
+				class="chart chart-doughnut"
+				chart-data="time.data"
+				chart-labels="time.labels"
+				chart-colors="time.colors"
+				chart-options="time.options">
+			</canvas>
 			<div class="donut-footer"><h3>Totaal: {{t_mobile.summary.totalTime/3600 | number : 0}} uur</h3></div>
 		</div>
 	 	<div class="col-md-3">
 			<div class="donut-caption"><h3>Data</h3></div>
-			<donut class="donut-tmobile" type="data" data="t_mobile"></donut>
+			<canvas
+				height="300"
+				class="chart chart-doughnut"
+				chart-data="data.data"
+				chart-labels="data.labels"
+				chart-colors="data.colors"
+				chart-options="data.options">
+			</canvas>
 			<div class="donut-footer"><h3>Totaal: {{ t_mobile.summary.totalKB/1000000 | number : 0 }} GB</h3></div>
 		</div>
 	 	<div class="col-md-3">
 			<div class="donut-caption"><h3>Berichten</h3></div>
-			<donut class="donut-tmobile" type="sms" data="t_mobile"></donut>
+			<canvas
+				height="300"
+				class="chart chart-doughnut"
+				chart-data="sms.data"
+				chart-labels="sms.labels"
+				chart-colors="sms.colors"
+				chart-options="sms.options">
+			</canvas>
 			<div class="donut-footer"><h3>Totaal: {{ t_mobile.summary.totalSMS }}</h3></div>
 		</div>
 
@@ -63,7 +91,7 @@
 					Opslaan
 				</span>
 				<span data-ng-show="loading">
-					Druk bezig...
+					Versturen...
 					<i class="fa fa-spinner fa-spin"></i>
 				</span>
 			</button>

@@ -10,12 +10,12 @@ angular.module('ictsAppApp', [
 	'ngTable',
 	'ngTableExport',
 	'ngMessages',
-	'nvd3ChartDirectives',
-	'angular.filter'
+	'angular.filter',
+  'chart.js',
 ])
 .config(['$stateProvider', '$urlRouterProvider', '$locationProvider', '$httpProvider', '$qProvider',
 	function ($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider, $qProvider) {
-		$qProvider.errorOnUnhandledRejections(false);
+		$qProvider.errorOnUnhandledRejections(true);
 
 		$urlRouterProvider
 			.otherwise('/tel');

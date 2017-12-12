@@ -16,8 +16,7 @@ angular.module('ictsAppApp')
         fileContent = fileContent.replace(/\"/g, '');
         var lines = fileContent.split('\n');
         if (lines[1].indexOf('Groep;Naam;MSISDN;Specificatie;Datum;Starttijd;Type;Bestemming;Land/Netwerk;Duur/Volume;Uit bundel*;Kosten;') === -1) {
-          console.log('no valid t-mobile file..');
-          return;
+          throw new Error('Invalid T-Mobile file...');
         }
         var parsedDate = lines[0].match(/\d{2}\.\d{2}\.\d{2}/)[0].split('\.');
         var month = new Date('20' + parsedDate[2], parseInt(parsedDate[1]) - 1 - 1);
@@ -229,14 +228,13 @@ angular.module('ictsAppApp')
 
         }
 
-
         t_mobile.numbers = [];
         for (let number in t_mobile.numberObject) {
           t_mobile.numbers.push({
             number: number,
-            calls: t_mobile.numberObject[key].calls,
-            data: t_mobile.numberObject[key].data,
-            summary: t_mobile.numberObject[key].summary
+            calls: t_mobile.numberObject[number].calls,
+            data: t_mobile.numberObject[number].data,
+            summary: t_mobile.numberObject[number].summary
           });
         }
         delete t_mobile.numberObject;
