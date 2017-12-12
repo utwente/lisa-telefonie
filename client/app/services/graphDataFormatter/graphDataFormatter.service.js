@@ -121,7 +121,6 @@ angular.module('ictsAppApp')
     function dashboard(months) {
       const data = months.t_mobile.map(x => x.summary.totalCosts);
       const labels = months.t_mobile.map(x => new Date(x.month));
-      const colors = colo
       return {data: [data], labels};
     }
 

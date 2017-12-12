@@ -55,7 +55,6 @@ angular.module('ictsAppApp')
 
     // this filter parses the data and adds the costs abroad (filter is in app/filters/data-abroad), moved it there to clean this part up
     $scope.dataAbroad = $filter('data_abroad')(n);
-    console.log($scope.dataAbroad);
 
     // this filter parses the data and adds the calls abroad (filter is in app/filters/calls-abroad), moved it there to clean this part up
     $scope.callsAbroad = $filter('calls_abroad')(n);
