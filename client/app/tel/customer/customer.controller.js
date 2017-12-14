@@ -3,7 +3,7 @@
 'use strict';
 
 angular.module('ictsAppApp')
-.controller('TelCustomerCtrl', function ($scope, $http, socket, ngTableParams, $modal, message, $timeout) {
+.controller('TelCustomerCtrl', function ($scope, $http, socket, ngTableParams, $modal, message) {
 
   // Pagination in controller
   $scope.currentPage = 0;
@@ -58,7 +58,7 @@ angular.module('ictsAppApp')
       if (customer.department === undefined) { customer.department = 'UNKNOWN'; }
       var department = _.find($scope.departments, { 'name': customer.department});
       if (department === undefined) {
-        message.error('Afdeling "' + customer.department + '" bestaat niet voor gebruiker "' + customer.name + '".')
+        message.error('Afdeling "' + customer.department + '" bestaat niet voor gebruiker "' + customer.name + '".');
       }
       customer.department = department._id;
     }
@@ -74,7 +74,8 @@ angular.module('ictsAppApp')
       }
       $scope.massImport.finished++;
     }).catch(function (err) {
-      message.error('Opslaan niet gelukt, probeer opnieuw.')
+      console.log(err);
+      message.error('Opslaan niet gelukt, probeer opnieuw.');
       $scope.massImport.errors++;
     });
 
@@ -99,7 +100,7 @@ angular.module('ictsAppApp')
 
   $scope.updateCustomer = function(customer){
     $http.put('/api/customers/' + customer._id, customer)
-    .then(function(data){
+    .then(function(){
       message.success('Gebruiker aangepast!');
     })
     .catch(function() {

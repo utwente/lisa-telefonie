@@ -15,7 +15,7 @@ angular.module('ictsAppApp')
           label: x => console.log(x),
         }
       }
-    }
+    };
 
   	$scope.close = function() {
   		$modalInstance.dismiss('cancel');

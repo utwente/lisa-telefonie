@@ -62,7 +62,7 @@ angular.module('ictsAppApp')
 				.then(function () {
 					department.$edit = false;
 					department.updated = true;
-					message.success('De afdeling is bijgewerkt!')
+					message.success('De afdeling is bijgewerkt!');
 				})
 				.catch(() => message.error('Bijwerken afdeling niet gelukt..'));
 		};
@@ -101,6 +101,7 @@ angular.module('ictsAppApp')
 					message.success('De afdeling is verwijderd!');
 				})
 				.catch((err) => {
+					console.log(err);
 					message.error('Er ging iets mis bij het verwijderen van de afdeling');
 				});
 		};

@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('ictsAppApp')
-	.controller('TelDepartmentDeleteModalCtrl', function ($scope, $http, $modalInstance, department) {
+	.controller('TelDepartmentDeleteModalCtrl', function ($scope, $http, $modalInstance, department, message) {
 		$scope.department = department;
 
 		$http.get('/api/customers/department/' + department._id)
@@ -10,8 +10,8 @@ angular.module('ictsAppApp')
 				$scope.customers = customers.data;
 			})
 			.catch(err => {
-				console.log(err)
-				message.error('Er ging iets mis bij het verwijderen van de afdeling..')
+				console.log(err);
+				message.error('Er ging iets mis bij het verwijderen van de afdeling..');
 			});
 
 		$scope.delete = function () {

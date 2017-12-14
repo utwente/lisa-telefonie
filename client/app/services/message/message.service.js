@@ -8,12 +8,12 @@ angular.module('ictsAppApp')
     warning: 'Let op!',
     success: 'Gelukt!',
     info: 'Info!'
-  }
+  };
 
   function message(type, text) {
     let container = document.getElementById('message-container');
     if (!container) {
-      container = document.createElement('div')
+      container = document.createElement('div');
       container.id = 'message-container';
       document.body.appendChild(container);
     }
@@ -22,7 +22,7 @@ angular.module('ictsAppApp')
     const html =
     `<div class="alert alert-${type}">
       <strong>${translate[type]}</strong> ${text}
-    </div>`
+    </div>`;
 
     div.innerHTML = html;
     const message = div.firstChild;

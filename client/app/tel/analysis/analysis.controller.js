@@ -13,7 +13,7 @@ angular.module('ictsAppApp')
       const text = data.labels[ix];
       const val = data.datasets[0].data[ix];
       return `${text}: ${labelfun(val)}`;
-    }
+    };
 
   const optionsGenerator = (labelfun) => (
     {
@@ -38,8 +38,8 @@ angular.module('ictsAppApp')
       $http.get('/api/t_mobile/' + $scope.data.month)
       .then(showDonut)
       .catch(function() {
-        message.error('Het ophalen van deze maand is niet gelukt. Is deze maand al ingevoerd?')
-      })
+        message.error('Het ophalen van deze maand is niet gelukt. Is deze maand al ingevoerd?');
+      });
     }
   }, true);
 
@@ -53,7 +53,7 @@ angular.module('ictsAppApp')
     // this is input data for the "donut". Donut stuff happens in app/directives/donut
     const data = graphDataFormatter.getPersonalData(n);
     $scope.personal = data;
-    $scope.personal.options = optionsGenerator(data.formatter)
+    $scope.personal.options = optionsGenerator(data.formatter);
 
     // this filter parses the data and adds the costs abroad (filter is in app/filters/data-abroad), moved it there to clean this part up
     $scope.dataAbroad = $filter('data_abroad')(n);
@@ -87,7 +87,7 @@ angular.module('ictsAppApp')
 
     })
     .catch(function(){
-      message.error('Bestand kon niet opgehaald worden...')
+      message.error('Bestand kon niet opgehaald worden...');
     });
 
   };

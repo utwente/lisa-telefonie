@@ -111,7 +111,7 @@ angular.module('ictsAppApp')
             console.log('Maand bestaat al..');
             $scope.overrideMonthModal(res.data.id);
           } else {
-            message.error('Onbekende fout..')
+            message.error('Onbekende fout..');
           }
         } else {
           message.success('Maand opgeslagen!');
@@ -217,7 +217,7 @@ angular.module('ictsAppApp')
       })
       .catch((err) => {
         console.log(err);
-        message.error('Er ging iets mis bij het opslaan..')
+        message.error('Er ging iets mis bij het opslaan..');
       });
     }
   };
@@ -264,6 +264,7 @@ angular.module('ictsAppApp')
       message.success('Record is verwijderd!');
     })
     .catch((err) => {
+      console.log(err);
       message.error('Er ging iets mis bij het verwijderen..');
     });
   };

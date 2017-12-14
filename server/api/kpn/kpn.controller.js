@@ -25,7 +25,6 @@ exports.show = function(req, res) {
 
 // Creates a new month in the DB.
 exports.create = function(req, res) {
-  console.log(req.body.month);
   Kpn.find({month: req.body.month}, function(err, month) {
     if (month.length !== 0) {
       // the month exists already..
@@ -56,12 +55,11 @@ exports.update = function(req, res) {
 
 // Deletes a kpn from the DB.
 exports.destroy = function(req, res) {
-  // console.log(req.params.monthId, req.params.recordId);
   Kpn.findById(req.params.monthId, function (err, kpn) {
     if (err) { return handleError(res, err); }
     if(!kpn) { return res.send(404); }
     kpn.numbers = kpn.numbers.filter(function(number) {
-      return (!(number._id.toString() == req.params.recordId));
+      return (number._id.toString() !== req.params.recordId);
     });
     kpn.save(function (err) {
       if (err) { return handleError(res, err); }

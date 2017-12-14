@@ -56,7 +56,7 @@ angular.module('ictsAppApp')
 					$scope.next = progress.steps[progress.counter].done;
 				})
 				.catch(function () {
-          message.error('Het ophalen van deze maand is niet gelukt. Is deze maand al ingevoerd?')
+          message.error('Het ophalen van deze maand is niet gelukt. Is deze maand al ingevoerd?');
 				});
 		}
 	});
@@ -115,7 +115,7 @@ angular.module('ictsAppApp')
 				$scope.next = progress.steps[progress.counter].done;
 				$scope.saveProgress();
 				// end
-        message.error('Aanmaken mobiele specificaties niet gelukt..')
+        message.error('Aanmaken mobiele specificaties niet gelukt..');
 				$scope.mob_pdf.message = 'Er zijn fouten. Los deze op en probeer het daarna opnieuw.';
 
 			});
@@ -130,7 +130,7 @@ angular.module('ictsAppApp')
 				$scope.saveProgress();
 			})
 			.catch(function () {
-        message.error('Aanmaken vaste specificaties is niet gelukt')
+        message.error('Aanmaken vaste specificaties is niet gelukt');
 			});
 	};
 
@@ -162,6 +162,7 @@ angular.module('ictsAppApp')
 				$scope.next = progress.steps[progress.counter].done;
 			})
 			.catch(function(err) {
+        console.log(err);
         message.error('Ophalen van de voorgang van deze maand is niet gelukt');
 			});
 	};
@@ -174,8 +175,9 @@ angular.module('ictsAppApp')
 			.then(function (files) {
 				$scope.files = files.data;
 			})
-			.catch(function () {
-        message.error('Ophalen bestanden is niet gelukt..')
+			.catch(function (err) {
+        console.log(err);
+        message.error('Ophalen bestanden is niet gelukt..');
 			});
 
 		}
@@ -257,7 +259,8 @@ angular.module('ictsAppApp')
 
 	// log error if error on server..
 	socket.socket.on('server_error', function(msg) {
-    message.error('Er ging iets mis op de server..')
+    console.log(msg);
+    message.error('Er ging iets mis op de server..');
 	});
 
 });

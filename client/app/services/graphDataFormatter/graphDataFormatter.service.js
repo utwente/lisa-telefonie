@@ -130,5 +130,5 @@ angular.module('ictsAppApp')
       getOverviewData: details,
       getPersonalData: personal,
       getDashboardData: dashboard
-    }
+    };
 });

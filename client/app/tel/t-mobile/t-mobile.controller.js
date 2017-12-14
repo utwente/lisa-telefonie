@@ -11,7 +11,7 @@ angular.module('ictsAppApp')
         const text = data.labels[ix];
         const val = data.datasets[0].data[ix];
         return `${text}: ${labelfun(val)}`;
-      }
+      };
 
     const optionsGenerator = (labelfun) => (
       {
@@ -83,6 +83,7 @@ angular.module('ictsAppApp')
           message.success('Maand overschreven!');
         })
         .catch((err) => {
+          console.log(err);
           message.error('Er ging iets fout bij het overschrijven..');
         });
     };
