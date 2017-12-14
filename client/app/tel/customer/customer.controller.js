@@ -3,7 +3,8 @@
 'use strict';
 
 angular.module('ictsAppApp')
-.controller('TelCustomerCtrl', function ($scope, $http, socket, ngTableParams, $modal, message) {
+.controller('TelCustomerCtrl', ['$scope', '$http', 'socket', 'ngTableParams', '$modal', 'message',
+function($scope, $http, socket, ngTableParams, $modal, message) {
 
   // Pagination in controller
   $scope.currentPage = 0;
@@ -263,4 +264,4 @@ angular.module('ictsAppApp')
 
   };
 
-});
+}]);

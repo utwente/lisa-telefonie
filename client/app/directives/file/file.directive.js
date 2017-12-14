@@ -3,7 +3,7 @@
 'use strict';
 
 angular.module('ictsAppApp')
-  .directive('file', function ($http) {
+  .directive('file', ['$http', function ($http) {
 
     function findMimeType(extension) {
       switch (extension) {
@@ -47,4 +47,4 @@ angular.module('ictsAppApp')
         };
       }
     };
-  });
+  }]);

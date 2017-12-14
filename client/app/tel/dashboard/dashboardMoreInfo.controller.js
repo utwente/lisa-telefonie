@@ -3,7 +3,8 @@
 'use strict';
 
 angular.module('ictsAppApp')
-  .controller('DashboardMoreInfoModalCtrl', function ($scope, $modalInstance, graphDataFormatter, month) {
+  .controller('DashboardMoreInfoModalCtrl', ['$scope', '$modalInstance', 'graphDataFormatter', 'month',
+  function ($scope, $modalInstance, graphDataFormatter, month) {
 
   	$scope.date = month.date;
     $scope.costs = graphDataFormatter.getOverviewData(month.t_mobile).costs;
@@ -21,4 +22,4 @@ angular.module('ictsAppApp')
   		$modalInstance.dismiss('cancel');
   	};
 
-  });
+  }]);

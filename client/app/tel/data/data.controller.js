@@ -4,7 +4,8 @@
 
 angular.module('ictsAppApp')
 
-    .controller('DataCtrl', function ($scope, $http, message) {
+    .controller('DataCtrl', ['$scope', '$http', 'message',
+    function($scope, $http, message) {
 
         $scope.$watch('data.month', function() {
             if (typeof $scope.data !== 'undefined') {
@@ -38,4 +39,4 @@ angular.module('ictsAppApp')
             saveAs(blob, filename);
         };
 
-  });
+  }]);

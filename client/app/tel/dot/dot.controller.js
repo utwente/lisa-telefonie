@@ -4,7 +4,7 @@
 'use strict';
 
 angular.module('ictsAppApp')
-.controller('TelDotCtrl', function($scope, $http, $filter) {
+.controller('TelDotCtrl', ['$scope', '$http', '$filter', function($scope, $http, $filter) {
 
   function resetProgress() {
     $scope.progress = {
@@ -121,4 +121,4 @@ angular.module('ictsAppApp')
   }, true);
 
 
-});
+}]);

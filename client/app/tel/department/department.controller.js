@@ -3,7 +3,8 @@
 'use strict';
 
 angular.module('ictsAppApp')
-	.controller('TelDepartmentCtrl', function ($scope, $http, $filter, socket, ngTableParams, $modal, message) {
+	.controller('TelDepartmentCtrl', ['$scope', '$http', '$filter', 'socket', 'ngTableParams', '$modal', 'message',
+	function($scope, $http, $filter, socket, ngTableParams, $modal, message) {
 		$scope.departments = [];
 		$scope.departmentsLoaded = false;
 		$scope.newDepartment = {};
@@ -142,12 +143,5 @@ angular.module('ictsAppApp')
 			}
 
 		};
-
-
-
-
-
-
-
-
-	});
+		
+	}]);

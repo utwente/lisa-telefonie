@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('ictsAppApp')
-	.directive('numbersOnly', function () {
+	.directive('numbersOnly', [function () {
 		return {
 			require: 'ngModel',
 			link: function (scope, element, attrs, modelCtrl) {
@@ -19,4 +19,4 @@ angular.module('ictsAppApp')
 				});
 			}
 		};
-	});
+	}]);

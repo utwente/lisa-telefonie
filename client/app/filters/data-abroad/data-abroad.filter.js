@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('ictsAppApp')
-	.filter('data_abroad', function () {
+	.filter('data_abroad', [function () {
 		return function (data) {
 			if (!data) { return undefined; }
 			if (!data.data || !data.data.internetInHetBuitenland) { return undefined; }
@@ -25,4 +25,4 @@ angular.module('ictsAppApp')
 			return dataAbroad;
 
 		};
-	});
+	}]);

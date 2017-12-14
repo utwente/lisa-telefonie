@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('ictsAppApp')
-	.filter('calls_abroad', function () {
+	.filter('calls_abroad', [function () {
 		return function (data) {
 
 			var callsAbroad = [];
@@ -50,4 +50,4 @@ angular.module('ictsAppApp')
 			return callsAbroad;
 
 		};
-	});
+	}]);

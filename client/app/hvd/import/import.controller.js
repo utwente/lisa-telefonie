@@ -2,12 +2,11 @@
 'use strict';
 
 angular.module('ictsAppApp')
-  .controller('HvdImportCtrl', function ($scope, $filter, $http) {
+  .controller('HvdImportCtrl', ['$scope', '$filter', '$http', function ($scope, $filter, $http) {
 
      /**
        * IMPORT
        */
-      console.log('test');
 
       $scope.recordsLoaded = false;
       $scope.progressbars = [
@@ -73,4 +72,4 @@ angular.module('ictsAppApp')
           });
       };
 
-  });
+  }]);

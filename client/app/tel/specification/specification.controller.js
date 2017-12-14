@@ -4,7 +4,8 @@
 'use strict';
 
 angular.module('ictsAppApp')
-	.controller('TelSpecificationCtrl', function ($scope, $http, $filter, socket, ngTableParams, $modal, message) {
+	.controller('TelSpecificationCtrl', ['$scope', '$http', '$filter', 'socket', 'ngTableParams', '$modal', 'message',
+	function ($scope, $http, $filter, socket, ngTableParams, $modal, message) {
 		$scope.specifications = [];
 		$scope.newSpecification = {
 			number: '',
@@ -153,4 +154,4 @@ angular.module('ictsAppApp')
 
 
 
-	});
+	}]);

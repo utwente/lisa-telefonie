@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('ictsAppApp')
-  .controller('AdminCtrl', function ($scope, $http, Auth, User) {
+  .controller('AdminCtrl', ['$scope', '$http', 'Auth', 'User', function ($scope, $http, Auth, User) {
 
     $scope.newUser = {};
 
@@ -30,4 +30,4 @@ angular.module('ictsAppApp')
         });
       });
     };
-  });
+  }]);

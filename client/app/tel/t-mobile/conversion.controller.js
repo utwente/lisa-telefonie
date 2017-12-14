@@ -3,7 +3,7 @@
 'use strict';
 
 angular.module('ictsAppApp')
-  .controller('conversionCtrl', function ($scope, $modalInstance, tMobileConversion) {
+  .controller('conversionCtrl', ['$scope', '$modalInstance', 'tMobileConversion', function ($scope, $modalInstance, tMobileConversion) {
 
     $scope.step = 1;
     let dataLL;
@@ -24,4 +24,4 @@ angular.module('ictsAppApp')
   		$modalInstance.dismiss('cancel');
   	};
 
-  });
+  }]);

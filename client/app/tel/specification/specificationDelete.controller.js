@@ -1,7 +1,8 @@
 'use strict';
 
 angular.module('ictsAppApp')
-	.controller('TelSpecificationDeleteModalCtrl', function ($scope, $modalInstance, specification) {
+	.controller('TelSpecificationDeleteModalCtrl', ['$scope', '$modalInstance', 'specification',
+	function ($scope, $modalInstance, specification) {
 		$scope.specification = specification;
 
 		$scope.delete = function () {
@@ -12,4 +13,4 @@ angular.module('ictsAppApp')
 			$modalInstance.dismiss('cancel');
 		};
 
-	});
+	}]);

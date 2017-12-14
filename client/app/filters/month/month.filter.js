@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('ictsAppApp')
-	.filter('month', function () {
+	.filter('month', [function () {
 		return function (records, monthDate) {
 			var r = [];
 			var d = new Date(monthDate);
@@ -14,4 +14,4 @@ angular.module('ictsAppApp')
 			});
 			return r;
 		};
-	});
+	}]);

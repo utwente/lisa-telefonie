@@ -1,7 +1,8 @@
 'use strict';
 
 angular.module('ictsAppApp')
-.controller('OverviewCtrl', function ($scope, $filter, $http, socket, Auth, $modal) {
+.controller('OverviewCtrl', ['$scope', '$filter', '$http', 'socket', 'Auth', '$modal',
+  function($scope, $filter, $http, socket, Auth, $modal) {
 
   $scope.newHvd = {};
 
@@ -76,10 +77,10 @@ angular.module('ictsAppApp')
       }
     });
   };
-  
+
   $scope.delete = function(hvd) {
     $http.delete('/api/hvd/' + hvd._id )
     .then(function() {});
   };
 
-});
+}]);

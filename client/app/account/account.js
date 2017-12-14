@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('ictsAppApp')
-  .config(function ($stateProvider) {
+  .config(['$stateProvider', function ($stateProvider) {
     $stateProvider
       .state('login', {
         url: '/login',
@@ -14,4 +14,4 @@ angular.module('ictsAppApp')
         controller: 'SettingsCtrl',
         authenticate: true
       });
-  });
+  }]);

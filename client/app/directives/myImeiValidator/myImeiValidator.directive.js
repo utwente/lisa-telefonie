@@ -2,7 +2,7 @@
 'use strict';
 
 angular.module('ictsAppApp')
-.directive('imei', function () {
+.directive('imei', [function () {
 
   var helpers = {
     /**
@@ -74,4 +74,4 @@ angular.module('ictsAppApp')
     }
 
   };
-});
+}]);

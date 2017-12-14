@@ -3,7 +3,8 @@
 'use strict';
 
 angular.module('ictsAppApp')
-  .controller('EmailCtrl', function ($scope, $http, socket, message) {
+  .controller('EmailCtrl', ['$scope', '$http', 'socket', 'message',
+  function($scope, $http, socket, message) {
 
 
     // clear all messageg etc.
@@ -263,4 +264,4 @@ angular.module('ictsAppApp')
     message.error('Er ging iets mis op de server..');
 	});
 
-});
+}]);

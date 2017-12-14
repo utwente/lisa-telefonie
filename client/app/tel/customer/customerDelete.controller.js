@@ -1,12 +1,13 @@
 'use strict';
 
 angular.module('ictsAppApp')
-  .controller('TelCustomerDeleteModalCtrl', function ($scope, $modalInstance, customer) {
+  .controller('TelCustomerDeleteModalCtrl', ['$scope', '$modalInstance', 'customer',
+  function ($scope, $modalInstance, customer) {
   	$scope.trueDelete = false;
   	$scope.hideMoreOptions = true;
     $scope.customer = customer;
 
-  	// Global    
+  	// Global
     $scope.dateOptions = {
       formatYear: 'yy',
       startingDay: 1
@@ -38,4 +39,4 @@ angular.module('ictsAppApp')
   		$modalInstance.dismiss('cancel');
   	};
 
-  });
+  }]);

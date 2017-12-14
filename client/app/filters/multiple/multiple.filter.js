@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('ictsAppApp')
-  .filter('multiple', function () {
+  .filter('multiple', [function () {
     return function (input, search, keys) {
 
         if (!search){ return input; }
@@ -33,4 +33,4 @@ angular.module('ictsAppApp')
 
         return result;
     };
-  });
+  }]);

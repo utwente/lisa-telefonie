@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('ictsAppApp')
-  .controller('TMobileOverrideModalCtrl', function ($scope, $modalInstance, id) {
+  .controller('TMobileOverrideModalCtrl', ['$scope', '$modalInstance', 'id', function ($scope, $modalInstance, id) {
 
     $scope.id = id;
 
@@ -13,4 +13,4 @@ angular.module('ictsAppApp')
   		$modalInstance.dismiss('cancel');
   	};
 
-  });
+  }]);

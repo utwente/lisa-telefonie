@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('ictsAppApp')
-.factory('tMobileConversion', ($filter) => {
+.factory('tMobileConversion', ['$filter', ($filter) => {
 
   // for readability declare consts for each column name
   const A_NR = 1;
@@ -60,4 +60,4 @@ angular.module('ictsAppApp')
     }
   };
 
-});
+}]);

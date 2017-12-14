@@ -1,7 +1,9 @@
 'use strict';
 
 angular.module('ictsAppApp')
-	.controller('TelDepartmentDeleteModalCtrl', function ($scope, $http, $modalInstance, department, message) {
+	.controller('TelDepartmentDeleteModalCtrl', ['$scope', '$http', '$modalInstance', 'message', 'department',
+	function ($scope, $http, $modalInstance, message, department) {
+
 		$scope.department = department;
 
 		$http.get('/api/customers/department/' + department._id)
@@ -22,4 +24,4 @@ angular.module('ictsAppApp')
 			$modalInstance.dismiss('cancel');
 		};
 
-	});
+	}]);

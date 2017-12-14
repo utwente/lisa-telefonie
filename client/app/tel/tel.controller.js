@@ -1,13 +1,13 @@
 'use strict';
 
 angular.module('ictsAppApp')
-	.controller('TelCtrl', function ($scope) {
-	
+	.controller('TelCtrl', ['$scope', function ($scope) {
+
 	$scope.submenu = [
 		{
 			'title': 'Overzicht',
 			'link': '/tel/dashboard',
-			'icon': 'fa-bar-chart'		
+			'icon': 'fa-bar-chart'
 		},
 		{
 			'title': 'Gegevens',
@@ -74,5 +74,5 @@ angular.module('ictsAppApp')
 		},
 	];
 
-	
-  });
+
+}]);

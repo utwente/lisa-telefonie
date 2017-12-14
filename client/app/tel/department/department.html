@@ -117,7 +117,7 @@
 					<td data-title="'E-mail'" class="col-md-6">
 						<span ng-if="!department.$edit"><a href="mailto:{{department.email}}">{{department.email}}</a></span>
 						<div ng-if="department.$edit">
-							<input form="{{department._id}}" ng-form="{{department._id}}" class="form-control input-sm" type="email" ng-model="department.email"
+							<input form="{{department._id}}" class="form-control input-sm" type="email" ng-model="department.email"
 								ng-email
 								required
 								ng-model-options="{debounce: 500}" />

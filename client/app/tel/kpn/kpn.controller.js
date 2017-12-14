@@ -4,7 +4,8 @@
 'use strict';
 
 angular.module('ictsAppApp')
-.controller('TelKpnCtrl', function($scope, $http, $modal, $filter, socket, $location, ngTableParams, message) {
+.controller('TelKpnCtrl', ['$scope', '$http', '$modal', '$filter', 'socket', '$location', 'ngTableParams', 'message', 
+  function($scope, $http, $modal, $filter, socket, $location, ngTableParams, message) {
   $scope.months = [];
 
   // Monthpicker settings/functions
@@ -269,4 +270,4 @@ angular.module('ictsAppApp')
     });
   };
 
-});
+}]);

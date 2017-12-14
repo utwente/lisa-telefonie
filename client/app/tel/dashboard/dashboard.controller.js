@@ -3,7 +3,8 @@
 'use strict';
 
 angular.module('ictsAppApp')
-.controller('TelDashboardCtrl', function ($scope, $http, $modal, $filter, graphDataFormatter, message) {
+  .controller('TelDashboardCtrl', ['$scope', '$http', '$modal', '$filter', 'graphDataFormatter', 'message',
+  function ($scope, $http, $modal, $filter, graphDataFormatter, message) {
 
   const today = new Date();
   const month = today.getMonth();
@@ -63,4 +64,4 @@ angular.module('ictsAppApp')
   })
   .catch(() => message.error('Ophalen van de maandstatistieken niet gelukt..'));
 
-});
+}]);

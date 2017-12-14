@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('ictsAppApp')
-  .controller('HvdEditModalCtrl', function ($scope, $modalInstance, hvd, $http) {
+  .controller('HvdEditModalCtrl', ['$scope', '$modalInstance', 'hvd', '$http', function ($scope, $modalInstance, hvd, $http) {
 
     $scope.hvd = hvd;
 
@@ -33,4 +33,4 @@ angular.module('ictsAppApp')
         });
     };
 
-  });
+  }]);

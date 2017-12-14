@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('ictsAppApp')
-  .controller('LoginCtrl', function ($scope, Auth, $location, $window) {
+  .controller('LoginCtrl', ['$scope', 'Auth', '$location', '$window', function ($scope, Auth, $location, $window) {
     $scope.user = {};
     $scope.errors = {};
 
@@ -26,4 +26,4 @@ angular.module('ictsAppApp')
     $scope.loginOauth = function(provider) {
       $window.location.href = '/auth/' + provider;
     };
-  });
+  }]);

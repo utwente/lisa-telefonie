@@ -4,7 +4,8 @@
 'use strict';
 
 angular.module('ictsAppApp')
-.controller('landlineAnalysis', function($scope, $http, $timeout, $filter, graphDataFormatter, convert, message) {
+.controller('landlineAnalysis', ['$scope', '$http', '$timeout', '$filter', 'graphDataFormatter', 'convert', 'message',
+function($scope, $http, $timeout, $filter, graphDataFormatter, convert, message) {
   $scope.start = true;
 
   const formatter = (labelfun) =>
@@ -92,4 +93,4 @@ angular.module('ictsAppApp')
 
   };
 
-});
+}]);

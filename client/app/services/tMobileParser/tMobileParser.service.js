@@ -3,7 +3,7 @@
 'use strict';
 
 angular.module('ictsAppApp')
-  .factory('tMobileParser', function () {
+  .factory('tMobileParser', [function () {
 
     // Public API here
     return {
@@ -243,4 +243,4 @@ angular.module('ictsAppApp')
 
       }
     };
-  });
+  }]);

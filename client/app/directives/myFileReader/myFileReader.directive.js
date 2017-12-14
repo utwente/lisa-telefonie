@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('ictsAppApp')
-  .directive('myFileReader', function ($parse) {
+  .directive('myFileReader', ['$parse', function ($parse) {
     return {
       restrict: 'A',
       scope: false,
@@ -16,4 +16,4 @@ angular.module('ictsAppApp')
         });
       }
     };
-  });
+  }]);

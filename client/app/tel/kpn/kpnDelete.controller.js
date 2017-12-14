@@ -1,7 +1,8 @@
 'use strict';
 
 angular.module('ictsAppApp')
-	.controller('TelKpnDeleteModalCtrl', function ($scope, $modalInstance, record) {
+	.controller('TelKpnDeleteModalCtrl', ['$scope', '$modalInstance', 'record',
+	function ($scope, $modalInstance, record) {
 		$scope.record = record;
 
 		$scope.delete = function () {
@@ -12,4 +13,4 @@ angular.module('ictsAppApp')
 			$modalInstance.dismiss('cancel');
 		};
 
-	});
+	}]);

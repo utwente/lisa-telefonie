@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('ictsAppApp')
-.factory('message', ($timeout) => {
+.factory('message', ['$timeout', ($timeout) => {
 
   const translate = {
     danger: 'Fout!',
@@ -37,4 +37,4 @@ angular.module('ictsAppApp')
     error: (msg) => message('danger',  msg),
     info: (msg) => message('info', msg),
   };
-});
+}]);

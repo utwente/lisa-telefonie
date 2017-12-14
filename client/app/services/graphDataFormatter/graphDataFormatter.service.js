@@ -3,7 +3,7 @@
 'use strict';
 
 angular.module('ictsAppApp')
-  .factory('graphDataFormatter', function($filter) {
+  .factory('graphDataFormatter', ['$filter', function($filter) {
 
     // Service logic
     var blueColors = ['#0B62A4', '#3980B5', '#679DC6', '#95BBD7', '#B0CCE1', '#095791', '#095085', '#083E67', '#052C48', '#042135']; // blue colors stolen from morris.js
@@ -131,4 +131,4 @@ angular.module('ictsAppApp')
       getPersonalData: personal,
       getDashboardData: dashboard
     };
-});
+}]);

@@ -49,12 +49,6 @@ angular.module('ictsAppApp')
 						controller: 'TelKpnCtrl',
 						authenticate: true
 					})
-						.state('tel.kpn.month', {
-							url: '/{monthId:[0-9]{4}-[0-1]{1}[0-9]{1}}', // e.g. /2014-11
-							templateUrl: 'app/tel/kpn/month/kpn.month.html',
-							controller: 'TelKpnMonthCtrl',
-							authenticate: true
-						})
 					.state('tel.t-mobile', {
 						url: '/t-mobile',
 						templateUrl: 'app/tel/t-mobile/t-mobile.html',

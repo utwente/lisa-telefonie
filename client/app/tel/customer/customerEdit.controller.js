@@ -1,8 +1,9 @@
 'use strict';
 
 angular.module('ictsAppApp')
-  .controller('TelCustomerEditModalCtrl', function ($scope, $modalInstance, customer) {
- 
+  .controller('TelCustomerEditModalCtrl', ['$scope', '$modalInstance', 'customer',
+  function($scope, $modalInstance, customer) {
+
     $scope.customer = customer;
 
   	$scope.save = function () {
@@ -13,4 +14,4 @@ angular.module('ictsAppApp')
   		$modalInstance.dismiss('cancel');
   	};
 
-  });
+  }]);

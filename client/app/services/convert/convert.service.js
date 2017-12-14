@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('ictsAppApp')
-.factory('convert', function () {
+.factory('convert', [function () {
   return {
     base64ToArrayBuffer: function (base64) {
       var binaryString = window.atob(base64);
@@ -13,4 +13,4 @@ angular.module('ictsAppApp')
       return bytes.buffer;
     }
   };
-});
+}]);

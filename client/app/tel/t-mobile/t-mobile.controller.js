@@ -3,7 +3,8 @@
 'use strict';
 
 angular.module('ictsAppApp')
-  .controller('TelTMobileCtrl', function ($scope, $http, $modal, $timeout, tMobileParser, graphDataFormatter, message) {
+  .controller('TelTMobileCtrl', ['$scope', '$http', '$modal', '$timeout', 'tMobileParser', 'graphDataFormatter', 'message',
+  function($scope, $http, $modal, $timeout, tMobileParser, graphDataFormatter, message) {
 
     const formatter = (labelfun) =>
       (event, data) => {
@@ -114,4 +115,4 @@ angular.module('ictsAppApp')
       });
     };
 
-  });
+  }]);
