@@ -11,7 +11,6 @@ var CustomerSchema = new Schema({
   subdepartment: String,
   internalAddress: String,
   landlineNumber: String,
-  shortNumber: String,
   mobileNumber: String,
   imeiNumber: String,
   duoSim: Boolean,

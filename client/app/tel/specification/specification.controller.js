@@ -4,7 +4,7 @@
 'use strict';
 
 angular.module('ictsAppApp')
-	.controller('TelSpecificationCtrl', function ($scope, $http, $filter, socket, ngTableParams, $modal) {
+	.controller('TelSpecificationCtrl', function ($scope, $http, $filter, socket, ngTableParams, $modal, message) {
 		$scope.specifications = [];
 		$scope.newSpecification = {
 			number: '',
@@ -47,11 +47,13 @@ angular.module('ictsAppApp')
 				name: specification.name,
 				email: specification.email
 			}).then(function () {
-				// $scope.tableParams.reload(); // reload table
-				// specification.name = '';
-				// specification.email = '';
-			}).catch(function () {
-				console.log('error saving ');
+				$scope.newSpecification = {};
+        $scope.addSpecificationForm.$setPristine();
+        $scope.addSpecificationForm.$setUntouched();
+				message.success('Nieuwe persoonlijke specificatie opgeslagen!');
+			}).catch(function(err) {
+				console.log(err);
+				message.error('Er ging iets mis bij het opslaan..');
 			});
 
 		};

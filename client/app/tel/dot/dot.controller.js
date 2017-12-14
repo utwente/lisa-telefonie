@@ -111,13 +111,11 @@ angular.module('ictsAppApp')
         .catch(function() {
           $scope.progress.errors = true;
           $scope.progress.error.kpn = true;
-          console.log('KPN not found...');
         });
       })
       .catch(function() {
         $scope.progress.errors = true;
         $scope.progress.error.tMobile = true;
-        console.log('T-Mobile not found...');
       });
     }
   }, true);

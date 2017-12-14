@@ -1,31 +1,30 @@
 <div class="row first-row">
 	<div class="col-lg-12">
-		
-		<accordion>
-			<accordion-group is-open="newCustomerAccordion.open">
-				<accordion-heading>
-					<i class="fa fa-plus"></i> Nieuwe klant toevoegen
-					<i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': newCustomerAccordion.open, 'glyphicon-chevron-right': !newCustomerAccordion.open}"></i>
-				</accordion-heading>
-				
-				<form name="customerForm" class="customerForm"
-					ng-submit="addCustomer()"
-					novalidate>
-					
+
+		<form name="customerForm" class="customerForm"
+			ng-submit="addCustomer()"
+			novalidate>
+			<accordion>
+				<accordion-group is-open="newCustomerAccordion.open">
+					<accordion-heading>
+						<i class="fa fa-plus"></i> Nieuwe klant toevoegen
+						<i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': newCustomerAccordion.open, 'glyphicon-chevron-right': !newCustomerAccordion.open}"></i>
+					</accordion-heading>
+
 					<div class="row">
 
 						<div class="col-md-6">
-							
+
 							<div class="control-group"><!-- name -->
 								<div class="input-group input-group-sm">
 									<span class="input-group-addon">Naam</span>
-									<input type="text" class="form-control" placeholder="bv: Jan Jansen" name="name" 
-										ng-model="newCustomer.name" 
+									<input type="text" class="form-control" placeholder="bv: Jan Jansen" name="name"
+										ng-model="newCustomer.name"
 										ng-minlength=3
 										required
 										unique="customers"
 										ng-model-options="{updateOn:'blur'}" />
-								</div>	
+								</div>
 								<ng-messages for="customerForm.name.$dirty && customerForm.name.$error" class="error-messages">
 									<ng-message when="required">Dit veld is verplicht</ng-message>
 									<ng-message when="minlength">Vul een langere naam in</ng-message>
@@ -36,11 +35,11 @@
 							<div class="control-group"><!-- email -->
 								<div class="input-group input-group-sm">
 									<span class="input-group-addon">E-mail</span>
-									<input type="email" class="form-control" placeholder="bv: j.jansen@utwente.nl" name="email" 
-										ng-model="newCustomer.email" 
+									<input type="email" class="form-control" placeholder="bv: j.jansen@utwente.nl" name="email"
+										ng-model="newCustomer.email"
 										required
 										ng-model-options="{updateOn:'blur'}" />
-								</div>	
+								</div>
 								<ng-messages for="customerForm.email.$dirty && customerForm.email.$error" class="error-messages">
 									<ng-message when="required">Dit veld is verplicht</ng-message>
 									<ng-message when="email">Vul een geldig email adres in</ng-message>
@@ -50,13 +49,13 @@
 							<div class="control-group"><!-- department -->
 								<div class="input-group input-group-sm">
 									<span class="input-group-addon">Afdeling</span>
-									<select class="form-control" 
-										ng-model="newCustomer.department" 
+									<select class="form-control"
+										ng-model="newCustomer.department"
 										required>
 										<option ng-repeat="department in departments" value="{{ department._id }}">{{ department.name }}</option>
 									</select>
 
-								</div>	
+								</div>
 								<ng-messages for="customerForm.department.$dirty && customerForm.department.$error" class="error-messages">
 									<ng-message when="required">Dit veld is verplicht</ng-message>
 									<ng-message when="minlength">Dit veld is te kort</ng-message>
@@ -67,12 +66,12 @@
 							<div class="control-group"><!-- subdepartment -->
 								<div class="input-group input-group-sm">
 									<span class="input-group-addon">Subafdeling</span>
-									<input type="text" class="form-control" placeholder="bv: INFRA" name="subdepartment" 
-										ng-model="newCustomer.subdepartment" 
+									<input type="text" class="form-control" placeholder="bv: INFRA" name="subdepartment"
+										ng-model="newCustomer.subdepartment"
 										ng-minlength=2
 										required
 										ng-model-options="{updateOn:'blur'}" />
-								</div>	
+								</div>
 								<ng-messages for="customerForm.subdepartment.$dirty && customerForm.subdepartment.$error" class="error-messages">
 									<ng-message when="required">Dit veld is verplicht</ng-message>
 									<ng-message when="minlength">Dit veld is te kort</ng-message>
@@ -83,12 +82,12 @@
 							<div class="control-group"><!-- internalAddress -->
 								<div class="input-group input-group-sm">
 									<span class="input-group-addon">Intern adres</span>
-									<input type="text" class="form-control" placeholder="bv: Citadel H217" name="internalAddress" 
-										ng-model="newCustomer.internalAddress" 
+									<input type="text" class="form-control" placeholder="bv: Citadel H217" name="internalAddress"
+										ng-model="newCustomer.internalAddress"
 										ng-minlength=2
 										required
 										ng-model-options="{updateOn:'blur'}" />
-								</div>	
+								</div>
 								<ng-messages for="customerForm.internalAddress.$dirty && customerForm.internalAddress.$error" class="error-messages">
 									<ng-message when="required">Dit veld is verplicht</ng-message>
 									<ng-message when="minlength">Dit veld is te kort</ng-message>
@@ -98,13 +97,13 @@
 							<div class="control-group"><!-- landlineNumber -->
 								<div class="input-group input-group-sm">
 									<span class="input-group-addon">Vast nummer</span>
-									<input type="tel" class="form-control" placeholder="bv: 4321" name="landlineNumber" 
-										ng-model="newCustomer.landlineNumber" 
+									<input type="tel" class="form-control" placeholder="bv: 4321" name="landlineNumber"
+										ng-model="newCustomer.landlineNumber"
 										ng-minlength=3
 										ng-maxlength=14
 										required
 										ng-model-options="{updateOn:'blur'}" />
-								</div>	
+								</div>
 								<ng-messages for="customerForm.landlineNumber.$dirty && customerForm.landlineNumber.$error" class="error-messages">
 									<ng-message when="required">Dit veld is verplicht</ng-message>
 									<ng-message when="minlength">Dit veld moet ten minste 3 cijfers bevatten</ng-message>
@@ -112,33 +111,16 @@
 								</ng-messages>
 							</div>
 
-							<div class="control-group"><!-- shortNumber -->
-								<div class="input-group input-group-sm">
-									<span class="input-group-addon">Verkort nummer</span>
-									<input type="tel" class="form-control" placeholder="bv: 4321" name="shortNumber" 
-										ng-model="newCustomer.shortNumber" 
-										ng-minlength=4
-										ng-maxlength=4
-										required
-										ng-model-options="{updateOn:'blur'}" />
-								</div>	
-								<ng-messages for="customerForm.shortNumber.$dirty && customerForm.shortNumber.$error" class="error-messages">
-									<ng-message when="required">Dit veld is verplicht</ng-message>
-									<ng-message when="minlength">Dit veld moet 4 cijfers bevatten</ng-message>
-									<ng-message when="maxlength">Dit veld moet 4 cijfers bevatten</ng-message>
-								</ng-messages>
-							</div>
-
 							<div class="control-group"><!-- mobileNumber -->
 								<div class="input-group input-group-sm">
 									<span class="input-group-addon">Mobiel nummer</span>
-									<input type="tel" class="form-control" placeholder="bv: 06 123456789" name="mobileNumber" 
-										ng-model="newCustomer.mobileNumber" 
+									<input type="tel" class="form-control" placeholder="bv: 06 123456789" name="mobileNumber"
+										ng-model="newCustomer.mobileNumber"
 										ng-minlength=4
 										unique="customers"
 										required
 										ng-model-options="{updateOn:'blur'}" />
-								</div>	
+								</div>
 								<ng-messages for="customerForm.mobileNumber.$dirty && customerForm.mobileNumber.$error" class="error-messages">
 									<ng-message when="required">Dit veld is verplicht</ng-message>
 									<ng-message when="minlength">Dit veld moet ten minste 4 cijfers bevatten</ng-message>
@@ -152,12 +134,12 @@
 							<div class="control-group"><!-- imeiNumber -->
 								<div class="input-group input-group-sm">
 									<span class="input-group-addon">IMEI nummer</span>
-									<input type="text" class="form-control" placeholder="bv: IMEI" name="imeiNumber" 
-										ng-model="newCustomer.imeiNumber" 
+									<input type="text" class="form-control" placeholder="bv: IMEI" name="imeiNumber"
+										ng-model="newCustomer.imeiNumber"
 										imei
 										required
 										ng-model-options="{updateOn:'blur'}" />
-								</div>	
+								</div>
 								<ng-messages for="customerForm.imeiNumber.$dirty && customerForm.imeiNumber.$error" class="error-messages">
 									<ng-message when="required">Dit veld is verplicht</ng-message>
 									<ng-message when="imei">Dit IMEI nummer is ongeldig</ng-message>
@@ -173,10 +155,10 @@
 							<div class="control-group"><!-- internetModule -->
 								<div class="input-group input-group-sm">
 									<span class="input-group-addon">Internet module</span>
-									<input type="text" class="form-control" placeholder="bv: Internet module" name="internetModule" 
-										ng-model="newCustomer.internetModule" 
+									<input type="text" class="form-control" placeholder="bv: Internet module" name="internetModule"
+										ng-model="newCustomer.internetModule"
 										ng-model-options="{updateOn:'blur'}" />
-								</div>	
+								</div>
 								<ng-messages for="customerForm.internetModule.$dirty && customerForm.internetModule.$error" class="error-messages">
 								</ng-messages>
 							</div>
@@ -186,17 +168,17 @@
 									<span class="input-group-addon" tool-tip="iets">Act. datum IM</span>
 									<input type="text" class="form-control" name="internetActivationDate"
 										datepicker-popup="dd-MM-yyyy"
-										ng-model="newCustomer.internetActivationDate" 
-										is-open="internetActivationDatePicker.opened" 
-										datepicker-options="dateOptions" 
+										ng-model="newCustomer.internetActivationDate"
+										is-open="internetActivationDatePicker.opened"
+										datepicker-options="dateOptions"
 										close-text="Sluiten"
 										current-text="Vandaag"
 										clear-text="Legen"
-										ng-focus="internetActivationDatePicker.open($event)" />									
+										ng-focus="internetActivationDatePicker.open($event)" />
 									<span class="input-group-btn">
 										<button type="button" class="btn btn-default" ng-click="internetActivationDatePicker.open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
 									</span>
-								</div>	
+								</div>
 								<ng-messages for="customerForm.internetActivationDate.$dirty && customerForm.internetActivationDate.$error" class="error-messages">
 								</ng-messages>
 							</div>
@@ -206,17 +188,17 @@
 									<span class="input-group-addon" tool-tip="iets">Activeringsdatum</span>
 									<input type="text" class="form-control" name="activationDate"
 										datepicker-popup="dd-MM-yyyy"
-										ng-model="newCustomer.activationDate" 
-										is-open="activationDatePicker.opened" 
-										datepicker-options="dateOptions" 
+										ng-model="newCustomer.activationDate"
+										is-open="activationDatePicker.opened"
+										datepicker-options="dateOptions"
 										close-text="Sluiten"
 										current-text="Vandaag"
 										clear-text="Legen"
-										ng-focus="activationDatePicker.open($event)" />									
+										ng-focus="activationDatePicker.open($event)" />
 									<span class="input-group-btn">
 										<button type="button" class="btn btn-default" ng-click="activationDatePicker.open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
 									</span>
-								</div>	
+								</div>
 								<ng-messages for="customerForm.activationDate.$dirty && customerForm.activationDate.$error" class="error-messages">
 								</ng-messages>
 							</div>
@@ -224,10 +206,10 @@
 							<div class="control-group"><!-- phoneType -->
 								<div class="input-group input-group-sm">
 									<span class="input-group-addon">Telefoon type</span>
-									<input type="text" class="form-control" placeholder="bv: HTC Desire" name="phoneType" 
-										ng-model="newCustomer.phoneType" 
+									<input type="text" class="form-control" placeholder="bv: HTC Desire" name="phoneType"
+										ng-model="newCustomer.phoneType"
 										ng-model-options="{updateOn:'blur'}" />
-								</div>	
+								</div>
 								<ng-messages for="customerForm.phoneType.$dirty && customerForm.phoneType.$error" class="error-messages">
 								</ng-messages>
 							</div>
@@ -237,17 +219,17 @@
 									<span class="input-group-addon" tool-tip="iets">In dienst sinds</span>
 									<input type="text" class="form-control" name="employmentSince"
 										datepicker-popup="dd-MM-yyyy"
-										ng-model="newCustomer.employmentSince" 
-										is-open="employmentSincePicker.opened" 
-										datepicker-options="dateOptions" 
+										ng-model="newCustomer.employmentSince"
+										is-open="employmentSincePicker.opened"
+										datepicker-options="dateOptions"
 										close-text="Sluiten"
 										current-text="Vandaag"
 										clear-text="Legen"
-										ng-focus="employmentSincePicker.open($event)" />									
+										ng-focus="employmentSincePicker.open($event)" />
 									<span class="input-group-btn">
 										<button type="button" class="btn btn-default" ng-click="employmentSincePicker.open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
 									</span>
-								</div>	
+								</div>
 								<ng-messages for="customerForm.employmentSince.$dirty && customerForm.employmentSince.$error" class="error-messages">
 								</ng-messages>
 							</div>
@@ -255,17 +237,14 @@
 						</div>
 					</div><!-- row -->
 
-					
+
 					<button type="submit" class="btn btn-primary" ng-disabled="customerForm.$invalid">Klant toevoegen</button>
 					<button type="reset" class="btn btn-link" ng-click="customerForm.$setPristine()">Reset</button>
-					
-				  </form>
 
+				</accordion-group>
+			</accordion>
+		</form>
 
-
-
-			</accordion-group>
-		</accordion>
 	</div><!-- /.col-lg-12 -->
 </div><!-- /.row -->
 
@@ -318,7 +297,7 @@
 			<td>{{customer.subdepartment}}</td>
 			<td>{{customer.internalAddress}}</td>
 			<td>{{customer.mobileNumber}}</td>
-			
+
 			<td width="70">
                 <button class="btn btn-action btn-edit" ng-click="addEditCustomer(customer)"><i class="fa fa-pencil"></i></button>
                 <button class="btn btn-action btn-delete" ng-click="deleteCustomerModal(customer)"><i class="fa fa-trash"></i></button>

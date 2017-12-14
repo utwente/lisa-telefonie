@@ -3,7 +3,7 @@
 'use strict';
 
 angular.module('ictsAppApp')
-	.controller('TelDepartmentCtrl', function ($scope, $http, $filter, socket, ngTableParams, $modal) {
+	.controller('TelDepartmentCtrl', function ($scope, $http, $filter, socket, ngTableParams, $modal, message) {
 		$scope.departments = [];
 		$scope.departmentsLoaded = false;
 		$scope.newDepartment = {};
@@ -46,11 +46,13 @@ angular.module('ictsAppApp')
 				name: department.name,
 				email: department.email
 			}).then(function () {
-				// $scope.tableParams.reload(); // reload table
-				// department.name = '';
-				// department.email = '';
-			}).catch(function () {
-				console.log('error saving ');
+				$scope.newDepartment = {};
+				$scope.addDepartmentForm.$setPristine();
+				$scope.addDepartmentForm.$setUntouched();
+				message.success('Opslaan afdeling gelukt!');
+			}).catch(function (err) {
+				console.log(err);
+				message.error('Opslaan afdeling niet gelukt..');
 			});
 
 		};
@@ -59,11 +61,10 @@ angular.module('ictsAppApp')
 			$http.put('/api/departments/' + department._id, department)
 				.then(function () {
 					department.$edit = false;
-					// $scope.tableParams.reload();
-					console.log('saved :) ');
 					department.updated = true;
-					//$('#'+department._id).addClass('blink');
-				});
+					message.success('De afdeling is bijgewerkt!')
+				})
+				.catch(() => message.error('Bijwerken afdeling niet gelukt..'));
 		};
 		$scope.reset = function (department) {
 			$http.get('/api/departments/' + department._id)
@@ -71,7 +72,8 @@ angular.module('ictsAppApp')
 					department.name = data.name;
 					department.email = data.email;
 					department.$edit = false;
-				});
+				})
+				.catch(() => message.error('Ophalen afdelingen niet gelukt..'));
 		};
 
 		// Delete
@@ -96,7 +98,10 @@ angular.module('ictsAppApp')
 		$scope.deleteDepartment = function (department) {
 			$http.delete('/api/departments/' + department._id)
 				.then(function () {
-					// $scope.tableParams.reload();
+					message.success('De afdeling is verwijderd!');
+				})
+				.catch((err) => {
+					message.error('Er ging iets mis bij het verwijderen van de afdeling');
 				});
 		};
 

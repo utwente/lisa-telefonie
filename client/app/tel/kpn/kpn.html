@@ -104,7 +104,7 @@
 					<td data-title="'Verkort nummer'" class="col-md-2">
 						<span ng-if="!record.$edit">{{record.number}}</span>
 						<div ng-if="record.$edit">
-							<form id="{{record._id}}" name="{{record._id}}" ng-submit="updateRecord(record)">
+							<form id="{{record._id}}" ng-submit="updateRecord(record)">
 								<input class="form-control input-sm" type="text" ng-model="record.edit.number" form="{{record._id}}"
 									required />
 							</form>
@@ -113,7 +113,7 @@
 					<td data-title="'Bedrag'" class="col-md-4">
 						<span ng-if="!record.$edit">{{record.amount/100 | currency:'€ ':2}}</span>
 						<div ng-if="record.$edit">
-							<form id="{{record._id}}" name="{{record._id}}" ng-submit="updateRecord(record)">
+							<form id="{{record._id}}" ng-submit="updateRecord(record)">
 
 								<div class="input-group">
 	  								<span class="input-group-addon">€</span>
@@ -136,11 +136,9 @@
 			</tbody>
 		</table>
 	</div><!-- /.col-lg-12 -->
-</div><!-- /.row -->	
+</div><!-- /.row -->
 
 
 	</div>
 
 </div>
-
-

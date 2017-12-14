@@ -3,7 +3,7 @@
 'use strict';
 
 angular.module('ictsAppApp')
-  .controller('EmailCtrl', function ($scope, $http, socket) {
+  .controller('EmailCtrl', function ($scope, $http, socket, message) {
 
 
     // clear all messageg etc.
@@ -56,7 +56,7 @@ angular.module('ictsAppApp')
 					$scope.next = progress.steps[progress.counter].done;
 				})
 				.catch(function () {
-					console.log('error getting progress');
+          message.error('Het ophalen van deze maand is niet gelukt. Is deze maand al ingevoerd?')
 				});
 		}
 	});
@@ -115,7 +115,7 @@ angular.module('ictsAppApp')
 				$scope.next = progress.steps[progress.counter].done;
 				$scope.saveProgress();
 				// end
-				console.log('error creating mobile specs...');
+        message.error('Aanmaken mobiele specificaties niet gelukt..')
 				$scope.mob_pdf.message = 'Er zijn fouten. Los deze op en probeer het daarna opnieuw.';
 
 			});
@@ -130,7 +130,7 @@ angular.module('ictsAppApp')
 				$scope.saveProgress();
 			})
 			.catch(function () {
-				console.log('error creating landline specs...');
+        message.error('Aanmaken vaste specificaties is niet gelukt')
 			});
 	};
 
@@ -150,7 +150,7 @@ angular.module('ictsAppApp')
 				$scope.saveProgress();
 			})
 			.catch(function () {
-				console.log('error sending emails...');
+        message.error('Verzenden emails is niet gelukt..');
 			});
 	};
 
@@ -162,7 +162,7 @@ angular.module('ictsAppApp')
 				$scope.next = progress.steps[progress.counter].done;
 			})
 			.catch(function(err) {
-				console.log(err);
+        message.error('Ophalen van de voorgang van deze maand is niet gelukt');
 			});
 	};
 
@@ -175,7 +175,7 @@ angular.module('ictsAppApp')
 				$scope.files = files.data;
 			})
 			.catch(function () {
-				console.log('error creating landline specs...');
+        message.error('Ophalen bestanden is niet gelukt..')
 			});
 
 		}
@@ -208,7 +208,7 @@ angular.module('ictsAppApp')
 	socket.socket.on('ll_excel', function(data) {
 		$scope.ll_excel.errors = data.err;
 		if (data.err) {
-			console.log('Ojee, shit gaat mis...');
+      message.error('Er ging iets mis bij het aanmaken van de vaste specificaties');
 		} else {
 			$scope.ll_excel.total = data.total;
 			$scope.ll_excel.done++;
@@ -224,7 +224,7 @@ angular.module('ictsAppApp')
 	socket.socket.on('mail_send', function(data) {
 		if (data.err) {
 			$scope.mail.errors = data.err;
-			console.log('Ojee, shit gaat mis...');
+      message.error('Er ging iets mis bij het versturen van de emails');
 		} else {
 			$scope.mail.total = data.total;
 			$scope.mail.done++;
@@ -257,7 +257,7 @@ angular.module('ictsAppApp')
 
 	// log error if error on server..
 	socket.socket.on('server_error', function(msg) {
-		$scope.mail.message = msg;
+    message.error('Er ging iets mis op de server..')
 	});
 
 });

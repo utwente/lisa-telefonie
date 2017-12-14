@@ -3,7 +3,7 @@
 'use strict';
 
 angular.module('ictsAppApp')
-  .controller('TelTMobileCtrl', function ($scope, $http, $modal, $timeout, tMobileParser, graphDataFormatter) {
+  .controller('TelTMobileCtrl', function ($scope, $http, $modal, $timeout, tMobileParser, graphDataFormatter, message) {
 
     const formatter = (labelfun) =>
       (event, data) => {
@@ -58,20 +58,21 @@ angular.module('ictsAppApp')
         t_mobile: $scope.t_mobile
       }).then(function (res) {
         if (res.data.success) {
-          console.log('Maand opgeslagen!');
+          message.success('Maand opgeslagen!');
         } else if (res.data.error) {
           if (res.data.msg === 'month_exists') {
-            console.log('Maand bestaat al..');
             $scope.overrideMonthModal(res.data.id);
           } else {
-            console.log('Onbekende fout..');
+            console.log(res.data);
+            message.error('Er is een onbekende fout opgetreden..');
           }
         } else {
-          console.log('Onbekende fout..');
+          message.error('Er is een onbekende fout opgetreden..');
         }
         $scope.loading = false;
-      }).catch(function () {
-        console.log('Fout bij het opslaan..');
+      }).catch(function (err) {
+        console.log(err);
+        message.error('Er is een onbekende fout opgetreden..');
         $scope.loading = false;
       });
     };
@@ -79,7 +80,10 @@ angular.module('ictsAppApp')
     $scope.updateMonth = function(id) {
       $http.put('/api/t_mobile/' + id, $scope.t_mobile)
         .then(function () {
-            console.log('Maand overschreven');
+          message.success('Maand overschreven!');
+        })
+        .catch((err) => {
+          message.error('Er ging iets fout bij het overschrijven..');
         });
     };
 
@@ -100,7 +104,6 @@ angular.module('ictsAppApp')
     };
 
     $scope.openConversionTool = function() {
-      console.log('Open modal!');
       $modal.open({
         templateUrl: 'app/tel/t-mobile/conversion.modal.html',
         controller: 'conversionCtrl'

@@ -3,7 +3,7 @@
 'use strict';
 
 angular.module('ictsAppApp')
-.controller('TelCustomerCtrl', function ($scope, $http, socket, ngTableParams, $modal) {
+.controller('TelCustomerCtrl', function ($scope, $http, socket, ngTableParams, $modal, message, $timeout) {
 
   // Pagination in controller
   $scope.currentPage = 0;
@@ -34,23 +34,6 @@ angular.module('ictsAppApp')
   $scope.customersLoaded = false;
 
   $scope.newCustomer = {};
-  $scope.newCustomer = {
-    name: 'Brian',
-    email: 't.est@utwente.nl',
-    department: undefined,
-    subdepartment: 'INFRA',
-    internalAddress: 'Citadel H217',
-    landlineNumber: 1234,
-    shortNumber: 1234,
-    mobileNumber: '0645536816',
-    imeiNumber: '12345678901234',
-    duoSim: false,
-    internetModule: 'Internet plus plus',
-    // internetActivationDate: new Date().toISOString(),
-    // activationDate: new Date().toISOString(),
-    phoneType: 'HTC One S',
-    // employmentSince: new Date().toISOString()
-  };
 
   $scope.date = new Date();
 
@@ -58,7 +41,6 @@ angular.module('ictsAppApp')
     $scope.customers = customers.data;
     $scope.customersLoaded = true;
     socket.syncUpdates('customer', $scope.customers);
-    // updateTable();
   });
 
   $http.get('/api/departments').then(function (departments) {
@@ -76,7 +58,7 @@ angular.module('ictsAppApp')
       if (customer.department === undefined) { customer.department = 'UNKNOWN'; }
       var department = _.find($scope.departments, { 'name': customer.department});
       if (department === undefined) {
-        throw new Error('Department "' + customer.department + '" was not found for customer "' + customer.name + '".');
+        message.error('Afdeling "' + customer.department + '" bestaat niet voor gebruiker "' + customer.name + '".')
       }
       customer.department = department._id;
     }
@@ -85,15 +67,14 @@ angular.module('ictsAppApp')
     $http.post('/api/customers', customer)
     .then(function () {
       if(newCustomer) {
-        $scope.newCustomer.name = undefined;
-        $scope.newCustomer.department = undefined;
-
-        $scope.customer = {};
-
+        $scope.newCustomer = {};
+        $scope.customerForm.$setPristine();
+        $scope.customerForm.$setUntouched();
+        message.success('Gebruiker toegevoegd!');
       }
       $scope.massImport.finished++;
     }).catch(function (err) {
-      console.log('error saving customer ' + err);
+      message.error('Opslaan niet gelukt, probeer opnieuw.')
       $scope.massImport.errors++;
     });
 
@@ -109,6 +90,9 @@ angular.module('ictsAppApp')
       $http.delete('/api/customers/' + customer._id + '/deactivate')
       .then(function(){
         $scope.customers.splice(_.findIndex($scope.customers, customer), 1);
+      })
+      .catch(function() {
+        message.error('verwijderen niet gelukt, probeer opnieuw.');
       });
     }
   };
@@ -116,7 +100,10 @@ angular.module('ictsAppApp')
   $scope.updateCustomer = function(customer){
     $http.put('/api/customers/' + customer._id, customer)
     .then(function(data){
-      console.log(data.data);
+      message.success('Gebruiker aangepast!');
+    })
+    .catch(function() {
+      message.error('Aanpassen niet gelukt, probeer opnieuw.');
     });
   };
 
@@ -256,7 +243,6 @@ angular.module('ictsAppApp')
       if (user[4] !== '') { users[i].subdepartment = user[4]; }
       if (user[5] !== '') { users[i].internalAddress = user[5]; }
       if (user[6] !== '') { users[i].landlineNumber = user[6]; }
-      if (user[0] !== '') { users[i].shortNumber = user[0]; }
       if (user[1] !== '') { users[i].mobileNumber = '0' + user[1]; }
       if (user[13] !== '') { users[i].imeiNumber = user[13]; }
       if (user[8] !== '') { users[i].duoSim = (user[8] === '1'); }

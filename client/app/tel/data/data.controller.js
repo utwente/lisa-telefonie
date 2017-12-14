@@ -4,7 +4,7 @@
 
 angular.module('ictsAppApp')
 
-    .controller('DataCtrl', function ($scope, $http) {
+    .controller('DataCtrl', function ($scope, $http, message) {
 
         $scope.$watch('data.month', function() {
             if (typeof $scope.data !== 'undefined') {
@@ -13,7 +13,7 @@ angular.module('ictsAppApp')
                         $scope.makeDataCSV(tMobile.data);
                     })
                     .catch(function() {
-                        console.log('T-Mobile not found...');
+                        message.error('Het ophalen van deze maand is niet gelukt. Is deze maand al ingevoerd?');
                     });
             }
         }, true);

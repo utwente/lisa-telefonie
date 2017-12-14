@@ -1,29 +1,28 @@
 <div class="row first-row">
 	<div class="col-lg-10">
-		<accordion>
-			<accordion-group is-open="newDepartmentAccordion.open">
-				<accordion-heading>
-					<i class="fa fa-plus"></i> Nieuwe afdeling toevoegen
-					<i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': newDepartmentAccordion.open, 'glyphicon-chevron-right': !newDepartmentAccordion.open}"></i>
-				</accordion-heading>
 
-				<form name="addDepartmentForm" class="addDepartmentForm"
-					ng-submit="addDepartment()"
-					novalidate>
-					
+		<!-- form start outside accordeon because else is is not present in $scope.addDepartmentForm for some strange reason -->
+		<form name="addDepartmentForm" class="addDepartmentForm"
+			ng-submit="addDepartment()"
+			novalidate>
+			<accordion>
+				<accordion-group is-open="newDepartmentAccordion.open">
+					<accordion-heading>
+						<i class="fa fa-plus"></i> Nieuwe afdeling toevoegen
+						<i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': newDepartmentAccordion.open, 'glyphicon-chevron-right': !newDepartmentAccordion.open}"></i>
+					</accordion-heading>
+
 					<div class="row">
-
 						<div class="col-md-12">
-							
 							<div class="control-group"><!-- name -->
 								<div class="input-group input-group-sm">
 									<span class="input-group-addon">Afdeling</span>
 									<input type="text" class="form-control" placeholder="bv: ICTS" name="name"
 										ng-model="newDepartment.name"
-										unique="departments" 
-										required 
+										unique="departments"
+										required
 										ng-model-options="{updateOn:'blur'}" />
-								</div>	
+								</div>
 								<ng-messages for="addDepartmentForm.name.$dirty && addDepartmentForm.name.$error" class="error-messages">
 									<ng-message when="required">Dit veld is verplicht</ng-message>
 									<ng-message when="unique">Deze afdeling bestaat al</ng-message>
@@ -33,12 +32,12 @@
 							<div class="control-group"><!-- email -->
 								<div class="input-group input-group-sm">
 									<span class="input-group-addon">E-mail</span>
-									<input type="email" class="form-control" placeholder="bv: j.jansen@utwente.nl" email="email" 
-										ng-model="newDepartment.email" 
+									<input type="email" class="form-control" placeholder="bv: j.jansen@utwente.nl" email="email"
+										ng-model="newDepartment.email"
 										ng-email
 										required
 										ng-model-options="{updateOn:'blur'}" />
-								</div>	
+								</div>
 								<ng-messages for="addDepartmentForm.email.$dirty && addDepartmentForm.email.$error" class="error-messages">
 									<ng-message when="required">Dit veld is verplicht</ng-message>
 									<ng-message when="email">Vul een geldig e-mailadres in</ng-message>
@@ -49,13 +48,14 @@
 							<button type="reset" class="btn btn-link" ng-click="addDepartmentForm.$setPristine()">Reset</button>
 						</div>
 					</div><!-- /.row -->
-				</form>
 			</accordion-group>
 		</accordion>
+	</form>
+
 	</div><!-- /.col-lg-10 -->
 	<div class="col-lg-2">
 		<a class="btn btn-default col-xs-12" ng-mousedown="csv.generate()" ng-href="{{ csv.link() }}" download="{{today | date:'yyyy-MM-dd'}}_departments.csv">Exporteren als CSV</a>
-		
+
 	</div><!-- /.col-lg-2 -->
 </div><!-- /.row -->
 
@@ -102,7 +102,7 @@
 			</thead>
 			<tbody>
 				<tr ng-repeat="department in departments | orderBy:sort.predicate:sort.reverse">
-					
+
 					<td data-title="'Afdeling'" class="col-md-5">
 						<span ng-if="!department.$edit">{{department.name}}</span>
 						<form id="{{department._id}}" name="editDepartmentForm" ng-submit="updateDepartment(department)" novalidate>
@@ -123,14 +123,14 @@
 								ng-model-options="{debounce: 500}" />
 						</div>
 					</td>
-					
+
 					<td data-title="'Actions'" class="col-md-1">
 		                <button ng-if="!department.$edit" class="btn btn-action btn-edit" ng-click="department.$edit = true"><i class="fa fa-pencil"></i></button>
 		                <button ng-if="!department.$edit" class="btn btn-action btn-delete" ng-click="deleteDepartmentModal(department)"><i class="fa fa-trash"></i></button>
 		                <button ng-if="department.$edit" class="btn btn-action btn-save" type="submit" form="{{department._id}}" ng-disabled="editDepartmentForm.$invalid"><i class="fa fa-floppy-o"></i></button>
 		                <button ng-if="department.$edit" class="btn btn-action btn-reset" type="reset" ng-click="reset(department)"><i class="fa fa-times"></i></button>
 		            </td>
-		            
+
 				</tr>
 			</tbody>
 		</table>

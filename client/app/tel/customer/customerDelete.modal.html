@@ -1,6 +1,6 @@
 <div class="modal-header">
     <h3 class="modal-title">{{customer.name}} ({{customer.department.name}}<span ng-show="customer.subdepartment">-{{customer.subdepartment}}</span>) verwijderen</h3>
-    <span class="label label-default" tooltip="Verkort nummer">{{customer.shortNumber}}</span>
+    <span class="label label-default" tooltip="Verkort nummer">{{customer.mobileNumber}}</span>
 </div>
 <div class="modal-body">
     <p>Verwijder een klant als deze geen aansluiting meer heeft. De klant zal niet meer voorkomen in de afrekeningen, maar wordt wel in het archief opgeslagen.</p>
@@ -10,17 +10,17 @@
                 <span class="input-group-addon" tool-tip="iets">Deactiveringsdatum</span>
                 <input type="text" class="form-control" name="deactivationDate"
                     datepicker-popup="dd-MM-yyyy"
-                    ng-model="deleteCustomer.deactivationDate" 
-                    is-open="deactivationDatePicker.opened" 
-                    datepicker-options="dateOptions" 
+                    ng-model="deleteCustomer.deactivationDate"
+                    is-open="deactivationDatePicker.opened"
+                    datepicker-options="dateOptions"
                     close-text="Sluiten"
                     current-text="Vandaag"
                     clear-text="Legen"
-                    ng-focus="deactivationDatePicker.open($event)" />                                 
+                    ng-focus="deactivationDatePicker.open($event)" />
                 <span class="input-group-btn">
                     <button type="button" class="btn btn-default" ng-click="deactivationDatePicker.open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
                 </span>
-            </div>  
+            </div>
             <ng-messages for="customerForm.deactivationDate.$dirty && customerForm.deactivationDate.$error" class="error-messages">
             </ng-messages>
         </div>
@@ -47,7 +47,7 @@
 </div>
 <div class="modal-footer">
     <button class="btn btn-default pull-left" ng-click="hideMoreOptions = !hideMoreOptions"><i class="fa fa-check-square-o"></i> {{hideMoreOptions && 'Meer' || 'Minder'}} opties</button>
-    
+
     <button class="btn btn-warning" ng-hide="trueDelete" ng-click="delete()"><i class="fa fa-archive"></i> Opheffen</button>
     <button class="btn btn-danger" ng-show="trueDelete" ng-click="delete()"><i class="fa fa-trash-o"></i> Verwijderen</button>
 

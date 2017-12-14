@@ -110,7 +110,6 @@ angular.module('ictsAppApp')
 
     }
 
-
     function personal(n) {
       const data = Object.keys(n.summary.perType).map(key => n.summary.perType[key].costs);
       const labels = Object.keys(n.summary.perType).map(key => key.toNormal());

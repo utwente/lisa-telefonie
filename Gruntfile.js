@@ -198,7 +198,7 @@ module.exports = function (grunt) {
       debug: {
         script: 'server/app.js',
         options: {
-          nodeArgs: ['--inspect-brk'],
+          nodeArgs: ['---brk'],
           env: {
             PORT: process.env.PORT || 9000
           },

@@ -6,7 +6,6 @@ var Kpn = require('./kpn.model');
 // Get list of months
 exports.index = function(req, res) {
   Kpn.find({}, '_id summary month', function (err, kpns) {
-    // console.log(kpns);
     if(err) { return handleError(res, err); }
     return res.json(200, kpns);
   });
@@ -17,8 +16,8 @@ exports.show = function(req, res) {
   var date = req.params.month;
   Kpn.findOne({month: date}, function (err, month) {
     if(err) { return handleError(res, err); }
-    if(!month) { 
-      return res.send(404); 
+    if(!month) {
+      return res.send(404);
     }
     return res.json(month);
   });
@@ -57,12 +56,16 @@ exports.update = function(req, res) {
 
 // Deletes a kpn from the DB.
 exports.destroy = function(req, res) {
-  Kpn.findById(req.params.id, function (err, kpn) {
-    if(err) { return handleError(res, err); }
+  // console.log(req.params.monthId, req.params.recordId);
+  Kpn.findById(req.params.monthId, function (err, kpn) {
+    if (err) { return handleError(res, err); }
     if(!kpn) { return res.send(404); }
-    kpn.remove(function(err) {
-      if(err) { return handleError(res, err); }
-      return res.send(204);
+    kpn.numbers = kpn.numbers.filter(function(number) {
+      return (!(number._id.toString() == req.params.recordId));
+    });
+    kpn.save(function (err) {
+      if (err) { return handleError(res, err); }
+      return res.json(200, kpn);
     });
   });
 };

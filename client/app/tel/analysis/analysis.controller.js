@@ -4,7 +4,7 @@
 'use strict';
 
 angular.module('ictsAppApp')
-.controller('landlineAnalysis', function($scope, $http, $timeout, $filter, graphDataFormatter, convert) {
+.controller('landlineAnalysis', function($scope, $http, $timeout, $filter, graphDataFormatter, convert, message) {
   $scope.start = true;
 
   const formatter = (labelfun) =>
@@ -37,7 +37,9 @@ angular.module('ictsAppApp')
     if (typeof $scope.data !== 'undefined') {
       $http.get('/api/t_mobile/' + $scope.data.month)
       .then(showDonut)
-      .catch(console.log)
+      .catch(function() {
+        message.error('Het ophalen van deze maand is niet gelukt. Is deze maand al ingevoerd?')
+      })
     }
   }, true);
 
@@ -85,7 +87,7 @@ angular.module('ictsAppApp')
 
     })
     .catch(function(){
-      console.log('Something went wrong...');
+      message.error('Bestand kon niet opgehaald worden...')
     });
 
   };

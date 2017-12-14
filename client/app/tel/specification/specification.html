@@ -1,21 +1,21 @@
 <div class="row first-row">
 	<div class="col-lg-10">
 
-		<accordion>
-			<accordion-group is-open="newSpecificationAccordion.open">
-				<accordion-heading>
-					<i class="fa fa-plus"></i> Nieuwe specificatie toevoegen
-					<i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': newSpecificationAccordion.open, 'glyphicon-chevron-right': !newSpecificationAccordion.open}"></i>
-				</accordion-heading>
+		<form name="addSpecificationForm" class="addSpecificationForm"
+			ng-submit="addSpecification()"
+			novalidate>
 
-				<form name="addSpecificationForm" class="addSpecificationForm"
-					ng-submit="addSpecification()"
-					novalidate>
-					
+			<accordion>
+				<accordion-group is-open="newSpecificationAccordion.open">
+					<accordion-heading>
+						<i class="fa fa-plus"></i> Nieuwe specificatie toevoegen
+						<i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': newSpecificationAccordion.open, 'glyphicon-chevron-right': !newSpecificationAccordion.open}"></i>
+					</accordion-heading>
+
 					<div class="row">
 
 						<div class="col-md-12">
-							
+
 							<div class="control-group"><!-- number -->
 								<div class="input-group input-group-sm">
 									<span class="input-group-addon">Nummer</span>
@@ -24,7 +24,7 @@
 										unique="specifications"
 										required
 										ng-model-options="{updateOn:'blur'}" />
-								</div>	
+								</div>
 								<ng-messages for="addSpecificationForm.number.$dirty && addSpecificationForm.number.$error" class="error-messages">
 									<ng-message when="required">Dit veld is verplicht</ng-message>
 									<ng-message when="unique">Dit nummer bestaat al</ng-message>
@@ -35,43 +35,43 @@
 								<div class="input-group input-group-sm">
 									<span class="input-group-addon">Naam</span>
 									<input type="text" class="form-control" placeholder="bv: J. Jansen" name="name"
-										ng-model="newSpecification.name" 
+										ng-model="newSpecification.name"
 										unique="specifications"
 										required
 										ng-model-options="{updateOn:'blur'}" />
-								</div>	
+								</div>
 								<ng-messages for="addSpecificationForm.name.$dirty && addSpecificationForm.name.$error" class="error-messages">
 									<ng-message when="required">Dit veld is verplicht</ng-message>
 									<ng-message when="unique">Deze gebruiker bestaat al</ng-message>
 								</ng-messages>
-							</div>							
+							</div>
 
 							<div class="control-group"><!-- email -->
 								<div class="input-group input-group-sm">
 									<span class="input-group-addon">E-mail</span>
-									<input type="email" class="form-control" placeholder="bv: j.jansen@utwente.nl" email="email" 
-										ng-model="newSpecification.email" 
+									<input type="email" class="form-control" placeholder="bv: j.jansen@utwente.nl" email="email"
+										ng-model="newSpecification.email"
 										ng-email
 										required
 										ng-model-options="{updateOn:'blur'}" />
-								</div>	
+								</div>
 								<ng-messages for="addSpecificationForm.email.$dirty && addSpecificationForm.email.$error" class="error-messages">
 									<ng-message when="required">Dit veld is verplicht</ng-message>
 									<ng-message when="email">Vul een geldig e-mailadres in</ng-message>
 								</ng-messages>
-							</div>					
+							</div>
 
 							<button type="submit" class="btn btn-primary" ng-disabled="addSpecificationForm.$invalid">Specificatie toevoegen</button>
 							<button type="reset" class="btn btn-link" ng-click="addSpecificationForm.$setPristine()">Reset</button>
 						</div>
 					</div><!-- /.row -->
-				</form>
-			</accordion-group>
-		</accordion>
+				</accordion-group>
+			</accordion>
+		</form>
 	</div><!-- /.col-lg-10 -->
 	<div class="col-lg-2">
 		<a class="btn btn-default col-xs-12" ng-mousedown="csv.generate()" ng-href="{{ csv.link() }}" download="{{today | date:'yyyy-MM-dd'}}_specifications.csv">Exporteren als CSV</a>
-		
+
 	</div><!-- /.col-lg-2 -->
 </div><!-- /.row -->
 
@@ -122,7 +122,7 @@
 			</thead>
 			<tbody>
 				<tr ng-repeat="specification in specifications | orderBy:sort.predicate:sort.reverse">
-					
+
 					<td data-title="'Verkort nummer'" class="col-md-2">
 						<span ng-if="!specification.$edit">{{specification.number}}</span>
 						<form id="{{specification._id}}" name="editSpecificationForm" ng-submit="updateSpecification(specification)" novalidate>
@@ -154,14 +154,14 @@
 								ng-model-options="{debounce: 500}" />
 						</div>
 					</td>
-					
+
 					<td data-title="'Actions'" class="col-md-1">
 		                <button ng-if="!specification.$edit" class="btn btn-action btn-edit" ng-click="specification.$edit = true"><i class="fa fa-pencil"></i></button>
 		                <button ng-if="!specification.$edit" class="btn btn-action btn-delete" ng-click="deleteSpecificationModal(specification)"><i class="fa fa-trash"></i></button>
 		                <button ng-if="specification.$edit" class="btn btn-action btn-save" type="submit" form="{{specification._id}}" ng-disabled="editSpecificationForm.$invalid"><i class="fa fa-floppy-o"></i></button>
 		                <button ng-if="specification.$edit" class="btn btn-action btn-reset" type="reset" ng-click="reset(specification)"><i class="fa fa-times"></i></button>
 		            </td>
-		            
+
 				</tr>
 			</tbody>
 		</table>
