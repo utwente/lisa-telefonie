@@ -3,7 +3,7 @@
 'use strict';
 
 angular.module('ictsAppApp')
-  .factory('tMobileParser', [function () {
+  .factory('tMobileParserOld', [function () {
 
     // Public API here
     return {

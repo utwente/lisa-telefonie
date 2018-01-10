@@ -10,7 +10,7 @@ angular.module('ictsAppApp')
     info: 'Info!'
   };
 
-  function message(type, text) {
+  function message(type, text, time) {
     let container = document.getElementById('message-container');
     if (!container) {
       container = document.createElement('div');
@@ -28,13 +28,13 @@ angular.module('ictsAppApp')
     const message = div.firstChild;
     container.appendChild(message);
 
-    $timeout(() => message.parentNode.removeChild(message), 3000);
+    $timeout(() => message.parentNode.removeChild(message), time);
   }
 
   return {
-    success: (msg) => message('success', msg),
-    warning: (msg) => message('warning', msg),
-    error: (msg) => message('danger',  msg),
-    info: (msg) => message('info', msg),
+    success: (msg) => message('success', msg, 3000),
+    warning: (msg) => message('warning', msg, 3000),
+    error: (msg) => message('danger',  msg, 30000),
+    info: (msg) => message('info', msg, 3000),
   };
 }]);

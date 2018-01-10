@@ -40,27 +40,27 @@ angular.module('ictsAppApp')
         Object.keys(types).forEach(key => {
           if (types[key].soort === 'vast') {
             costsDataLandline.push(types[key].costs);
-            costsLabelsLandline.push(key.toNormal());
+            costsLabelsLandline.push(key);
           } else {
             costsDataMobile.push(types[key].costs);
-            costLabelsMobile.push(key.toNormal());
+            costLabelsMobile.push(key);
           }
           if (types[key].time !== undefined){
             if (types[key].soort === 'vast') {
               timeDataLandline.push(Math.round(types[key].time));
-              timeLabelsLandline.push(key.toNormal());
+              timeLabelsLandline.push(key);
             } else {
               timeDataMobile.push(Math.round(types[key].time));
-              timeLabelsMobile.push(key.toNormal());
+              timeLabelsMobile.push(key);
             }
           }
           if (types[key].data !== undefined){
             dataData.push(Math.round(types[key].data));
-            dataLabels.push(key.toNormal());
+            dataLabels.push(key);
           }
           if (types[key].amount !== undefined){
             smsData.push(Math.round(types[key].amount));
-            smsLabels.push(key.toNormal());
+            smsLabels.push(key);
           }
         });
 
@@ -112,7 +112,7 @@ angular.module('ictsAppApp')
 
     function personal(n) {
       const data = Object.keys(n.summary.perType).map(key => n.summary.perType[key].costs);
-      const labels = Object.keys(n.summary.perType).map(key => key.toNormal());
+      const labels = Object.keys(n.summary.perType).map(key => key);
       const colors = blueColors.slice(0, labels.length);
       return {data, labels, colors, formatter: costsFormatter};
     }

@@ -89,19 +89,19 @@ exports.show = function(req, res) {
 
       var pdf = new PDFGenerator();                                               // used to generate pdf files
       var xslx = new ExcelGenerator();                                            // used to generate excel files
-      var html = new HTMLGenerator();
+      // var html = new HTMLGenerator();
 
       // two PDF's per department
       var totalPDF = Object.keys(department_spec).length*2;
       // one excel per department
       var totalExcel = Object.keys(department_spec).length;
-      // calculate total amount of html's
-      var totalHTML = 0;
-      for (let department in department_spec) {
-        for (let i = 0; i < department_spec[department].length; i++) {
-          if (department_spec[department][i].summary.totalCosts > 0) { totalHTML++ }
-        }
-      }
+      // // calculate total amount of html's
+      // var totalHTML = 0;
+      // for (let department in department_spec) {
+      //   for (let i = 0; i < department_spec[department].length; i++) {
+      //     if (department_spec[department][i].summary.totalCosts > 0) { totalHTML++ }
+      //   }
+      // }
 
       /*
            specificatie categorie (pdf)
@@ -217,37 +217,37 @@ exports.show = function(req, res) {
 
 
 
-      /*
-           specificaties per persoon (html)
-      */
-
-      var filenamePP = _.template(yearMonth + ' specificatie nummers <%= department %> <%= number %>.html');
-      var costs;
-      var total;
-      var user;
-      for (let department in department_spec) {
-        for (let i = 0; i < department_spec[department].length; i++) {
-          total = department_spec[department][i].summary.totalCosts;
-          // only generate html if the total costs are more than zero!
-          if (total > 0) {
-            let data = [];
-            var number = department_spec[department][i].number;
-            for (var type in department_spec[department][i].summary.perType) {
-              costs = department_spec[department][i].summary.perType[type].costs;
-              data.push({type: type.toNormal(), costs: costs});
-            }
-            user = c.findUserByNumber(number);
-            user.number = number;
-            html.generate(fullPath + filenamePP({department: department, number: number}), user, data, total, totalHTML);
-            attachments.departments[department].html.push({
-              number: number,
-              path: fullPath,
-              filename: filenamePP({department: department, number: number}),
-              send: false
-            });
-          }
-        }
-      }
+      // /*
+      //      specificaties per persoon (html)
+      // */
+      //
+      // var filenamePP = _.template(yearMonth + ' specificatie nummers <%= department %> <%= number %>.html');
+      // var costs;
+      // var total;
+      // var user;
+      // for (let department in department_spec) {
+      //   for (let i = 0; i < department_spec[department].length; i++) {
+      //     total = department_spec[department][i].summary.totalCosts;
+      //     // only generate html if the total costs are more than zero!
+      //     if (total > 0) {
+      //       let data = [];
+      //       var number = department_spec[department][i].number;
+      //       for (var type in department_spec[department][i].summary.perType) {
+      //         costs = department_spec[department][i].summary.perType[type].costs;
+      //         data.push({type: type.toNormal(), costs: costs});
+      //       }
+      //       user = c.findUserByNumber(number);
+      //       user.number = number;
+      //       html.generate(fullPath + filenamePP({department: department, number: number}), user, data, total, totalHTML);
+      //       attachments.departments[department].html.push({
+      //         number: number,
+      //         path: fullPath,
+      //         filename: filenamePP({department: department, number: number}),
+      //         send: false
+      //       });
+      //     }
+      //   }
+      // }
 
 
 
