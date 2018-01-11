@@ -251,6 +251,7 @@ angular.module('ictsAppApp')
             type: subtype,
             datum: $filter('date')(line.date, 'yyyy-MM-dd'),
             kosten: costs,
+            bestemming: line.to,
             vanuit: line.countryFrom,
           })
           break;
