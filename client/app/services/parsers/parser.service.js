@@ -240,6 +240,7 @@ angular.module('ictsAppApp')
             vanuit: line.countryFrom,
             duur: `${minutes}:${seconds < 10? '0':''}${seconds} min.`,
             bestemming: line.to,
+            starttijd: $filter('date')(line.date, 'hh:mm'),
           })
           break;
         case 'message':
@@ -275,6 +276,8 @@ angular.module('ictsAppApp')
     provider.numbers = Object.keys(numbers).map(
       n => Object.assign({number: n}, numbers[n])
     );
+
+    console.log(provider);
 
     return {error: false, data: provider};
 

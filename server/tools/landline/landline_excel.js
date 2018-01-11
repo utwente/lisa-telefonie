@@ -77,20 +77,18 @@ module.exports = function XLSXLLGenerator() {
         }
 
         // add the actual data
-        for (var type in data.calls) {
-            for (var i = 0; i < data.calls[type].length; i++) {
-                var rowData = {};
-                rowData = {
-                    to: data.calls[type][i].bestemming,
-                    date: data.calls[type][i].datum,
-                    start: data.calls[type][i].starttijd,
-                    type: type.toNormal(),
-                    country: data.calls[type][i].vanuit,
-                    time: data.calls[type][i].duur,
-                    costs: data.calls[type][i].kosten/100
-                };
-                worksheet.addRow(rowData).commit();
-            }
+        for (var i = 0; i < data.calls.length; i++) {
+            var rowData = {};
+            rowData = {
+                to: data.calls[i].bestemming,
+                date: data.calls[i].datum,
+                start: data.calls[i].starttijd,
+                type: data.calls[i].type,
+                country: data.calls[i].vanuit,
+                time: data.calls[i].duur,
+                costs: data.calls[i].kosten/100
+            };
+            worksheet.addRow(rowData).commit();
         }
 
         worksheet.commit();
@@ -108,10 +106,6 @@ module.exports = function XLSXLLGenerator() {
         return String.fromCharCode(65 + col - 1) + row;
     }
 
-    // unit to make normal (from camelcase)!
-    String.prototype.toNormal = function() {
-        return this.replace(/([A-Z])/g, ' $1').toLowerCase().replace(/^[a-z]/, function(m){ return m.toUpperCase() });
-    };
 
 };
 

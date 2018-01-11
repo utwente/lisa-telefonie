@@ -3,8 +3,8 @@
 'use strict';
 
 angular.module('ictsAppApp')
-  .controller('TelTMobileCtrl', ['$scope', '$http', '$modal', '$timeout', 'parser', 'tMobileParser', 'graphDataFormatter', 'message', 'tMobileParserOld',
-  function($scope, $http, $modal, $timeout, parser, tMobileParser, graphDataFormatter, message, tMobileParserOld) {
+  .controller('TelTMobileCtrl', ['$scope', '$http', '$modal', '$timeout', 'parser', 'tMobileParser', 'graphDataFormatter', 'message',
+  function($scope, $http, $modal, $timeout, parser, tMobileParser, graphDataFormatter, message) {
 
     const formatter = (labelfun) =>
       (event, data) => {
@@ -46,12 +46,8 @@ angular.module('ictsAppApp')
       if (result.error) {
         message.error(result.msg);
       }
-      // console.log(result.data);
-      //
-      // const t_mobile = tMobileParserOld.parse($fileContent);
-      // console.log(t_mobile);
-      const t_mobile = result.data;
 
+      const t_mobile = result.data;
       $scope.month = t_mobile.month;
       $scope.t_mobile = t_mobile;
       $scope.step = 'loaded';

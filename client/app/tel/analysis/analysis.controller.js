@@ -49,6 +49,7 @@ function($scope, $http, $timeout, $filter, graphDataFormatter, convert, message)
     .then(function(user){
       $scope.name = user.data.name;
       $scope.department = user.data.department.name;
+      $scope.number = n.number;
     });
 
     // this is input data for the "donut". Donut stuff happens in app/directives/donut
@@ -67,7 +68,7 @@ function($scope, $http, $timeout, $filter, graphDataFormatter, convert, message)
   $scope.getFile = function() {
 
     var month = $scope.data.month;
-    var number = $scope.details.number;
+    var number = $scope.number;
 
     $http.get('api/calls/landline/' + month + '/' + number, {
       headers: {
@@ -75,7 +76,6 @@ function($scope, $http, $timeout, $filter, graphDataFormatter, convert, message)
       }
     })
     .then(function(file){
-
       // find filename from headers
       var cont_disp = file.headers()['content-disposition'];
       var fileName = cont_disp.match(/filename="(.+)"/)[1];
@@ -85,7 +85,6 @@ function($scope, $http, $timeout, $filter, graphDataFormatter, convert, message)
 
       // save file
       saveAs(blob, fileName);
-
     })
     .catch(function(){
       message.error('Bestand kon niet opgehaald worden...');
