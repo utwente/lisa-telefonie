@@ -33,7 +33,7 @@ var Attachment = require('../api/mobile_spec/mobile_spec.model');
 
 // Clear all kpn records
 // Kpn.find({}).remove(function() {
-// 	console.log('Cleaned all KPN records');
+//   console.log('Cleaned all KPN records');
 // });
 
 // Clear all Attachment records
