@@ -13,7 +13,7 @@ module.exports = function Queue(config) {
     if (!config.send) {
         throw new Error('Config variable should contain a config.send() function');
     }
-    
+
     // set to default if not present
     if (!config.max_attemps) {
         config.max_attemps = 3;
@@ -53,10 +53,10 @@ module.exports = function Queue(config) {
             });
         };
 
-        this.done = function() {            
-            var i = queue.indexOf(this);          
+        this.done = function() {
+            var i = queue.indexOf(this);
             queue.splice(i, 1);
-            config.update({done: total-queue.length, total: total});        
+            config.update({done: total-queue.length, total: total});
         }
 
         this.retry = function() {
@@ -74,7 +74,7 @@ module.exports = function Queue(config) {
             setTimeout(function(){
                 self.send();
                 self.attempt++;
-            }, ((this.attempt - 1)*config.delay_factor*1000));                
+            }, ((this.attempt - 1)*config.delay_factor*1000));
 
         }
     }

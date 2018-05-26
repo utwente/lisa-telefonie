@@ -69,7 +69,6 @@
 									<input type="text" class="form-control" placeholder="bv: INFRA" name="subdepartment"
 										ng-model="newCustomer.subdepartment"
 										ng-minlength=2
-										required
 										ng-model-options="{updateOn:'blur'}" />
 								</div>
 								<ng-messages for="customerForm.subdepartment.$dirty && customerForm.subdepartment.$error" class="error-messages">
@@ -85,7 +84,6 @@
 									<input type="text" class="form-control" placeholder="bv: Citadel H217" name="internalAddress"
 										ng-model="newCustomer.internalAddress"
 										ng-minlength=2
-										required
 										ng-model-options="{updateOn:'blur'}" />
 								</div>
 								<ng-messages for="customerForm.internalAddress.$dirty && customerForm.internalAddress.$error" class="error-messages">
@@ -101,7 +99,6 @@
 										ng-model="newCustomer.landlineNumber"
 										ng-minlength=3
 										ng-maxlength=14
-										required
 										ng-model-options="{updateOn:'blur'}" />
 								</div>
 								<ng-messages for="customerForm.landlineNumber.$dirty && customerForm.landlineNumber.$error" class="error-messages">
@@ -136,8 +133,6 @@
 									<span class="input-group-addon">IMEI nummer</span>
 									<input type="text" class="form-control" placeholder="bv: IMEI" name="imeiNumber"
 										ng-model="newCustomer.imeiNumber"
-										imei
-										required
 										ng-model-options="{updateOn:'blur'}" />
 								</div>
 								<ng-messages for="customerForm.imeiNumber.$dirty && customerForm.imeiNumber.$error" class="error-messages">

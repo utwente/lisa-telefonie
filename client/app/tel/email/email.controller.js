@@ -185,7 +185,7 @@ angular.module('ictsAppApp')
 	});
 
   function updateMobileMsg() {
-		if ($scope.mob_html.total + $scope.mob_excel.total + $scope.mob_pdf.total >= $scope.mob_html.done + $scope.mob_excel.done + $scope.mob_pdf.done) {
+		if ($scope.mob_excel.total + $scope.mob_pdf.total >= $scope.mob_excel.done + $scope.mob_pdf.done) {
 			$scope.mob.message = 'Alle mobiele specificaties zijn gegenereerd!';
 		}
 	}
@@ -199,12 +199,6 @@ angular.module('ictsAppApp')
 	socket.socket.on('mob_excel', function(data){
 		$scope.mob_excel.total = data.total;
 		$scope.mob_excel.done++;
-		updateMobileMsg(data);
-	});
-
-	socket.socket.on('mob_html', function(data){
-		$scope.mob_html.total = data.total;
-		$scope.mob_html.done++;
 		updateMobileMsg(data);
 	});
 

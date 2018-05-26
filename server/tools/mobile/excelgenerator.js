@@ -29,8 +29,8 @@ module.exports = function XLSXGenerator() {
     this.generate = function(filename, data, total) {
 
         var categories = [];
-        for (let i = 0; i < data.length; i++) {
-            for (let j = 0; j < data[i].data.length; j++) {
+        for (var i = 0; i < data.length; i++) {
+            for (var j = 0; j < data[i].data.length; j++) {
                 if ((data[i].data[j].costs !== 0) && (_.indexOf(categories, data[i].data[j].category) === -1)) {
                     categories.push(data[i].data[j].category);
                 }
@@ -57,14 +57,14 @@ module.exports = function XLSXGenerator() {
             {header: 'Nummer', key: 'number', width: 13},
             {header: 'Totale kosten', key: 'totalCosts', width: 20}
         ];
-        for (let i = 0; i < categories.length; i++) {
+        for (var i = 0; i < categories.length; i++) {
             columns.push({header: categories[i], key: categories[i], width: 20});
         }
 
         worksheet.columns = columns;
 
         // style the first row
-        for (let col = 1; col < categories.length + 4; col++) {
+        for (var col = 1; col < categories.length + 4; col++) {
             worksheet.getCell(getCellName(1,col)).border = {bottom: {style: 'thin'}};
             worksheet.getCell(getCellName(1,col)).alignment = { vertical: 'middle', horizontal: 'center' };
             worksheet.getCell(getCellName(1,col)).fill = {type: "pattern", pattern: "solid", fgColor: {argb:"FFCCCCCC"}};
@@ -72,7 +72,7 @@ module.exports = function XLSXGenerator() {
         }
 
 
-        for (let i = 0; i < data.length; i++) {
+        for (var i = 0; i < data.length; i++) {
             var rowData = {};
             rowData = {
                 name: data[i].name,
@@ -80,7 +80,7 @@ module.exports = function XLSXGenerator() {
                 totalCosts: data[i].totalCosts / 100
             }
 
-            for (let j = 0; j < data[i].data.length; j++) {
+            for (var j = 0; j < data[i].data.length; j++) {
                 if (data[i].data[j].costs !== 0) {
                     rowData[data[i].data[j].category] = data[i].data[j].costs / 100;
                 }

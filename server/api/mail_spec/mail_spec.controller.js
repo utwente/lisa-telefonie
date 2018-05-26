@@ -71,11 +71,11 @@ exports.show = function(req, res) {
 			var attachments = result;
 
 			// overview email
-			for (let department in attachments.departments) {
+			for (var department in attachments.departments) {
 
-				let to = attachments.departments[department].email; // -> only do this when you are really sure ;)
+				var to = attachments.departments[department].email; // -> only do this when you are really sure ;)
 
-				let data = {
+				var data = {
 					to: to,
 					subject: 'Specificaties mobiele telefoonkosten ' + monthName,
 					department: department,
@@ -97,13 +97,13 @@ exports.show = function(req, res) {
 			}
 
 			// personal specifications email
-			for (let department in attachments.departments) {
+			for (var department in attachments.departments) {
 
-				let to = attachments.departments[department].email; // -> only do this when you are really sure ;)
+				var to = attachments.departments[department].email; // -> only do this when you are really sure ;)
 
-				for (let i = 0; i < attachments.departments[department].html.length; i++) {
+				for (var i = 0; i < attachments.departments[department].html.length; i++) {
 
-					let data = {
+					var data = {
 						to: to,
 						subject: 'Specificaties mobiel persoonlijk ' + monthName + ' ' +  attachments.departments[department].html[i].number,
 						department: department,

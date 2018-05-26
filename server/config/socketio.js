@@ -21,11 +21,10 @@ function onConnect(socket) {
   require('../api/hvd/hvd.socket').register(socket);
   require('../api/month_status/month_status.socket').register(socket);
   require('../api/kpn/kpn.socket').register(socket);
-  require('../api/specification/specification.socket').register(socket); 
+  require('../api/specification/specification.socket').register(socket);
   require('../api/department/department.socket').register(socket);
   require('../api/customer/customer.socket').register(socket);
   require('../api/mail_spec/mail_spec.socket').register(socket);
-  require('../api/thing/thing.socket').register(socket);
   require('../tools/landline/landline.socket').register(socket);
   require('../tools/customers/customers.socket').register(socket);
   require('../tools/mobile/mobile.socket').register(socket);

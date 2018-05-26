@@ -1,5 +1,5 @@
 <div class="col-md-12">
-    
+
 
     <!-- Monthpicker -->
     <div class="row" ng-hide="month">
@@ -27,7 +27,7 @@
     </div>
 
     <div ng-show="step" class="row step-content">
-    
+
     	<!-- Check data -->
 	    <div ng-show="step=='check'">
 	    	<div class="col-md-4 info">
@@ -49,19 +49,16 @@
 	    		<!-- Show progress -->
 	    		<h4>Voortgang</h4>
 	    		<div class="progress">
-					<div class="progress-bar progress-bar-striped progress-bar-danger" role="progressbar" style="width: {{ mob_pdf.done/mob_pdf.total * 33 | number:0}}%">
+					<div class="progress-bar progress-bar-striped progress-bar-danger" role="progressbar" style="width: {{ mob_pdf.done/mob_pdf.total * 50 | number:0}}%">
 						<span ng-hide="mob_pdf.done == 0">PDF ({{mob_pdf.done}}/{{mob_pdf.total}})</span>
 					</div>
-					<div class="progress-bar progress-bar-striped progress-bar-success" role="progressbar" style="width: {{ mob_excel.done/mob_excel.total * 33 | number:0}}%">
+					<div class="progress-bar progress-bar-striped progress-bar-success" role="progressbar" style="width: {{ mob_excel.done/mob_excel.total * 50 | number:0}}%">
 						<span ng-hide="mob_excel.done == 0">Excel ({{mob_excel.done}}/{{mob_excel.total}})</span>
-					</div>
-					<div class="progress-bar progress-bar-striped progress-bar-warning" role="progressbar" style="width: {{ mob_html.done/mob_html.total * 34 | number:0}}%">
-						<span ng-hide="mob_html.done == 0">HTML ({{mob_html.done}}/{{mob_html.total}})</span>
 					</div>
 				</div>
 
                 <p class="progress-message">{{ mob.message }}</p>
-			
+
                 <!-- Log error messages and warnings -->
                 <div ng-show="PDFmessages.length > 0">
                 	<h4>Fouten en waarschuwingen</h4>
@@ -86,7 +83,7 @@
 	    	<div class="col-md-6">
 	    		<h4>Voortgang</h4>
 	    		<div class="progress">
-                    <div class="progress-bar progress-bar-striped" ng-class="{'progress-bar-danger': ll_excel.errors, 'progress-bar-success':!ll_excel.errors}" role="progressbar" aria-valuenow="{{ ll_excel.done/ll_excel.total * 100 | number:0}}" aria-valuemin="0" aria-valuemax="100" style="width: {{ ll_excel.done/ll_excel.total * 100 | number:0}}%"> 
+                    <div class="progress-bar progress-bar-striped" ng-class="{'progress-bar-danger': ll_excel.errors, 'progress-bar-success':!ll_excel.errors}" role="progressbar" aria-valuenow="{{ ll_excel.done/ll_excel.total * 100 | number:0}}" aria-valuemin="0" aria-valuemax="100" style="width: {{ ll_excel.done/ll_excel.total * 100 | number:0}}%">
                     	<span ng-hide="ll_excel.done == 0">Excel ({{ll_excel.done}}/{{ll_excel.total}})</span>
 <!--                         <span class="sr-only" ng-hide="ll_excel.errors">{{ ll_excel.done/ll_excel.total * 100 | number:0}}% Complete (success)</span>
                         <span class="sr-only" ng-show="ll_excel.errors">{{ ll_excel.done/ll_excel.total * 100 | number:0}}% Complete (errors!)</span> -->
@@ -104,13 +101,13 @@
 	    		<h4>Stap 4: Controleren bestanden</h4>
 	    		<p>Kijk van een aantal bestanden of er inderdaad gegevens in staan (sommigen kunnen ook leeg zijn als er geen kosten op zijn gemaakt). Als dit lijkt te kloppen kan je door naar de volgende stap.</p>
 	    	</div>
-	    	
+
 	    	<div class="col-md-7">
 	    		<h4>Gegenereerde bestanden</h4>
 	    		<p>Klik op een bestand om deze te bekijken</p>
 
 	    		<spinner ng-hide="files"></spinner>
-	    		
+
 	    		<div class="row" ng-show="files">
 	    			<div class="col-md-6">
 	    				<h5>Mobiel</h5>

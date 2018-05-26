@@ -77,18 +77,20 @@ module.exports = function XLSXLLGenerator() {
         }
 
         // add the actual data
-        for (var i = 0; i < data.calls.length; i++) {
-            var rowData = {};
-            rowData = {
-                to: data.calls[i].bestemming,
-                date: data.calls[i].datum,
-                start: data.calls[i].starttijd,
-                type: data.calls[i].type,
-                country: data.calls[i].vanuit,
-                time: data.calls[i].duur,
-                costs: data.calls[i].kosten/100
-            };
-            worksheet.addRow(rowData).commit();
+        if (!data.empty) {
+            for (var i = 0; i < data.calls.length; i++) {
+                var rowData = {};
+                rowData = {
+                    to: data.calls[i].bestemming,
+                    date: data.calls[i].datum,
+                    start: data.calls[i].starttijd,
+                    type: data.calls[i].type,
+                    country: data.calls[i].vanuit,
+                    time: data.calls[i].duur,
+                    costs: data.calls[i].kosten/100
+                };
+                worksheet.addRow(rowData).commit();
+            }
         }
 
         worksheet.commit();
