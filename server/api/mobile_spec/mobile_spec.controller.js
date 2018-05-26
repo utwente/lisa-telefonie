@@ -9,7 +9,6 @@ var Attachments = require('./mobile_spec.model');
 var Customer = require(__tools + 'customers/customers');
 var PDFGenerator = require(__tools + 'mobile/pdfgenerator');
 var ExcelGenerator = require(__tools + 'mobile/excelgenerator');
-var HTMLGenerator = require(__tools + 'mobile/htmlgenerator');
 
 Date.prototype.monthNames = ["januari", "februari", "maart", "april", "mei", "juni", "juli", "augustus", "september", "oktober", "november", "december"];
 
@@ -51,11 +50,11 @@ exports.show = function(req, res) {
       var skip;
       var error = false;
 
-      for (let i = t_mobile.length - 1; i >= 0; i--) {
+      for (var i = t_mobile.length - 1; i >= 0; i--) {
 
         skip = false;
 
-        let data = c.findDepartmentByNumber(t_mobile[i].number)
+        var data = c.findDepartmentByNumber(t_mobile[i].number)
 
         switch (data.code) {
           case 'NO_CUSTOMER_DATA':    return res.status(404).send(data);          // there are no customers defined, serious error, stop all execution.
@@ -89,19 +88,11 @@ exports.show = function(req, res) {
 
       var pdf = new PDFGenerator();                                               // used to generate pdf files
       var xslx = new ExcelGenerator();                                            // used to generate excel files
-      // var html = new HTMLGenerator();
 
       // two PDF's per department
       var totalPDF = Object.keys(department_spec).length*2;
       // one excel per department
       var totalExcel = Object.keys(department_spec).length;
-      // // calculate total amount of html's
-      // var totalHTML = 0;
-      // for (let department in department_spec) {
-      //   for (let i = 0; i < department_spec[department].length; i++) {
-      //     if (department_spec[department][i].summary.totalCosts > 0) { totalHTML++ }
-      //   }
-      // }
 
       /*
            specificatie categorie (pdf)
@@ -110,9 +101,9 @@ exports.show = function(req, res) {
       var titleCat = _.template('T-mobile specificatie totalen per categorie <%= department %>');
 
 
-      for (let department in department_spec) {
+      for (var department in department_spec) {
 
-        let data = {
+        var data = {
           keys: {
             category: 'Categorie',
             costs:    'Kosten (excl. BTW)'
@@ -120,8 +111,8 @@ exports.show = function(req, res) {
           values: []
         };
 
-        for (let i = 0; i < department_spec[department].length; i++) {
-          for (let category in department_spec[department][i].summary.perType) {
+        for (var i = 0; i < department_spec[department].length; i++) {
+          for (var category in department_spec[department][i].summary.perType) {
             data.values = addToCategory(data.values, {
               category: category.toNormal(),
               costs:    department_spec[department][i].summary.perType[category].costs,
@@ -148,9 +139,9 @@ exports.show = function(req, res) {
       var filenameNum = _.template(yearMonth + ' specificatie nummers <%= department %>.pdf');
       var titleNum = _.template('T-mobile specificatie totalen individueel <%= department %>');
 
-      for (let department in department_spec) {
+      for (var department in department_spec) {
 
-        let data = {
+        var data = {
           keys: {
             number: 'Nummer',
             user:   'Gebruiker',
@@ -159,7 +150,7 @@ exports.show = function(req, res) {
           values: []
         };
 
-        for (let i = 0; i < department_spec[department].length; i++) {
+        for (var i = 0; i < department_spec[department].length; i++) {
           data.values.push({
             number: department_spec[department][i].number,
             user: c.findUserByNumber(department_spec[department][i].number).name,
@@ -185,9 +176,9 @@ exports.show = function(req, res) {
 
       var filenamePers = _.template(yearMonth + ' specificatie personen <%= department %>.xlsx');
 
-      for (let department in department_spec) {
-        let data = [];
-        for (let i = 0; i < department_spec[department].length; i++) {
+      for (var department in department_spec) {
+        var data = [];
+        for (var i = 0; i < department_spec[department].length; i++) {
 
           data.push({
             number: department_spec[department][i].number,
@@ -212,43 +203,6 @@ exports.show = function(req, res) {
         };
 
       }
-
-      /* end speficicatie personen */
-
-
-
-      // /*
-      //      specificaties per persoon (html)
-      // */
-      //
-      // var filenamePP = _.template(yearMonth + ' specificatie nummers <%= department %> <%= number %>.html');
-      // var costs;
-      // var total;
-      // var user;
-      // for (let department in department_spec) {
-      //   for (let i = 0; i < department_spec[department].length; i++) {
-      //     total = department_spec[department][i].summary.totalCosts;
-      //     // only generate html if the total costs are more than zero!
-      //     if (total > 0) {
-      //       let data = [];
-      //       var number = department_spec[department][i].number;
-      //       for (var type in department_spec[department][i].summary.perType) {
-      //         costs = department_spec[department][i].summary.perType[type].costs;
-      //         data.push({type: type.toNormal(), costs: costs});
-      //       }
-      //       user = c.findUserByNumber(number);
-      //       user.number = number;
-      //       html.generate(fullPath + filenamePP({department: department, number: number}), user, data, total, totalHTML);
-      //       attachments.departments[department].html.push({
-      //         number: number,
-      //         path: fullPath,
-      //         filename: filenamePP({department: department, number: number}),
-      //         send: false
-      //       });
-      //     }
-      //   }
-      // }
-
 
 
       /* end speficicatie personen */
@@ -288,7 +242,7 @@ function mkdirSync(path) {
 
 
 function addToCategory(values, data) {
-  for (let i = 0; i < values.length; i++) {
+  for (var i = 0; i < values.length; i++) {
     if (values[i].category === data.category) {
       values[i].costs = values[i].costs + data.costs;
       return values;
