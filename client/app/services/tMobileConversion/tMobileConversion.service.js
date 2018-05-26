@@ -31,23 +31,28 @@ angular.module('ictsAppApp')
   };
 
   const formatApp = (line) => {
-    let x = line.split(',');
+    const x = line.split(',');
     return `${f.phone(x[A_NR])},${f.phone(x[B_NR])},National,${x[TYPE]},Netherlands,,${f.datetime(x[DATE_TIME])},${f.duration(x[DURATION])},"0,000","${f.costs(x[COSTS])}",,,`;
   };
 
   return {
     toApp: (data) => {
-      if (data.indexOf(CHECKROWLL) === -1) { throw new Error('Wrong input file..'); }
-      return data
+      if (data.indexOf(CHECKROWLL) === -1) {
+        throw new Error('Wrong input file..');
+      }
+      const res = data
         .replace(/\r/g, '')       // replace \r characters if present
         .split('\n')              // split by newline character
         .filter(l => l !== '')    // remove empty lines
         .slice(1)                 // remove first line
         .map(formatApp);          // format each line by formatApp function
+      return res
     },
 
     merge: (dataMob, dataLL) => {
-      if (dataMob.indexOf(CHECKROWMOB) === -1) { throw new Error('Wrong input file..'); }
+      if (dataMob.indexOf(CHECKROWMOB) === -1) {
+        throw new Error('Wrong input file..');
+      }
       const data =  dataMob
         .replace(/\r/g, '')
         .split('\n')

@@ -183,7 +183,6 @@ angular.module('ictsAppApp')
       const duration = line.duration || 0;
       const kb = line.kb || 0;
       const sms = line.type === 'message'? 1 : 0;
-
       const type = line.type;
       const subtype = line.subtype;
       const isMobile = line.isMobile;
@@ -277,8 +276,6 @@ angular.module('ictsAppApp')
     provider.numbers = Object.keys(numbers).map(
       n => Object.assign({number: n}, numbers[n])
     );
-
-    console.log(provider);
 
     return {error: false, data: provider};
 

@@ -33,7 +33,6 @@ angular.module('ictsAppApp')
 
     // first put into array to check later if there are double numbers.
     var csvArray = [];
-
     for (let i = tMobile.numbers.length - 1; i >= 0; i--) {
       csvArray.push({
         number: '+31' + tMobile.numbers[i].number.substr(1),
