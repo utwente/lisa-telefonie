@@ -46,7 +46,7 @@ angular.module('ictsAppApp')
       if (result.error) {
         message.error(result.msg);
       }
-
+      console.log(result.data);
       const t_mobile = result.data;
       $scope.month = t_mobile.month;
       $scope.t_mobile = t_mobile;

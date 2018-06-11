@@ -17,7 +17,7 @@ angular.module('ictsAppApp')
 
   // row that should be in file, used to check if the file is right
   const CHECKROWLL = 'FIXED_NR,A_NR,B_NR,DATE_TIME,DURATION,AMOUNT,BREAKDOWN';
-  const CHECKROWMOB = 'Phone number,Dialled number,Destination,Subdestination,Country of origin,Country of destination,Date - Time,Duration,MB,Cost,Category,Current node of the phone number,Client number of the phone number';
+  const CHECKROWMOB = '"Telefoonnummer","Gebelde nummer","Bestemming","Bestemming in detail","Land van herkomst","Land van bestemming","Datum en tijd","Duur","MB","Kosten","Categorie","Current node of the phone number","Client number of the phone number"';
 
   // match first two characters of 4 character year
   const YEAR = /[0-9]{2}(?=[0-9]{2}$)/g;
@@ -32,7 +32,7 @@ angular.module('ictsAppApp')
 
   const formatApp = (line) => {
     const x = line.split(',');
-    return `${f.phone(x[A_NR])},${f.phone(x[B_NR])},National,${x[TYPE]},Netherlands,,${f.datetime(x[DATE_TIME])},${f.duration(x[DURATION])},"0,000","${f.costs(x[COSTS])}",,,`;
+    return `"${f.phone(x[A_NR])}","${f.phone(x[B_NR])}","National","${x[TYPE]}","Netherlands","","${f.datetime(x[DATE_TIME])}","${f.duration(x[DURATION])}","0,000","${f.costs(x[COSTS])}","","",""`;
   };
 
   return {
@@ -50,14 +50,15 @@ angular.module('ictsAppApp')
     },
 
     merge: (dataMob, dataLL) => {
+      console.log(dataMob);
       if (dataMob.indexOf(CHECKROWMOB) === -1) {
         throw new Error('Wrong input file..');
       }
-      const data =  dataMob
+      const data = dataMob
         .replace(/\r/g, '')
         .split('\n')
-        .filter(l => l.split(',')[0] !== NUMBER1)
-        .filter(l => l.split(',')[0] !== NUMBER2)
+        .filter(l => l.split(',')[0].replace(/"/g, '') !== NUMBER1)
+        .filter(l => l.split(',')[0].replace(/"/g, '') !== NUMBER2)
         .filter(l => l !== '');
       data.splice(2, 0, ...dataLL);
       return data.join('\n');

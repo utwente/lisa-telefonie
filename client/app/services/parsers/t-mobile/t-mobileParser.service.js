@@ -7,37 +7,40 @@ angular.module('ictsAppApp')
     // first line that contains actual data
     const OFFSET = 2;
 
+
+    "Telefoonnummer","Gebelde nummer","Bestemming","Bestemming in detail","Land van herkomst","Land van bestemming","Datum en tijd","Duur","MB","Kosten","Categorie","Current node of the phone number","Client number of the phone number"
+
     // This is used to find the right fields from the file
     const FIELDS = [
       {
-        name: 'Phone number',
+        name: 'Telefoonnummer',
         key: 'from'
       },{
-        name: 'Dialled number',
+        name: 'Gebelde nummer',
         key: 'to'
       },{
-        name: 'Destination',
+        name: 'Bestemming',
         key: 'type'
       },{
-        name: 'Subdestination',
+        name: 'Bestemming in detail',
         key: 'subtype'
       },{
-        name: 'Country of origin',
+        name: 'Land van herkomst',
         key: 'countryFrom'
       },{
-        name: 'Date - Time',
+        name: 'Datum en tijd',
         key: 'date'
       },{
-        name: 'Duration',
+        name: 'Duur',
         key: 'duration'
       },{
         name: 'MB',
         key: 'mb'
       },{
-        name: 'Cost',
+        name: 'Kosten',
         key: 'costs'
       },{
-        name: 'Country of destination',
+        name: 'Land van bestemming',
         key: 'countryTo'
       }
     ];
@@ -170,6 +173,7 @@ angular.module('ictsAppApp')
         date,
         kb,
         costs,
+        isMobile: true,
       };
 
       const undef = listUndefinedFields(result);
@@ -197,6 +201,7 @@ angular.module('ictsAppApp')
         countryTo,
         date,
         costs,
+        isMobile: true,
       };
 
       const undef = listUndefinedFields(result);

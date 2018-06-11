@@ -83,8 +83,8 @@ angular.module('ictsAppApp')
   ]
 
   const CALLFIELDS = ['isMobile', 'from', 'to', 'type', 'subtype', 'countryFrom', 'countryTo', 'date', 'duration', 'costs'];
-  const DATAFIELDS = ['from', 'type', 'subtype', 'countryFrom', 'date', 'kb', 'costs'];
-  const MESSAGEFIELDS = ['from', 'to', 'type', 'subtype', 'countryFrom', 'countryTo', 'date', 'costs'];
+  const DATAFIELDS = ['isMobile', 'from', 'type', 'subtype', 'countryFrom', 'date', 'kb', 'costs'];
+  const MESSAGEFIELDS = ['isMobile', 'from', 'to', 'type', 'subtype', 'countryFrom', 'countryTo', 'date', 'costs'];
 
   const findType = (types, name) =>
     types.filter(x => x.name === name)[0];
@@ -142,7 +142,6 @@ angular.module('ictsAppApp')
 
   const parse = (providerParser, data) => {
     const result = providerParser(data);
-
     // if error, simply return the object with error
     if (result.error) {
       return result;
@@ -172,6 +171,32 @@ angular.module('ictsAppApp')
     const types = summary.perType;
 
     result.data.forEach((line, i) => {
+      
+      // check if line contains the right fields
+      const type = line.type;
+      if (!type) {
+        throw Error(`Error on line ${i}, type field is missing!`);
+      }
+      switch (type) {
+        case 'call':
+          if (!checkCallFields(line)) {
+            throw Error(`Error on line ${i}, some fields are missing`);
+          }
+          break;
+        case 'message':
+          if (!checkMessageFields(line)) {
+            throw Error(`Error on line ${i}, some fields are missing`);
+          }
+          break;
+        case 'data':
+          if (!checkDataFields(line)) {
+            throw Error(`Error on line ${i}, some fields are missing`);
+          }
+          break;
+        default:
+
+      }
+      if (!checkCallFields(line))
       // check if line is in right format
       if (!validateFields(line)){
         throw Error(`Error on line ${i}, one of the fields is not of the right type.`);
@@ -183,7 +208,6 @@ angular.module('ictsAppApp')
       const duration = line.duration || 0;
       const kb = line.kb || 0;
       const sms = line.type === 'message'? 1 : 0;
-      const type = line.type;
       const subtype = line.subtype;
       const isMobile = line.isMobile;
       const minutes = Math.floor(duration/60);
